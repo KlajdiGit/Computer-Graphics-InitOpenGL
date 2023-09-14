@@ -3,6 +3,8 @@
 
 // Includes standard headers
 #include <vector>
+#include <string>
+#include <fstream>
 
 // Windows specific includes and defines
 #ifdef WIN32
