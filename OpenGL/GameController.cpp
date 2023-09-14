@@ -28,7 +28,7 @@ void GameController::RunGame()
 		glfwPollEvents();
 
 	} while (glfwGetKey(win, GLFW_KEY_ESCAPE) != GLFW_PRESS && // Check if the ESC key was pressed
-		glfwWindowShouldClose(win) == 0); // Check if the window was closed
+		glfwWindowShouldClose(win) == 0); // Check if the window was closed (a non-zero value means the window is closed)
 
 	m_mesh.Cleanup();
 
