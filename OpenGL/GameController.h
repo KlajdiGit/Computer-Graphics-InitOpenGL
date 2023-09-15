@@ -3,6 +3,7 @@
 
 #include "StandardIncludes.h"
 #include "Mesh.h"
+#include "Shader.h"
 
 class GameController: public Singleton<GameController>
 {
@@ -16,6 +17,7 @@ public:
 	void RunGame();
 
 private:
+	Shader m_shader;
 	Mesh m_mesh;
 };
 

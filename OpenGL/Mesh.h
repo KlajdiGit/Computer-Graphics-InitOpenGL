@@ -2,6 +2,8 @@
 #define MESH_H
 
 #include "StandardIncludes.h"
+class Shader;
+
 using namespace std;
 class Mesh
 {
@@ -11,11 +13,12 @@ public:
 	virtual ~Mesh();
 
 	// Methods
-	void Create();
+	void Create(Shader* _shader);
 	void Cleanup();
 	void Render();
 
 private:
+	Shader* m_shader;
 	GLuint m_vertexBuffer;
 	vector<GLfloat> m_vertexData;
 };
