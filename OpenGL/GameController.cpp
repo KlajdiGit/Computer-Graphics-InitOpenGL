@@ -19,15 +19,15 @@ void GameController::Initialize()
 void GameController::RunGame()
 {
 	// Show the C++/CLI tool window
-	PrimitiveDrawTest::ToolWindow^ window = gcnew PrimitiveDrawTest::ToolWindow();
+	OpenGL::ToolWindow^ window = gcnew OpenGL::ToolWindow();
 	window->Show();
 
 	// Create and compile our GLSL program from the shaders
-	m_shader = Shader();
+	m_shader = Shader(); // value object. It's cretaed on stack. No need for 'new'
 	m_shader.LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
 	m_mesh = Mesh();
-	m_mesh.Create(&m_shader);
+	m_mesh.Create(&m_shader); // m_shader points to the stacl because the m_stack is created on stack. Then the pointer points to the stack
 
 	//GLFWwindow* win = WindowController::GetInstance().GetWindow();
 	do
