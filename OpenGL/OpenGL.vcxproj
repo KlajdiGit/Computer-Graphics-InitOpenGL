@@ -164,6 +164,11 @@ copy /Y "$(SolutionDir)\External\glfw-3.3.4\lib-vc2019\glfw3.dll" "$(TargetDir)"
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ToolWindow.resx">
+      <DependentUpon>ToolWindow.h</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
