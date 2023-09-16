@@ -15,12 +15,19 @@ namespace OpenGL {
 	public ref class ToolWindow : public System::Windows::Forms::Form
 	{
 	public:
+
+		static bool RenderRedChannel;
+		static bool RenderGreenChannel;
+		static bool RenderBlueChannel;
+
+
 		ToolWindow(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			RenderRedChannel = checkBoxRedChannel->Checked;
+			RenderGreenChannel = checkBoxGreenChannel->Checked;
+			RenderBlueChannel = checkBoxBlueChannel->Checked;
+
 		}
 
 	protected:
@@ -34,9 +41,13 @@ namespace OpenGL {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::CheckBox^ Red_Channel;
-	private: System::Windows::Forms::CheckBox^ Green_Channel;
-	private: System::Windows::Forms::CheckBox^ Blue_Channel;
+	private: System::Windows::Forms::CheckBox^ checkBoxRedChannel;
+	private: System::Windows::Forms::CheckBox^ checkBoxGreenChannel;
+	private: System::Windows::Forms::CheckBox^ checkBoxBlueChannel;
+	protected:
+
+
+
 
 	protected:
 
@@ -59,51 +70,54 @@ namespace OpenGL {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->Red_Channel = (gcnew System::Windows::Forms::CheckBox());
-			this->Green_Channel = (gcnew System::Windows::Forms::CheckBox());
-			this->Blue_Channel = (gcnew System::Windows::Forms::CheckBox());
+			this->checkBoxRedChannel = (gcnew System::Windows::Forms::CheckBox());
+			this->checkBoxGreenChannel = (gcnew System::Windows::Forms::CheckBox());
+			this->checkBoxBlueChannel = (gcnew System::Windows::Forms::CheckBox());
 			this->SuspendLayout();
 			// 
-			// Red_Channel
+			// checkBoxRedChannel
 			// 
-			this->Red_Channel->AutoSize = true;
-			this->Red_Channel->Location = System::Drawing::Point(13, 23);
-			this->Red_Channel->Name = L"Red_Channel";
-			this->Red_Channel->Size = System::Drawing::Size(88, 17);
-			this->Red_Channel->TabIndex = 0;
-			this->Red_Channel->Text = L"Red Channel";
-			this->Red_Channel->UseVisualStyleBackColor = true;
-			this->Red_Channel->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::checkBox1_CheckedChanged_1);
+			this->checkBoxRedChannel->AutoSize = true;
+			this->checkBoxRedChannel->Checked = true;
+			this->checkBoxRedChannel->CheckState = System::Windows::Forms::CheckState::Checked;
+			this->checkBoxRedChannel->Location = System::Drawing::Point(13, 23);
+			this->checkBoxRedChannel->Name = L"checkBoxRedChannel";
+			this->checkBoxRedChannel->Size = System::Drawing::Size(88, 17);
+			this->checkBoxRedChannel->TabIndex = 0;
+			this->checkBoxRedChannel->Text = L"Red Channel";
+			this->checkBoxRedChannel->UseVisualStyleBackColor = true;
+			this->checkBoxRedChannel->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::checkBoxRedChannel_CheckedChanged);
 			// 
-			// Green_Channel
+			// checkBoxGreenChannel
 			// 
-			this->Green_Channel->AutoSize = true;
-			this->Green_Channel->Location = System::Drawing::Point(13, 62);
-			this->Green_Channel->Name = L"Green_Channel";
-			this->Green_Channel->Size = System::Drawing::Size(97, 17);
-			this->Green_Channel->TabIndex = 1;
-			this->Green_Channel->Text = L"Green Channel";
-			this->Green_Channel->UseVisualStyleBackColor = true;
-			this->Green_Channel->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::checkBox1_CheckedChanged_2);
+			this->checkBoxGreenChannel->AutoSize = true;
+			this->checkBoxGreenChannel->Location = System::Drawing::Point(13, 62);
+			this->checkBoxGreenChannel->Name = L"checkBoxGreenChannel";
+			this->checkBoxGreenChannel->Size = System::Drawing::Size(97, 17);
+			this->checkBoxGreenChannel->TabIndex = 1;
+			this->checkBoxGreenChannel->Text = L"Green Channel";
+			this->checkBoxGreenChannel->UseVisualStyleBackColor = true;
+			this->checkBoxGreenChannel->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::checkBoxGreenChannel_CheckedChanged);
 			// 
-			// Blue_Channel
+			// checkBoxBlueChannel
 			// 
-			this->Blue_Channel->AutoSize = true;
-			this->Blue_Channel->Location = System::Drawing::Point(13, 101);
-			this->Blue_Channel->Name = L"Blue_Channel";
-			this->Blue_Channel->Size = System::Drawing::Size(89, 17);
-			this->Blue_Channel->TabIndex = 2;
-			this->Blue_Channel->Text = L"Blue Channel";
-			this->Blue_Channel->UseVisualStyleBackColor = true;
+			this->checkBoxBlueChannel->AutoSize = true;
+			this->checkBoxBlueChannel->Location = System::Drawing::Point(13, 101);
+			this->checkBoxBlueChannel->Name = L"checkBoxBlueChannel";
+			this->checkBoxBlueChannel->Size = System::Drawing::Size(89, 17);
+			this->checkBoxBlueChannel->TabIndex = 2;
+			this->checkBoxBlueChannel->Text = L"Blue Channel";
+			this->checkBoxBlueChannel->UseVisualStyleBackColor = true;
+			this->checkBoxBlueChannel->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::checkBoxBlueChannel_CheckedChanged);
 			// 
 			// ToolWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(284, 261);
-			this->Controls->Add(this->Blue_Channel);
-			this->Controls->Add(this->Green_Channel);
-			this->Controls->Add(this->Red_Channel);
+			this->Controls->Add(this->checkBoxBlueChannel);
+			this->Controls->Add(this->checkBoxGreenChannel);
+			this->Controls->Add(this->checkBoxRedChannel);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Name = L"ToolWindow";
 			this->Text = L"ToolWindow";
@@ -116,11 +130,18 @@ namespace OpenGL {
 #pragma endregion
 	private: System::Void ToolWindow_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
-	private: System::Void checkBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	
+	private: System::Void checkBoxRedChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+	{
+		RenderRedChannel = checkBoxRedChannel->Checked;
 	}
-	private: System::Void checkBox1_CheckedChanged_1(System::Object^ sender, System::EventArgs^ e) {
+    private: System::Void checkBoxGreenChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+    {
+		RenderGreenChannel = checkBoxGreenChannel->Checked;
+    }
+    private: System::Void checkBoxBlueChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		RenderBlueChannel = checkBoxBlueChannel->Checked;
 	}
-	private: System::Void checkBox1_CheckedChanged_2(System::Object^ sender, System::EventArgs^ e) {
-	}
-	};
+};
 }
