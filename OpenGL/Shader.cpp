@@ -49,6 +49,7 @@ GLuint Shader::LoadShaderFile(const char* _filePath, GLenum _type)
 	// Check Shader
 	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &m_result);
 	glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &m_infoLogLength);
+	EvaluateShader(m_infoLogLength, shaderID);
 
 	//Attach shader to program
 	glAttachShader(m_programID, shaderID);
