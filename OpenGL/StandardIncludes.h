@@ -17,8 +17,11 @@
 #include <GL/glew.h>     // Include GLEW
 #include <GLFW/glfw3.h>  // Include GLFW
 #include <glm/glm.hpp>   // Include GLM
+#include <glm/ext.hpp>   // Open Experimental to_string
+#include <glm/gtc/matrix_transform.hpp> //View / Projection
 
-#include "Singleton.h"
+#include "Resolution.h"
+#include "Singleton.h" 
 
 using namespace std;
 
