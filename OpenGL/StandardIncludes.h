@@ -1,7 +1,6 @@
 #ifndef STANDARD_INCLUDES_H
 #define STANDARD_INCLUDES_H
 
-#define GLM_ENABLE_EXPERIMENTAL
 
 // Includes standard headers
 #include <vector>
@@ -21,7 +20,10 @@
 #include <GLFW/glfw3.h>  // Include GLFW
 #include <glm/glm.hpp>   // Include GLM
 #include <glm/ext.hpp>   // Open Experimental to_string
+#include <glm/gtx/string_cast.hpp>
 #include "Singleton.h"
+
+#define GLM_ENABLE_EXPERIMENTAL
 
 using namespace std;
 
