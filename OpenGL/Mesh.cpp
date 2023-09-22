@@ -34,7 +34,7 @@ void Mesh::Render(glm::mat4 _wvp)
 	// 1st attribute buffer : vertices
 	glEnableVertexAttribArray(m_shader->GetAttrVertices());
 	glVertexAttribPointer(m_shader->GetAttrVertices(), // The attribute we want to configure
-		3,              // size
+		m_vertexData.size() / 3,   // size
 		GL_FLOAT,       // type 
 		GL_FALSE,       // normalized?
 		0,              // stride
@@ -43,7 +43,7 @@ void Mesh::Render(glm::mat4 _wvp)
 	_wvp *= m_world;
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-	glUniformMatrix4fv(m_shader->GEtAttrWVP(), 1, GL_FALSE, &_wvp[0][0]);
+	glUniformMatrix4fv(m_shader->GetAttrWVP(), 1, GL_FALSE, &_wvp[0][0]);
 	//glVertexAttribPointer(0, 3 /*size*/, GL_FLOAT/*type*/, GL_FALSE/*normalized*/, 0/*stride*/, (void*)0/*offset*/);
 	
 	// Draw the triangle 

@@ -17,7 +17,7 @@ public:
 	//Methods
 	void LoadShaders(const char* _vertexFilePath, const char* _fragmentFilePath);
 	void Cleanup();
-	GLuint GEtAttrWVP() { return m_attrWVP; }
+	GLuint GetAttrWVP() { return m_attrWVP; }
 
 private: 
 	//Methods

@@ -15,7 +15,7 @@ Camera::Camera(Resolution _screenResolution)
 		0.1f,
 		100.0f);
 
-	// Or, for an ortho camera:
+	//Or, for an ortho camera:
 	//glm::mat4 Projection = glm::ortho( -10.0f, 10.f, -10.0f, 10.0f, 0.0f, 100.0f) // In World coordinates
 
 	//Camera matrix
