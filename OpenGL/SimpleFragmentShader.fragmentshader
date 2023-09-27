@@ -1,12 +1,9 @@
-#version 120 // Open version 2.1 (minimum requirements)
+#version 330 // Open version 2.1 (minimum requirements)
 
-uniform int RenderRedChannel;
-uniform int RenderGreenChannel;
-uniform int RenderBlueChannel;
-
+in vec4 retColor; //MUST use the same name as out variable used by vertex shader
+out vec4 FragColor;
 
 void main()
 {
-   //gl_FragColor = vec4(RenderRedChannel, RenderGreenChannel, RenderBlueChannel, 1.0); // Output color = red
-   gl_FragColor = vec4(1.0, 0.0, 0.0, 0.0);
+   FragColor = retColor;
 }
