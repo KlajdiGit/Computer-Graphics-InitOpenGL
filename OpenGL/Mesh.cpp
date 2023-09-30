@@ -48,8 +48,8 @@ void Mesh::Create(Shader* _shader)
 		7, 10, 6, 7, 11, 2, 8, 10, 3, 9, 11, 0
 	};
 	glGenBuffers(1, &m_indexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, m_indexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, m_indexData.size() * sizeof(GLubyte), m_indexData.data(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indexData.size() * sizeof(GLubyte), m_indexData.data(), GL_STATIC_DRAW);
 
 }
 
