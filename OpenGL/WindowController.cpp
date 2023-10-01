@@ -1,5 +1,6 @@
 #include "WindowController.h"
 
+
 WindowController::WindowController()
 {
 	m_window = nullptr;
@@ -23,6 +24,11 @@ void WindowController::NewWindow()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	M_ASSERT((m_window = glfwCreateWindow(1024, 768, "A sample scene", NULL, NULL)) != nullptr, "Failed to open GLFW window.");
 	glfwMakeContextCurrent(m_window);
+
+	// We make the m_window with default size values and we use the mode to get the desktop monitor size
+	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	// Reset the size of our window
+	glfwSetWindowSize(m_window, mode->width, mode->height);
 }
 
 Resolution WindowController::GetResolution()
