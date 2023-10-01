@@ -102,7 +102,7 @@ void Mesh::Render(glm::mat4 _wvp)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer); // Bind the index buffer
 	//glDrawElements(GL_TRIANGLES, m_indexData.size(), GL_UNSIGNED_BYTE, (void*)0); // Draw the triangles
 	// GL_TRIANGLE_STRIP, GL_LINES, GL_LINE_STRIP
-	glDrawArrays(GL_LINE_STRIP, 0, m_vertexData.size() / 7);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_vertexData.size() / 7);
 	glDisableVertexAttribArray(m_shader->GetAttrVertices());
 	glDisableVertexAttribArray(m_shader->GetAttrColors());
 
