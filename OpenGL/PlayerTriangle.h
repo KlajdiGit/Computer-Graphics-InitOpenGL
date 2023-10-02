@@ -7,26 +7,21 @@
 class PlayerTriangle : public Mesh
 {
 public:
-	 PlayerTriangle();
-	 virtual ~PlayerTriangle();
-	 void Create(Shader* _shader);
-	 float GetSpeed() { return m_speed; }
-	 glm::vec3 ValidateMovement();
-	 void Render(glm::mat4 _wvp);
-	// void RenderPlayer(glm::mat4 _wvp);
-
+	PlayerTriangle();
+	virtual ~PlayerTriangle();
+	void Create(Shader* _shader);
+	float GetSpeed() { return m_speed; }
+	glm::vec3 ValidateMovement();
 private:
 	GLuint m_vertexBuffer;
 	glm::mat4 m_world;
-	//glm::mat4 m_wvp;
 	vector<GLfloat> m_vertexData;
 	Shader* m_shader;
 	float m_speed;
-	glm::vec3 m_position;
+	glm::vec3 m_translatePlayer;
 	glm::vec3 yMove;
 	glm::vec3 xMove;
 
 };
 
 #endif // PLAYERTRIANGLE_H
-

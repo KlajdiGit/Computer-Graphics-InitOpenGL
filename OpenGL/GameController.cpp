@@ -20,30 +20,25 @@ void GameController::Initialize()
 	m_camera = Camera(WindowController::GetInstance().GetResolution());
 }
 
-glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 yMove = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 xMove = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 yMoveNpc = glm::vec3(0.0f, 0.0f, 0.0f);
-glm::vec3 xMoveNpc = glm::vec3(0.0f, 0.0f, 0.0f);
-
 void GameController::RunGame()
 {
 	m_shader = Shader(); // value object. It's cretaed on stack. No need for 'new'
 	m_shader.LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
 	m_player = PlayerTriangle();
-	//m_npc = NpcTriangle();
+	m_npc = NpcTriangle();
 	m_player.Create(&m_shader); // m_shader points to the stack because the m_stack is created on stack. Then the pointer points to the stack
-   //m_npc.Create(&m_shader);
+    m_npc.Create(&m_shader);
+	m_npc.SetPlayer(m_player);
 
 	do
 	{
 		glClear(GL_COLOR_BUFFER_BIT); // Clear the screen
-		m_player.Render(m_camera.GetProjection() * m_camera.GetView());
-		//m_player.Render(m_camera.GetProjection() * m_camera.GetView());
-		//m_npc.Render(m_camera.GetProjection() * m_camera.GetView(), glm::vec3(0.0f, 0.0f, 0.0f));
-		//m_player(m_camera.GetProjection() * m_camera.GetView(), m_player.ValidateMovement());
-		//m_player.RenderPlayer(&m_shader, m_camera.GetProjection() * m_camera.GetView(), m_player.ValidateMovement()); 
+		m_player.Render(m_camera.GetProjection() * m_camera.GetView(), m_player.ValidateMovement());
+
+		m_npc.Render(m_camera.GetProjection() * m_camera.GetView(), m_npc.ValidateMovement());
+
+
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
 		glfwPollEvents();
 
@@ -51,7 +46,7 @@ void GameController::RunGame()
 		glfwWindowShouldClose(WindowController::GetInstance().GetWindow()) == 0); // Check if the window was closed (a non-zero value means the window is closed)
 
 	m_player.Cleanup();
-	//m_npc.Cleanup();
+	m_npc.Cleanup();
 	m_shader.Cleanup();
 }
 

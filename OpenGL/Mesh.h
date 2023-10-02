@@ -15,10 +15,9 @@ public:
 	// Methods
 	void Create(Shader* _shader, vector<GLfloat> _vertexData);
 	void Cleanup();
-	void Render(glm::mat4 _wvp);
+	void Render(glm::mat4 _wvp, glm::vec3 _pos);
 	glm::mat4 GetWorld() { return m_world; }
-	Shader* GetShader() { return m_shader; }
-
+	glm::vec3 GetPlayerPos() { return glm::vec3(m_world[3][0], m_world[3][1], m_world[3][2]); }
 private:
 	Shader* m_shader;
 	GLuint m_vertexBuffer;

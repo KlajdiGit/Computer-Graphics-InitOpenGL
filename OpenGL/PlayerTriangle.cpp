@@ -6,29 +6,17 @@
 
 
 
-//PlayerTriangle::PlayerTriangle() 
-//{
-//	Mesh::Mesh();
-//    m_speed = 0.01f;
-//	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
-//    yMove = glm::vec3(0.0f, 0.0f, 0.0f);
-//	xMove = glm::vec3(0.0f, 0.0f, 0.0f);
-//	m_vertexBuffer = 0;
-//	m_world = glm::mat4(1.0f);
-//	//m_wvp = glm::mat4(1.0f);
-//
-//	m_shader = nullptr;
-//
-//}
 PlayerTriangle::PlayerTriangle() : Mesh()
 {
 	m_speed = 0.01f;
-	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
+	m_shader = nullptr;
+	m_translatePlayer = glm::vec3(0.0f, 0.0f, 0.0f);
 	yMove = glm::vec3(0.0f, 0.0f, 0.0f);
 	xMove = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_vertexBuffer = 0;
 	m_world = glm::mat4(1.0f);
 }
+
 
 PlayerTriangle::~PlayerTriangle()
 {
@@ -47,6 +35,8 @@ void PlayerTriangle::Create(Shader* _shader)
 
 	Mesh::Create(_shader, m_vertexData);
 }
+
+
 
 glm::vec3 PlayerTriangle::ValidateMovement()
 {
@@ -81,25 +71,10 @@ glm::vec3 PlayerTriangle::ValidateMovement()
 		yMove = glm::vec3(0.0f, 0.0f, 0.0f);
 	}
 
-	m_position = xMove + yMove;
-	return m_position;
+	m_translatePlayer = xMove + yMove;
+	std::cout << Mesh::GetPlayerPos().x << " " << Mesh::GetPlayerPos().y << " " << Mesh::GetPlayerPos().z <<endl;
+	return m_translatePlayer;
 }
-
-void PlayerTriangle::Render(glm::mat4 _wvp)
-{
-	m_position = ValidateMovement();
-	Mesh::GetWorld() = glm::translate(Mesh::GetWorld(), m_position);
-	Mesh::Render(_wvp);
-
-	/*m_camera.GetProjection()* m_camera.GetView(), m_player.ValidateMovement()
-	m_world = glm::translate(m_world, _pos);*/
-}
-
-
-
-
-
-
 
 //void PlayerTriangle::Render(glm::mat4 _wvp) { 
 	//m_wvp = _wvp;

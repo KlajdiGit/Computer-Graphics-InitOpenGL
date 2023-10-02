@@ -26,7 +26,7 @@ private:
 	Shader m_shader;
 	//Mesh m_mesh;
 	PlayerTriangle m_player;
-	//NpcTriangle m_npc;
+	NpcTriangle m_npc;
 	Camera m_camera;
 };
 

@@ -3,36 +3,76 @@
 #include "Resolution.h"
 #include <iostream>
 #include <cstdlib>
-
+#include "PlayerTriangle.h"
 
 NpcTriangle::NpcTriangle() : Mesh()
 {
-    m_speedNpc = 0.01f;
+    m_speedNpc = 0.02f;
     m_shader = nullptr;
-   // m_position = glm::vec3(0.0f, 0.0f, 0.0f);
-    //yMove = glm::vec3(0.0f, 0.0f, 0.0f);
-    //xMove = glm::vec3(0.0f, 0.0f, 0.0f);
+    m_position = glm::vec3(0.0f, 0.0f, 0.0f);
+    yMove = glm::vec3(0.0f, 0.0f, 0.0f);
+    xMove = glm::vec3(0.0f, 0.0f, 0.0f);
+	m_player = { };
 }
 
 NpcTriangle::~NpcTriangle()
 {
 }
 
+
+
 void NpcTriangle::Create(Shader* _shader)
 {
-
     m_vertexData = {
         /* Position   */  /*    RGBA Color    */
-         -5.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-         -2.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-         0.0f, -11.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f
+		 -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+		 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+		 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f
     };
 
 
     Mesh::Create(_shader, m_vertexData);
 }
 
+glm::vec3 NpcTriangle::ValidateMovement()
+{
+	/*if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
+	{
+		yMove = glm::vec3(0.0f, m_speedNpc, 0.0f);
+	}
 
+	if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
+	{
+		yMove = glm::vec3(0.0f, -m_speedNpc, 0.0f);
+	}
+
+	if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
+	{
+		xMove = glm::vec3(m_speedNpc, 0.0f, 0.0f);
+	}
+
+	if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
+	{
+		xMove = glm::vec3(-m_speedNpc, 0.0f, 0.0f);
+	}
+
+	if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_RELEASE &&
+		glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_RELEASE &&
+		glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_RELEASE &&
+		glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_RELEASE
+		)
+
+	{
+		xMove = glm::vec3(0.0f, 0.0f, 0.0f);
+		yMove = glm::vec3(0.0f, 0.0f, 0.0f);
+	}*/
+	float pos = static_cast<float>(rand() % 9 + 2);
+
+
+	m_position = glm::vec3(pos, pos, pos);
+	return m_position;
+
+}
 
 
 
