@@ -15,6 +15,7 @@ private:
 	vector<GLfloat> m_vertexData;
 	Shader* m_shader;
 
+
 };
 
 #endif // PLAYERTRIANGLE_H

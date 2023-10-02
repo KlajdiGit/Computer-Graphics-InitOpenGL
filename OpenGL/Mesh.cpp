@@ -16,8 +16,6 @@ Mesh::~Mesh()
 void Mesh::Create(Shader* _shader, vector<GLfloat> _vertexData)
 {
 	m_shader = _shader;
-	float a = 26.0f;
-	float b = 42.0f;
 	m_vertexData = _vertexData;
 
 	//m_vertexData = {
@@ -71,7 +69,7 @@ void Mesh::Cleanup()
 	glDeleteBuffers(1, &m_vertexBuffer);
 }
 
-void Mesh::Render(glm::mat4 _wvp)
+void Mesh::Render(glm::mat4 _wvp, glm::vec3 _pos)
 {
 	glUseProgram(m_shader->GetProgramID()); // Use our shader
 
@@ -95,7 +93,7 @@ void Mesh::Render(glm::mat4 _wvp)
 		(void*) (3 * sizeof(float)));           // array buffer offset 
 	
 	//3rd attribute: WVP
-	//m_world = glm::rotate(m_world, 0.001f, { 0, 1, 0 });
+	m_world = glm::translate(m_world, _pos);
 	_wvp *= m_world;
 	glUniformMatrix4fv(m_shader->GetAttrWVP(), 1, GL_FALSE, &_wvp[0][0]);
 
@@ -103,7 +101,7 @@ void Mesh::Render(glm::mat4 _wvp)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer); // Bind the index buffer
 	//glDrawElements(GL_TRIANGLES, m_indexData.size(), GL_UNSIGNED_BYTE, (void*)0); // Draw the triangles
 	// GL_TRIANGLE_STRIP, GL_LINES, GL_LINE_STRIP
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, m_vertexData.size() / 7);
+	glDrawArrays(GL_TRIANGLES, 0, m_vertexData.size() / 7);
 	glDisableVertexAttribArray(m_shader->GetAttrVertices());
 	glDisableVertexAttribArray(m_shader->GetAttrColors());
 
