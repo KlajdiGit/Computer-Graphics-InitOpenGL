@@ -19,14 +19,14 @@ public:
 	//Methods
 	void Initialize();
 	void RunGame();
-	void ValidateMovement(Mesh _mesh, float _speed);
-	void ValidateMovementNpc(Mesh _mesh, float _speed);
+	/*void ValidateMovement(Mesh _mesh, float _speed);
+	void ValidateMovementNpc(Mesh _mesh, float _speed);*/
 
 private:
 	Shader m_shader;
 	//Mesh m_mesh;
 	PlayerTriangle m_player;
-	NpcTriangle m_npc;
+	//NpcTriangle m_npc;
 	Camera m_camera;
 };
 
