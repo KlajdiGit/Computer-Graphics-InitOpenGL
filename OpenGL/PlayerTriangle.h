@@ -13,7 +13,7 @@ public:
 	 float GetSpeed() { return m_speed; }
 	 glm::vec3 ValidateMovement();
 	// void Render(glm::mat4 _wvp, glm::vec3 _pos);
-	 void RenderPlayer(glm::mat4 _wvp, glm::vec3 _pos);
+	 void Render(glm::mat4 _wvp);
 
 private:
 	GLuint m_vertexBuffer;

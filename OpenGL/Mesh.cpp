@@ -69,7 +69,7 @@ void Mesh::Cleanup()
 	glDeleteBuffers(1, &m_vertexBuffer);
 }
 
-void Mesh::Render(glm::mat4 _wvp, glm::vec3 _pos)
+void Mesh::Render(glm::mat4 _wvp)
 {
 	glUseProgram(m_shader->GetProgramID()); // Use our shader
 
@@ -93,7 +93,6 @@ void Mesh::Render(glm::mat4 _wvp, glm::vec3 _pos)
 		(void*) (3 * sizeof(float)));           // array buffer offset 
 	
 	//3rd attribute: WVP
-	m_world = glm::translate(m_world, _pos);
 	_wvp *= m_world;
 	glUniformMatrix4fv(m_shader->GetAttrWVP(), 1, GL_FALSE, &_wvp[0][0]);
 
