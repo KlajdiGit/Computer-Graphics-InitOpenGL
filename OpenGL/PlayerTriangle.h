@@ -12,12 +12,13 @@ public:
 	 void Create(Shader* _shader);
 	 float GetSpeed() { return m_speed; }
 	 glm::vec3 ValidateMovement();
-	// void Render(glm::mat4 _wvp, glm::vec3 _pos);
 	 void Render(glm::mat4 _wvp);
+	// void RenderPlayer(glm::mat4 _wvp);
 
 private:
 	GLuint m_vertexBuffer;
 	glm::mat4 m_world;
+	//glm::mat4 m_wvp;
 	vector<GLfloat> m_vertexData;
 	Shader* m_shader;
 	float m_speed;

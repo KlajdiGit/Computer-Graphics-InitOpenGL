@@ -17,6 +17,7 @@ public:
 	void Cleanup();
 	void Render(glm::mat4 _wvp);
 	glm::mat4 GetWorld() { return m_world; }
+	Shader* GetShader() { return m_shader; }
 
 private:
 	Shader* m_shader;

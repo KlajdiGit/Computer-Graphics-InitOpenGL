@@ -40,6 +40,7 @@ void GameController::RunGame()
 	{
 		glClear(GL_COLOR_BUFFER_BIT); // Clear the screen
 		m_player.Render(m_camera.GetProjection() * m_camera.GetView());
+		//m_player.Render(m_camera.GetProjection() * m_camera.GetView());
 		//m_npc.Render(m_camera.GetProjection() * m_camera.GetView(), glm::vec3(0.0f, 0.0f, 0.0f));
 		//m_player(m_camera.GetProjection() * m_camera.GetView(), m_player.ValidateMovement());
 		//m_player.RenderPlayer(&m_shader, m_camera.GetProjection() * m_camera.GetView(), m_player.ValidateMovement()); 
