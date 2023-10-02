@@ -3,10 +3,9 @@
 #include "Resolution.h"
 #include <iostream>
 
-
-
 PlayerTriangle::PlayerTriangle() : Mesh()
 {
+    m_speed = 0.01f;
 }
 
 PlayerTriangle::~PlayerTriangle()

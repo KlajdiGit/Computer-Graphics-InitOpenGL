@@ -138,6 +138,7 @@ copy /Y "$(SolutionDir)\External\glfw-3.3.4\lib-vc2019\glfw3.dll" "$(TargetDir)"
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="NpcTriangle.cpp" />
     <ClCompile Include="OpenGL.cpp" />
     <ClCompile Include="PlayerTriangle.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -148,6 +149,7 @@ copy /Y "$(SolutionDir)\External\glfw-3.3.4\lib-vc2019\glfw3.dll" "$(TargetDir)"
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="NpcTriangle.h" />
     <ClInclude Include="PlayerTriangle.h" />
     <ClInclude Include="Resolution.h" />
     <ClInclude Include="Shader.h" />

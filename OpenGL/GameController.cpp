@@ -21,12 +21,10 @@ void GameController::Initialize()
 }
 
 glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-//float speedX = 0.01f;
-//float speedY = 0.01f;
-float speedX = 0.0f;
-float speedY = 0.0f;
 glm::vec3 yMove = glm::vec3(0.0f, 0.0f, 0.0f);
 glm::vec3 xMove = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 yMoveNpc = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 xMoveNpc = glm::vec3(0.0f, 0.0f, 0.0f);
 
 void GameController::RunGame()
 {
@@ -34,78 +32,20 @@ void GameController::RunGame()
 	m_shader.LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
 	m_player = PlayerTriangle();
+	m_npc = NpcTriangle();
 	m_player.Create(&m_shader); // m_shader points to the stack because the m_stack is created on stack. Then the pointer points to the stack
-	
+	m_npc.Create(&m_shader);
+
 	do
 	{
-		/*if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
-		{
-			position =  glm::vec3(0.0f, speedY, 0.0f);
-		}
+		ValidateMovement(m_player, m_player.GetSpeed());
 		
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
-		{
-			position =  glm::vec3(0.0f, -speedY, 0.0f);
-		}
 		
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
-		{
-			position =  glm::vec3(speedX, 0.0f, 0.0f);
-		}
-	
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
-		{
-			position =  glm::vec3(-speedX, 0.0f, 0.0f);
-		}
-
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_RELEASE &&
-			glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_RELEASE &&
-			glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_RELEASE &&
-			glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_RELEASE 
-			) 
-			
-		{
-			position = glm::vec3(0.0f, 0.0f, 0.0f);
-
-		}*/
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
-		{
-			//speedY = 0.01f;
-			yMove = glm::vec3(0.0f, 0.01f, 0.0f);
-		}
-
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
-		{
-			//speedY = 0.01f;
-			yMove = glm::vec3(0.0f, -0.01f, 0.0f);
-		}
-
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
-		{
-			//speedX = 0.01f;
-			xMove = glm::vec3(0.01f, 0.0f, 0.0f);
-		}
-
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
-		{
-			//speedX = 0.01f;
-			xMove = glm::vec3(-0.01f, 0.0f, 0.0f);
-		}
-
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_RELEASE &&
-			glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_RELEASE &&
-			glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_RELEASE &&
-			glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_RELEASE
-			)
-
-		{
-			xMove = glm::vec3(0.0f, 0.0f, 0.0f);
-			yMove = glm::vec3(0.0f, 0.0f, 0.0f);
-		}
-	
 		position = xMove + yMove;
 		glClear(GL_COLOR_BUFFER_BIT); // Clear the screen
+		m_npc.Render(m_camera.GetProjection() * m_camera.GetView(), glm::vec3(0.0f, 0.0f, 0.0f));
 		m_player.Render(m_camera.GetProjection() * m_camera.GetView(), position);
+
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
 		glfwPollEvents();
 
@@ -113,8 +53,50 @@ void GameController::RunGame()
 		glfwWindowShouldClose(WindowController::GetInstance().GetWindow()) == 0); // Check if the window was closed (a non-zero value means the window is closed)
 
 	m_player.Cleanup();
+	m_npc.Cleanup();
 	m_shader.Cleanup();
 }
 
 
+void GameController::ValidateMovementNpc(Mesh _mesh, float _speed)
+{
 
+}
+
+void GameController::ValidateMovement(Mesh _mesh, float _speed)
+{
+	     if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
+		 {
+		 //speedY = 0.01f;
+		 	yMove = glm::vec3(0.0f, _speed, 0.0f);
+		 }
+
+		 if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
+		 {
+		 	//speedY = 0.01f;
+		 	yMove = glm::vec3(0.0f, -_speed, 0.0f);
+		 }
+
+		 if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
+		 {
+		 	//speedX = 0.01f;
+		 	xMove = glm::vec3(_speed, 0.0f, 0.0f);
+		 }
+
+		 if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
+		 {
+		 	//speedX = 0.01f;
+		 	xMove = glm::vec3(-_speed, 0.0f, 0.0f);
+		 }
+
+		 if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_RELEASE &&
+			 glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_RELEASE &&
+			 glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_RELEASE &&
+			 glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_RELEASE
+			 )
+
+		 {
+			 xMove = glm::vec3(0.0f, 0.0f, 0.0f);
+			 yMove = glm::vec3(0.0f, 0.0f, 0.0f);
+		 }
+}

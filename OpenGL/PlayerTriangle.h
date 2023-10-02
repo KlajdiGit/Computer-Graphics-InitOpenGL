@@ -10,11 +10,12 @@ public:
 	 PlayerTriangle();
 	 virtual ~PlayerTriangle();
 	 void Create(Shader* _shader);
+	 float GetSpeed() { return m_speed; }
 
 private:
 	vector<GLfloat> m_vertexData;
 	Shader* m_shader;
-
+	float m_speed;
 
 };
 

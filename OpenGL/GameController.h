@@ -7,6 +7,7 @@
 #include "WindowController.h"
 #include "Camera.h"
 #include "PlayerTriangle.h"
+#include "NpcTriangle.h"
 
 class GameController: public Singleton<GameController>
 {
@@ -18,11 +19,14 @@ public:
 	//Methods
 	void Initialize();
 	void RunGame();
+	void ValidateMovement(Mesh _mesh, float _speed);
+	void ValidateMovementNpc(Mesh _mesh, float _speed);
 
 private:
 	Shader m_shader;
 	//Mesh m_mesh;
 	PlayerTriangle m_player;
+	NpcTriangle m_npc;
 	Camera m_camera;
 };
 
