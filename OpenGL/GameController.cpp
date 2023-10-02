@@ -21,9 +21,12 @@ void GameController::Initialize()
 }
 
 glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-float speedX = 0.01f;
-float speedY = 0.01f;
-
+//float speedX = 0.01f;
+//float speedY = 0.01f;
+float speedX = 0.0f;
+float speedY = 0.0f;
+glm::vec3 yMove = glm::vec3(0.0f, 0.0f, 0.0f);
+glm::vec3 xMove = glm::vec3(0.0f, 0.0f, 0.0f);
 
 void GameController::RunGame()
 {
@@ -35,7 +38,7 @@ void GameController::RunGame()
 	
 	do
 	{
-		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
+		/*if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
 		{
 			position =  glm::vec3(0.0f, speedY, 0.0f);
 		}
@@ -64,8 +67,43 @@ void GameController::RunGame()
 		{
 			position = glm::vec3(0.0f, 0.0f, 0.0f);
 
+		}*/
+		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
+		{
+			//speedY = 0.01f;
+			yMove = glm::vec3(0.0f, 0.01f, 0.0f);
+		}
+
+		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
+		{
+			//speedY = 0.01f;
+			yMove = glm::vec3(0.0f, -0.01f, 0.0f);
+		}
+
+		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
+		{
+			//speedX = 0.01f;
+			xMove = glm::vec3(0.01f, 0.0f, 0.0f);
+		}
+
+		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
+		{
+			//speedX = 0.01f;
+			xMove = glm::vec3(-0.01f, 0.0f, 0.0f);
+		}
+
+		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_RELEASE &&
+			glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_RELEASE &&
+			glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_RELEASE &&
+			glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_RELEASE
+			)
+
+		{
+			xMove = glm::vec3(0.0f, 0.0f, 0.0f);
+			yMove = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 	
+		position = xMove + yMove;
 		glClear(GL_COLOR_BUFFER_BIT); // Clear the screen
 		m_player.Render(m_camera.GetProjection() * m_camera.GetView(), position);
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
