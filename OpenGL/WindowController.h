@@ -20,6 +20,7 @@ public:
 private:
 	//Memebers
 	GLFWwindow* m_window;
+
 };
 
 #endif // WINDOW_CONTROLLER_H

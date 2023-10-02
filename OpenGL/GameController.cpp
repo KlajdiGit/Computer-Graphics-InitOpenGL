@@ -21,7 +21,9 @@ void GameController::Initialize()
 }
 
 glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
-float speed = 0.01f;
+float speedX = 0.01f;
+float speedY = 0.01f;
+
 
 void GameController::RunGame()
 {
@@ -35,22 +37,22 @@ void GameController::RunGame()
 	{
 		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
 		{
-			position =  glm::vec3(0.0f, speed, 0.0f);
+			position =  glm::vec3(0.0f, speedY, 0.0f);
 		}
 		
 		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
 		{
-			position =  glm::vec3(0.0f, -speed, 0.0f);
+			position =  glm::vec3(0.0f, -speedY, 0.0f);
 		}
 		
 		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
 		{
-			position =  glm::vec3(speed, 0.0f, 0.0f);
+			position =  glm::vec3(speedX, 0.0f, 0.0f);
 		}
 	
 		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
 		{
-			position =  glm::vec3(-speed, 0.0f, 0.0f);
+			position =  glm::vec3(-speedX, 0.0f, 0.0f);
 		}
 
 		if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_RELEASE &&
