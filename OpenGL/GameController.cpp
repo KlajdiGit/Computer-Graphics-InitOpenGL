@@ -45,14 +45,14 @@ void GameController::RunGame()
 			if (i == 0)
 			{
 				m_player.Render(m_camera.GetProjection() * m_camera.GetView(), m_player.ValidateMovement());
-				std::cout << m_player.GetClass() << m_player.Mesh::GetPlayerPos().x << " " << m_player.Mesh::GetPlayerPos().y << " " << m_player.Mesh::GetPlayerPos().z << endl;
+				//std::cout << m_player.GetClass() << m_player.Mesh::GetPlayerPos().x << " " << m_player.Mesh::GetPlayerPos().y << " " << m_player.Mesh::GetPlayerPos().z << endl;
 				m_npc[i].Render(m_camera.GetProjection() * m_camera.GetView(), m_npc[i].ValidateMovement(&m_shader, m_player.GetPlayerPos()));
 
 			}
 			else
 			{
 				m_npc[i].Render(m_camera.GetProjection() * m_camera.GetView(), m_npc[i].ValidateMovement(&m_shader, m_player.GetPlayerPos()));
-				std::cout << m_npc[i].GetClass() << m_npc[i].Mesh::GetPlayerPos().x << " " << m_npc[i].Mesh::GetPlayerPos().y << " " << m_npc[i].Mesh::GetPlayerPos().z << endl;
+				//std::cout << m_npc[i].GetClass() << m_npc[i].Mesh::GetPlayerPos().x << " " << m_npc[i].Mesh::GetPlayerPos().y << " " << m_npc[i].Mesh::GetPlayerPos().z << endl;
 			}
 		}
 
