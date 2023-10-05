@@ -1,6 +1,9 @@
 #include "Mesh.h"
 #include "Shader.h"
+#include "WindowController.h"
+#include "Resolution.h"
 
+#include <iostream>
 Mesh::Mesh()
 {
 	m_shader = nullptr;
@@ -18,6 +21,7 @@ void Mesh::Create(Shader* _shader, vector<GLfloat> _vertexData)
 	m_shader = _shader;
 	m_vertexData = _vertexData;
 
+
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, m_vertexData.size() * sizeof(float), m_vertexData.data(), GL_STATIC_DRAW);
@@ -29,6 +33,8 @@ void Mesh::Cleanup()
 	glDeleteBuffers(1, &m_indexBuffer);
 	glDeleteBuffers(1, &m_vertexBuffer);
 }
+
+
 
 void Mesh::Render(glm::mat4 _wvp, glm::vec3 _pos)
 {
@@ -61,6 +67,8 @@ void Mesh::Render(glm::mat4 _wvp, glm::vec3 _pos)
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer); // Bind the vertex buffer
 	glDrawArrays(GL_TRIANGLES, 0, m_vertexData.size() / 7);
+    //glDrawArrays(GL_TRIANGLES, 0, m_vertexData.size() / 11);
+
 	glDisableVertexAttribArray(m_shader->GetAttrVertices());
 	glDisableVertexAttribArray(m_shader->GetAttrColors());
-}Te
+}

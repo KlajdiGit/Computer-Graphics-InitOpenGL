@@ -1,155 +1,98 @@
 #include "NpcTriangle.h"
 #include "WindowController.h"
 #include "Resolution.h"
+#include "PlayerTriangle.h"
+#include <time.h>
 #include <iostream>
 #include <cstdlib>
-#include "PlayerTriangle.h"
+
+
+
+
 
 NpcTriangle::NpcTriangle() : Mesh()
 {
-    m_speedNpc = 0.02f;
-    m_shader = nullptr;
-    m_position = glm::vec3(0.0f, 0.0f, 0.0f);
+    
+    m_speedNpc = 0.01f;
+    m_translateNpc = glm::vec3(0.0f, 0.0f, 0.0f);
     yMove = glm::vec3(0.0f, 0.0f, 0.0f);
     xMove = glm::vec3(0.0f, 0.0f, 0.0f);
 	m_player = { };
+    m_colorNpc = { 0.0f, 1.0f };          
 }
 
 NpcTriangle::~NpcTriangle()
 {
 }
 
-
-
 void NpcTriangle::Create(Shader* _shader)
 {
+
+    float sign = static_cast<float>(rand() % 2);
+    if (sign == 0.0f)
+        sign = -1.0f;
+
+    float _point = static_cast<float>(((rand() % 9) + 2) * sign);
+
+
     m_vertexData = {
         /* Position   */  /*    RGBA Color    */
-		 -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-		 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-		 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f
+         _point, _point, 0.0f, 0.0f, m_colorNpc[1], m_colorNpc[0], 1.0f,
+         _point + 2.0f, _point, 0.0f, 0.0f, m_colorNpc[1], m_colorNpc[0], 1.0f,
+         _point + 1.0f, _point + 2.0f, 0.0f, 0.0f, m_colorNpc[1], m_colorNpc[0], 1.0f
     };
-
 
     Mesh::Create(_shader, m_vertexData);
 }
 
-glm::vec3 NpcTriangle::ValidateMovement()
+glm::vec3 NpcTriangle::ValidateMovement(Shader* _shader, glm::vec3 _player)
 {
-	/*if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
-	{
-		yMove = glm::vec3(0.0f, m_speedNpc, 0.0f);
-	}
 
-	if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
-	{
-		yMove = glm::vec3(0.0f, -m_speedNpc, 0.0f);
-	}
+    glm::vec3 direction = _player - m_translateNpc;
 
-	if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
-	{
-		xMove = glm::vec3(m_speedNpc, 0.0f, 0.0f);
-	}
+    float distance = glm::distance(_player, m_translateNpc);
 
-	if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
-	{
-		xMove = glm::vec3(-m_speedNpc, 0.0f, 0.0f);
-	}
-
-	if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_RELEASE &&
-		glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_RELEASE &&
-		glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_RELEASE &&
-		glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_RELEASE
-		)
-
-	{
-		xMove = glm::vec3(0.0f, 0.0f, 0.0f);
-		yMove = glm::vec3(0.0f, 0.0f, 0.0f);
-	}*/
-	float pos = static_cast<float>(rand() % 9 + 2);
-
-
-	m_position = glm::vec3(pos, pos, pos);
-	return m_position;
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-//NpcTriangle::NpcTriangle() : Mesh()
-//{
-//    m_speed = 0.01f;
-//}
-//
-//NpcTriangle::~NpcTriangle()
-//{
-//}
-//
-//void NpcTriangle::Create(Shader* _shader)
-//{
-//    float num = static_cast<float>(rand() % 10);
-//    m_vertexData = {
-//        /* Position   */  /*    RGBA Color    */
-//           num,         num, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-//         num + 2.0f,  num, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-//         num - 1.0f,  num + 2.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f
-//    };
-//
-//
-//    Mesh::Create(_shader, m_vertexData);
-//}
-
-//NpcTriangle::NpcTriangle() : Mesh()
-//{
-//    m_speed = 0.01f;
-//}
-//
-//NpcTriangle::~NpcTriangle()
-//{
-//}
-
-/*
-float x1 = dist_x(rng); // First vertex x coordinate
-float y1 = dist_y(rng); // First vertex y coordinate
-float x2 = dist_x(rng); // Second vertex x coordinate
-float y2 = dist_y(rng); // Second vertex y coordinate
-float x3 = dist_x(rng); // Third vertex x coordinate
-float y3 = dist_y(rng); // Third vertex y coordinate
-*/
- 
-/*
-
-void NpcTriangle::Create(Shader* _shader)
-{
-#include <random>
     
-    float x1 = dist_x(rng); // First vertex x coordinate
-    float y1 = dist_y(rng); // First vertex y coordinate
-    float x2 = x1 + 2.0f; // Second vertex x coordinate
-    if (x2 > 10.0f) // Check if out of range
-        x2 -= 4.0f; // Adjust by subtracting 4.0f
-    float y2 = y1; // Second vertex y coordinate
-    float x3 = x1 - 1.0f; // Third vertex x coordinate
-    if (x3 < 2.0f) // Check if out of range
-        x3 += 4.0f; // Adjust by adding 4.0f
-    float y3 = y1 + 2.0f; // Third vertex y coordinate
-    if (y3 > -2.0f) // Check if out of range
-        y3 -= 4.0f; // Adjust by subtracting 4.0f
-} 
+    float speed = m_speedNpc;
+
+    if (distance < 10.0f)
+    {
+        speed = m_speedNpc;
+        m_translateNpc += speed * direction;
+
+    }
+    else if (distance > 11.0f) {
+        speed = -m_speedNpc;
+        m_translateNpc += speed * direction;
+
+    }
+    else if (distance == 10.0f)
+    {
+        m_translateNpc += glm::vec3(0.0f, 0.0f, 0.0f);
+
+    }
+    else if (distance < 1.0f)
+    {
+        m_colorNpc[0] = 1.0f;
+        m_colorNpc[1] = 0.0f;
+        this->Cleanup();
+        m_vertexData = {
+            /* Position   */  /*    RGBA Color    */
+             this->GetPlayerPos().x,  this->GetPlayerPos().y,  this->GetPlayerPos().z, 0.0f, m_colorNpc[1], m_colorNpc[0], 1.0f,
+             this->GetPlayerPos().x + 2.0f,  this->GetPlayerPos().y,  this->GetPlayerPos().z, 0.0f, m_colorNpc[1], m_colorNpc[0], 1.0f,
+             this->GetPlayerPos().x + 1.0f,  this->GetPlayerPos().y + 2.0f,  this->GetPlayerPos().z, 0.0f, m_colorNpc[1], m_colorNpc[0], 1.0f
+        };
+
+        Mesh::Create(_shader, m_vertexData);
+
+       // m_colorNpc = { 0.0f, 1.0f };
+      
+    }
+   
+    return m_translateNpc;
+}
+/* Rotation idea:
+* Use the GetPlayerPos() to get the position of NpcTriangle and the player
+* Find the dot product between them so I can get the cos value by converting
+* the dot product result in radians. And then, rotate it by the z axis.
 */

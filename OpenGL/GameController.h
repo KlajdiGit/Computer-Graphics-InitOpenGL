@@ -19,15 +19,15 @@ public:
 	//Methods
 	void Initialize();
 	void RunGame();
-	/*void ValidateMovement(Mesh _mesh, float _speed);
-	void ValidateMovementNpc(Mesh _mesh, float _speed);*/
+
 
 private:
 	Shader m_shader;
-	//Mesh m_mesh;
 	PlayerTriangle m_player;
-	NpcTriangle m_npc;
+	vector<NpcTriangle> m_npc; // Store vertex data in RAM
 	Camera m_camera;
+	float m_playerSpeed;
+
 };
 
 #endif // GAME_CONTROLLER_H

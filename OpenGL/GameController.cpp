@@ -1,12 +1,15 @@
 #include "GameController.h"
 #include "WindowController.h"
 #include "ToolWindow.h"
+#include <iostream>
+#include "Mesh.h"
 
 GameController::GameController()
 {
 	m_shader = { };
 	m_player = { };
 	m_camera = { };
+	m_playerSpeed = 0.02f;
 }
 
 void GameController::Initialize()
@@ -15,8 +18,6 @@ void GameController::Initialize()
 	M_ASSERT(glewInit() == GLEW_OK, "Failed to initialize GLEW.") // Initialize GLEW
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE); // Ensure we can capture the escape key
 	glClearColor(0.0f, 0.0f, 1.0f, 0.0f); // Black background 
-	//glEnable(GL_CULL_FACE);
-	//Create a default perspective camera
 	m_camera = Camera(WindowController::GetInstance().GetResolution());
 }
 
@@ -26,18 +27,34 @@ void GameController::RunGame()
 	m_shader.LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 
 	m_player = PlayerTriangle();
-	m_npc = NpcTriangle();
-	m_player.Create(&m_shader); // m_shader points to the stack because the m_stack is created on stack. Then the pointer points to the stack
-    m_npc.Create(&m_shader);
-	m_npc.SetPlayer(m_player);
+	m_player.Create(&m_shader);
+	
+	for (int i = 0; i < 10; i++)
+	{
+		NpcTriangle npc = NpcTriangle();
+		m_npc.push_back(npc);
+		m_npc[i].Create(&m_shader);
+	}
 
 	do
 	{
-		glClear(GL_COLOR_BUFFER_BIT); // Clear the screen
-		m_player.Render(m_camera.GetProjection() * m_camera.GetView(), m_player.ValidateMovement());
+		glClear(GL_COLOR_BUFFER_BIT); // Clear the screen;
 
-		m_npc.Render(m_camera.GetProjection() * m_camera.GetView(), m_npc.ValidateMovement());
+		for (int i = 0; i < m_npc.size(); i++)
+		{
+			if (i == 0)
+			{
+				m_player.Render(m_camera.GetProjection() * m_camera.GetView(), m_player.ValidateMovement());
+				std::cout << m_player.GetClass() << m_player.Mesh::GetPlayerPos().x << " " << m_player.Mesh::GetPlayerPos().y << " " << m_player.Mesh::GetPlayerPos().z << endl;
+				m_npc[i].Render(m_camera.GetProjection() * m_camera.GetView(), m_npc[i].ValidateMovement(&m_shader, m_player.GetPlayerPos()));
 
+			}
+			else
+			{
+				m_npc[i].Render(m_camera.GetProjection() * m_camera.GetView(), m_npc[i].ValidateMovement(&m_shader, m_player.GetPlayerPos()));
+				std::cout << m_npc[i].GetClass() << m_npc[i].Mesh::GetPlayerPos().x << " " << m_npc[i].Mesh::GetPlayerPos().y << " " << m_npc[i].Mesh::GetPlayerPos().z << endl;
+			}
+		}
 
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
 		glfwPollEvents();
@@ -46,47 +63,9 @@ void GameController::RunGame()
 		glfwWindowShouldClose(WindowController::GetInstance().GetWindow()) == 0); // Check if the window was closed (a non-zero value means the window is closed)
 
 	m_player.Cleanup();
-	m_npc.Cleanup();
+	for (int i = 0; i < 10; i++)
+	{
+		m_npc[i].Cleanup();
+	}
 	m_shader.Cleanup();
 }
-
-
-
-
-//void GameController::ValidateMovement(Mesh _mesh, float _speed)
-//{
-//	     if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
-//		 {
-//		 //speedY = 0.01f;
-//		 	yMove = glm::vec3(0.0f, _speed, 0.0f);
-//		 }
-//
-//		 if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
-//		 {
-//		 	//speedY = 0.01f;
-//		 	yMove = glm::vec3(0.0f, -_speed, 0.0f);
-//		 }
-//
-//		 if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
-//		 {
-//		 	//speedX = 0.01f;
-//		 	xMove = glm::vec3(_speed, 0.0f, 0.0f);
-//		 }
-//
-//		 if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
-//		 {
-//		 	//speedX = 0.01f;
-//		 	xMove = glm::vec3(-_speed, 0.0f, 0.0f);
-//		 }
-//
-//		 if (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_A) == GLFW_RELEASE &&
-//			 glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_W) == GLFW_RELEASE &&
-//			 glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_S) == GLFW_RELEASE &&
-//			 glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_D) == GLFW_RELEASE
-//			 )
-//
-//		 {
-//			 xMove = glm::vec3(0.0f, 0.0f, 0.0f);
-//			 yMove = glm::vec3(0.0f, 0.0f, 0.0f);
-//		 }
-//}
