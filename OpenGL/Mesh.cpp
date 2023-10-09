@@ -7,6 +7,7 @@ Mesh::Mesh()
 	m_vertexBuffer = 0;
 	m_indexBuffer = 0;
 	m_world = glm::mat4(1.0f);
+	m_angle = 0.001f;
 }
 
 Mesh::~Mesh()
@@ -84,8 +85,15 @@ void Mesh::Render(glm::mat4 _wvp)
 	
 	//3rd attribute: WVP
 	//glm::translate(m_world, glm::vec3(100.0f, 100.0f, 100.0f));
-	m_world = glm::rotate(m_world, 0.001f, { 0, 1, 0 });
+	m_world = glm::translate(glm::mat4(1.0f), glm::vec3(100.0f, 100.0f, 0.0f)); // Set the world position
+	m_world = glm::rotate(m_world, m_angle, glm::vec3(0.0f, 1.0f, 0.0f)); // Rotate around the Y-axis
+	m_angle += 0.001f; // Increase the angle each fram
+
+
+	//m_world = glm::rotate(m_world, 0.001f, { 0, 1, 0 });
 	_wvp *= m_world;
+
+
 	glUniformMatrix4fv(m_shader->GetAttrWVP(), 1, GL_FALSE, &_wvp[0][0]);
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer); // Bind the vertex buffer
