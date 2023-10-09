@@ -83,6 +83,7 @@ void Mesh::Render(glm::mat4 _wvp)
 		(void*) (3 * sizeof(float)));           // array buffer offset 
 	
 	//3rd attribute: WVP
+	//glm::translate(m_world, glm::vec3(100.0f, 100.0f, 100.0f));
 	m_world = glm::rotate(m_world, 0.001f, { 0, 1, 0 });
 	_wvp *= m_world;
 	glUniformMatrix4fv(m_shader->GetAttrWVP(), 1, GL_FALSE, &_wvp[0][0]);
