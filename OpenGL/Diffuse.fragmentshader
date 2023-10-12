@@ -16,6 +16,6 @@ void main()
 {
    vec3 lightDir = normalize(LightDirection); // Normalize, for correct dot products results
    vec3 lambertian = dot(lightDir, retNormal) * LightColor; //Add lambertion lighting
-   vec3 output = clamp(lambertian + AmbientLight, 0.0f, 1.0f) * DiffuseColor;
-   FragColor = vec4(output, 1.0f) * texture(sampler1, retTexCoord);
+   vec3 color = clamp(lambertian + AmbientLight, 0.0f, 1.0f) * DiffuseColor;
+   FragColor = vec4(color, 1.0f) * texture(sampler1, retTexCoord);
 }
