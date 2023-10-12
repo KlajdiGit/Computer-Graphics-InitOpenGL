@@ -4,9 +4,11 @@
 
 GameController::GameController()
 {
-	m_shader = { };
-	m_mesh = { };
+	m_shaderColor = { };
+	m_shaderDiffuse = { };
 	m_camera = { };
+	m_meshBox = { };
+	m_meshLight = { };
 }
 
 void GameController::Initialize()
@@ -26,22 +28,37 @@ void GameController::RunGame()
 
 
 	// Create and compile our GLSL program from the shaders
-	m_shader = Shader(); // value object. It's cretaed on stack. No need for 'new'
-	m_shader.LoadShaders("Diffuse.vertexshader", "Diffuse.fragmentshader");
+	m_shaderColor = Shader(); // value object. It's cretaed on stack. No need for 'new'
+	m_shaderColor.LoadShaders("Color.vertexshader", "Color.fragmentshader");
 
-	m_mesh = Mesh();
-	m_mesh.Create(&m_shader); // m_shader points to the stacl because the m_stack is created on stack. Then the pointer points to the stack
+	m_shaderDiffuse = Shader();
+	m_shaderDiffuse.LoadShaders("Diffuse.vertexshader", "Diffuse.fragmentshader");
+
+	//Create meshes
+	m_meshLight = Mesh();
+	m_meshLight.Create(&m_shaderColor);
+	m_meshLight.SetPosition({ 1.0f, 0.5f, 0.5f });
+	m_meshLight.SetScale({ 0.1f, 0.1f, 0.1f });
+
+	m_meshBox = Mesh();
+	m_meshBox.Create(&m_shaderDiffuse);
+	m_meshBox.SetLightColor({ 0.5f, 0.9f, 0.5f });
+	m_meshBox.SetLightPosition(m_meshLight.GetPosition());
 
 	do
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
-		m_mesh.Render(m_camera.GetProjection() * m_camera.GetView());
+		m_meshBox.Render(m_camera.GetProjection() * m_camera.GetView());
+		m_meshLight.Render(m_camera.GetProjection() * m_camera.GetView());
+
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
 		glfwPollEvents();
 
 	} while (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && // Check if the ESC key was pressed
 		glfwWindowShouldClose(WindowController::GetInstance().GetWindow()) == 0); // Check if the window was closed (a non-zero value means the window is closed)
 
-	m_mesh.Cleanup();
-	m_shader.Cleanup();
+	m_meshLight.Cleanup();
+	m_meshBox.Cleanup();
+	m_shaderDiffuse.Cleanup();
+	m_shaderColor.Cleanup();
 }
