@@ -25,12 +25,9 @@ void GameController::Initialize()
 
 void GameController::RunGame()
 {
-
-
 	// Create and compile our GLSL program from the shaders
 	m_shaderColor = Shader(); // value object. It's cretaed on stack. No need for 'new'
 	m_shaderColor.LoadShaders("Color.vertexshader", "Color.fragmentshader");
-
 	m_shaderDiffuse = Shader();
 	m_shaderDiffuse.LoadShaders("Diffuse.vertexshader", "Diffuse.fragmentshader");
 
@@ -44,6 +41,7 @@ void GameController::RunGame()
 	m_meshBox.Create(&m_shaderDiffuse);
 	m_meshBox.SetLightColor({ 0.5f, 0.9f, 0.5f });
 	m_meshBox.SetLightPosition(m_meshLight.GetPosition());
+	m_meshBox.SetCameraPosition(m_camera.GetPosition());
 
 	do
 	{

@@ -14,12 +14,13 @@ public:
 	Mesh();
 	virtual ~Mesh();
 
-	//Accessors
+	//Accessors / Mutators
 	void SetPosition(glm::vec3 _position) { m_position = _position; }
 	glm::vec3 GetPosition() { return m_position; }
 	void SetScale(glm::vec3 _scale) { m_scale = _scale; }
 	void SetLightPosition(glm::vec3 _lightPosition) { m_lightPosition = _lightPosition; }
 	void SetLightColor(glm::vec3 _lightColor) { m_lightColor = _lightColor; }
+	void SetCameraPosition(glm::vec3 _cameraPosition) { m_cameraPosition = _cameraPosition; }
 
 	// Methods
 	void Create(Shader* _shader);
@@ -52,6 +53,7 @@ private:
 	//Lights
 	glm::vec3 m_lightPosition;
 	glm::vec3 m_lightColor;
+	glm::vec3 m_cameraPosition;
 };
 
 #endif // MESH_H
