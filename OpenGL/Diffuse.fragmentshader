@@ -24,4 +24,6 @@ void main()
    vec3 specular = pow(max(dot(refl, retViewDirection), 0.0f), SpecularStrength) * SpecularColor; 
    vec3 color = (lambertian + specular + AmbientLight) * DiffuseColor;
    FragColor = vec4(color, 1.0f) * texture(sampler1, retTexCoord); // Calculate final color
+    //vec3 output = (lambertian + specular + AmbientLight) * DiffuseColor;
+   // FragColor = vec4(output, 1.0f) * texture(sampler1, retTexCoord); // Calculate final color
 }
