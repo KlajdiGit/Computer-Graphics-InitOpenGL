@@ -98,6 +98,7 @@ namespace OpenGL {
 			// trackBarY
 			// 
 			this->trackBarY->Location = System::Drawing::Point(60, 32);
+			this->trackBarY->Maximum = 200;
 			this->trackBarY->Name = L"trackBarY";
 			this->trackBarY->Size = System::Drawing::Size(510, 45);
 			this->trackBarY->TabIndex = 0;
@@ -105,6 +106,7 @@ namespace OpenGL {
 			// trackBarU
 			// 
 			this->trackBarU->Location = System::Drawing::Point(60, 124);
+			this->trackBarU->Maximum = 200;
 			this->trackBarU->Name = L"trackBarU";
 			this->trackBarU->Size = System::Drawing::Size(510, 45);
 			this->trackBarU->TabIndex = 1;
@@ -112,6 +114,7 @@ namespace OpenGL {
 			// trackBarV
 			// 
 			this->trackBarV->Location = System::Drawing::Point(60, 216);
+			this->trackBarV->Maximum = 200;
 			this->trackBarV->Name = L"trackBarV";
 			this->trackBarV->Size = System::Drawing::Size(510, 45);
 			this->trackBarV->TabIndex = 2;
@@ -209,8 +212,33 @@ namespace OpenGL {
 		}
 #pragma endregion
 	private: System::Void ToolWindow_Load(System::Object^ sender, System::EventArgs^ e) {
+
+		this->trackBarY->Value = 100;
+		this->trackBarU->Value = 100;
+		this->trackBarV->Value = 100;
+		this->trackBarY->Scroll += gcnew System::EventHandler(this, &ToolWindow::trackBar_Scroll);
+		this->trackBarU->Scroll += gcnew System::EventHandler(this, &ToolWindow::trackBar_Scroll);
+		this->trackBarV->Scroll += gcnew System::EventHandler(this, &ToolWindow::trackBar_Scroll);
 	}
 	
+
+    private: System::Void trackBar_Scroll(System::Object^ sender, System::EventArgs^ e)
+	{
+	    TrackBar^ trackBar = safe_cast<TrackBar^>(sender);
+	    Label^ label;
+	    if (trackBar == this->trackBarY) {
+		     label = this->label2;
+	    }
+	    else if (trackBar == this->trackBarU) {
+		      label = this->label3;
+	    }
+	    else if (trackBar == this->trackBarV) {
+		      label = this->label4;
+	    }
+	    
+		label->Text = String::Format("{0}%", trackBar->Value);
+    }
+
 	/*private: System::Void checkBoxRedChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
 	{
 		RenderRedChannel = checkBoxRedChannel->Checked;
