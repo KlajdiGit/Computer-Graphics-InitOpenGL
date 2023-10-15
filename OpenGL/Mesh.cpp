@@ -35,14 +35,14 @@ void Mesh::Create(Shader* _shader)
 
 	m_vertexData = { 
 		/* Position */ /* Normals */ /* Texture Coords	*/
-	   -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,
-	   -0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,
-	   -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
+	   -0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+		0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+	   -0.5f, 0.5f, -0.5f,         0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f,        0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
 	
-	   -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+	  /* -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 		0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
 		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
 		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
@@ -75,7 +75,7 @@ void Mesh::Create(Shader* _shader)
 		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
 		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
 	   -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-	   -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f
+	   -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f*/
 	};
 #pragma endregion
 
@@ -168,7 +168,7 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 void Mesh::Render(glm::mat4 _pv)
 {
 	glUseProgram(m_shader->GetProgramID()); // Use our shader
-	m_rotation.y += 0.005f;
+	//m_rotation.y += 0.005f;
 
 	CalculateTransform();
 	SetShaderVariables(_pv);
