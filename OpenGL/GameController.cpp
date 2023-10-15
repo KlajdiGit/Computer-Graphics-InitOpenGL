@@ -51,6 +51,15 @@ void GameController::RunGame()
 	do
 	{
 		System::Windows::Forms::Application::DoEvents();
+
+		GLfloat loc = glGetUniformLocation(m_shaderColor.GetProgramID(), "Y");
+		glUniform1f(loc, (float)OpenGL::ToolWindow::trackBarYvalue / 100);
+		loc = glGetUniformLocation(m_shaderColor.GetProgramID(), "U");
+		glUniform1f(loc, (float)OpenGL::ToolWindow::trackBarUvalue / 100);
+		loc = glGetUniformLocation(m_shaderColor.GetProgramID(), "V");
+		glUniform1f(loc, (float)OpenGL::ToolWindow::trackBarVvalue / 100);
+
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		//m_meshBox.Render(m_camera.GetProjection() * m_camera.GetView());
 		m_meshLight.Render(m_camera.GetProjection() * m_camera.GetView());

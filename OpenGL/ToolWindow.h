@@ -18,6 +18,7 @@ namespace OpenGL {
 
 		//static bool RenderRedChannel;
 		//static bool RenderGreenChannel;
+		 // static bool RenderBlueChannel;
 	public: System::Windows::Forms::TrackBar^ trackBarY;
 	public: System::Windows::Forms::TrackBar^ trackBarU;
 	public: System::Windows::Forms::TrackBar^ trackBarV;
@@ -28,7 +29,10 @@ namespace OpenGL {
 	public: System::Windows::Forms::Label^ label4;
 	public: System::Windows::Forms::Label^ label5;
 	public: System::Windows::Forms::Label^ label6;
-		  // static bool RenderBlueChannel;
+		 static float trackBarYvalue;
+		  static float trackBarUvalue;
+		  static float trackBarVvalue;
+
 
 
 		ToolWindow(void)
@@ -37,6 +41,9 @@ namespace OpenGL {
 			/*RenderRedChannel = checkBoxRedChannel->Checked;
 			RenderGreenChannel = checkBoxGreenChannel->Checked;
 			RenderBlueChannel = checkBoxBlueChannel->Checked;*/
+			trackBarYvalue = trackBarY->Value;
+			trackBarUvalue = trackBarU->Value;
+			trackBarVvalue = trackBarV->Value;
 
 		}
 
@@ -102,6 +109,7 @@ namespace OpenGL {
 			this->trackBarY->Name = L"trackBarY";
 			this->trackBarY->Size = System::Drawing::Size(510, 45);
 			this->trackBarY->TabIndex = 0;
+			this->trackBarY->Scroll += gcnew System::EventHandler(this, &ToolWindow::trackBarY_Scroll);
 			// 
 			// trackBarU
 			// 
@@ -110,6 +118,7 @@ namespace OpenGL {
 			this->trackBarU->Name = L"trackBarU";
 			this->trackBarU->Size = System::Drawing::Size(510, 45);
 			this->trackBarU->TabIndex = 1;
+			this->trackBarU->Scroll += gcnew System::EventHandler(this, &ToolWindow::trackBarU_Scroll);
 			// 
 			// trackBarV
 			// 
@@ -118,6 +127,7 @@ namespace OpenGL {
 			this->trackBarV->Name = L"trackBarV";
 			this->trackBarV->Size = System::Drawing::Size(510, 45);
 			this->trackBarV->TabIndex = 2;
+			this->trackBarV->Scroll += gcnew System::EventHandler(this, &ToolWindow::trackBarV_Scroll);
 			// 
 			// invertColors
 			// 
@@ -224,33 +234,50 @@ namespace OpenGL {
 
     private: System::Void trackBar_Scroll(System::Object^ sender, System::EventArgs^ e)
 	{
-	    TrackBar^ trackBar = safe_cast<TrackBar^>(sender);
-	    Label^ label;
-	    if (trackBar == this->trackBarY) {
-		     label = this->label2;
-	    }
-	    else if (trackBar == this->trackBarU) {
-		      label = this->label3;
-	    }
-	    else if (trackBar == this->trackBarV) {
-		      label = this->label4;
-	    }
-	    
+		TrackBar^ trackBar = safe_cast<TrackBar^>(sender);
+		Label^ label;
+		float value = trackBar->Value / 100.0f; // Convert percentage to a value between 0.0 and 1.0
+
+		if (trackBar == this->trackBarY) {
+			label = this->label2;
+			// Update Y value in shader
+		}
+		else if (trackBar == this->trackBarU) {
+			label = this->label3;
+		}
+		else if (trackBar == this->trackBarV) {
+			label = this->label4;
+		}
+
 		label->Text = String::Format("{0}%", trackBar->Value);
+
     }
 
-	/*private: System::Void checkBoxRedChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
-	{
-		RenderRedChannel = checkBoxRedChannel->Checked;
-	}
-    private: System::Void checkBoxGreenChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
-    {
-		RenderGreenChannel = checkBoxGreenChannel->Checked;
-    }
-    private: System::Void checkBoxBlueChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-	{
-		RenderBlueChannel = checkBoxBlueChannel->Checked;
-	}*/
+private: System::Void trackBarY_Scroll(System::Object^ sender, System::EventArgs^ e) {
+	trackBarYvalue = trackBarY->Value;
+}
 
+private: System::Void trackBarU_Scroll(System::Object^ sender, System::EventArgs^ e) {
+	trackBarUvalue = trackBarU->Value;
+}
+
+private: System::Void trackBarV_Scroll(System::Object^ sender, System::EventArgs^ e) {
+	trackBarVvalue = trackBarV->Value;
+}
 };
 }
+
+
+
+/*private: System::Void checkBoxRedChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+{
+	RenderRedChannel = checkBoxRedChannel->Checked;
+}
+private: System::Void checkBoxGreenChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+{
+	RenderGreenChannel = checkBoxGreenChannel->Checked;
+}
+private: System::Void checkBoxBlueChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+{
+	RenderBlueChannel = checkBoxBlueChannel->Checked;
+}*/

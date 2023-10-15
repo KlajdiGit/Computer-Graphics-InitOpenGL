@@ -7,9 +7,26 @@ out vec4 FragColor;
 
 uniform sampler2D sampler1;
 uniform sampler2D sampler2;
+uniform float Y;
+uniform float U;
+uniform float V;
+
 
 void main()
 {
-  // FragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-  FragColor = mix(texture(sampler1, retTexCoord),   texture(sampler2, retTexCoord), 0.5) * vec4(retNormal, 1.0f); 
+ vec4 color = mix(texture(sampler1, retTexCoord), texture(sampler2, retTexCoord), 0.5) * vec4(retNormal, 1.0f);
+
+ float y = Y * (0.299 * color.r + 0.587 * color.g + 0.114 * color.b);
+ float u = U * (-0.14713 * color.r - 0.28886 * color.g + 0.436 * color.b);
+ float v = V * (0.615 * color.r - 0.51499 * color.g - 0.10001 * color.b);
+
+ float r = y + 1.13983 * v;
+ float g = y - 0.39465 * u - 0.58060 * v;
+ float b = y + 2.03211 * u;
+
+ FragColor = vec4(r, g, b, 1.0);
+
 }
+
+
+ 

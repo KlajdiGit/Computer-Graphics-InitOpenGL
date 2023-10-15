@@ -15,6 +15,12 @@ Mesh::Mesh()
 	m_cameraPosition = { 0, 0, 0 };
 	m_lightPosition = { 0, 0, 0 };
 	m_lightColor = { 1, 1, 1 };
+
+
+	/*m_y = 0.0f;
+	m_u = 0.0f;
+	m_v = 0.0f;*/
+
 }
 
 Mesh::~Mesh()
@@ -40,7 +46,7 @@ void Mesh::Create(Shader* _shader)
 		0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
 		0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
 	   -0.5f, 0.5f, -0.5f,         0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
-	   -0.5f, -0.5f, -0.5f,        0.0f, 0.0f, 1.0f,  0.0f, 0.0f,
+	   -0.5f, -0.5f, -0.5f,        0.0f, 0.0f, 1.0f,  0.0f, 0.0f
 	
 	  /* -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
 		0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
@@ -163,6 +169,10 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 	m_shader->SetVec3("LightColor", m_lightColor);
 	m_shader->SetMat4("WVP", _pv * m_world);
 	m_shader->SetVec3("CameraPosition", m_cameraPosition);
+
+	//m_shader->SetFloat("Y", m_y);
+	//m_shader->SetFloat("U", m_u);
+	//m_shader->SetFloat("V", m_v);
 }
 
 void Mesh::Render(glm::mat4 _pv)
@@ -179,3 +189,9 @@ void Mesh::Render(glm::mat4 _pv)
 	glDisableVertexAttribArray(m_shader->GetAttrVertices());
 	glDisableVertexAttribArray(m_shader->GetAttrTexCoords());
 }
+
+//void Mesh::SetYUV(float y, float u, float v) {
+//	m_y = y;
+//	m_u = u;
+//	m_v = v;
+//}
