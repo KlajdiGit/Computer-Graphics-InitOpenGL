@@ -25,7 +25,8 @@ void GameController::Initialize()
 
 void GameController::RunGame()
 {
-	OpenGl::ToolWindow^ window = gcnew PrimitiveDrawTest::ToolWindow();
+	OpenGL::ToolWindow^ window = gcnew OpenGL::ToolWindow();
+	window->Show();
 
 	// Create and compile our GLSL program from the shaders
 	m_shaderColor = Shader(); // value object. It's cretaed on stack. No need for 'new'
@@ -49,6 +50,7 @@ void GameController::RunGame()
 
 	do
 	{
+		System::Windows::Forms::Application::DoEvents();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		//m_meshBox.Render(m_camera.GetProjection() * m_camera.GetView());
 		m_meshLight.Render(m_camera.GetProjection() * m_camera.GetView());

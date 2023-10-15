@@ -16,24 +16,19 @@ namespace OpenGL {
 	{
 	public:
 
-		static bool RenderRedChannel;
-		static bool RenderGreenChannel;
-	private: System::Windows::Forms::TrackBar^ trackBarY;
-	private: System::Windows::Forms::TrackBar^ trackBarU;
-	private: System::Windows::Forms::TrackBar^ trackBarV;
-	public:
-
-	public:
-
-
-	private: System::Windows::Forms::CheckBox^ invertColors;
-	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::Label^ label3;
-	private: System::Windows::Forms::Label^ label4;
-	private: System::Windows::Forms::Label^ label5;
-	private: System::Windows::Forms::Label^ label6;
-		   static bool RenderBlueChannel;
+		//static bool RenderRedChannel;
+		//static bool RenderGreenChannel;
+	public: System::Windows::Forms::TrackBar^ trackBarY;
+	public: System::Windows::Forms::TrackBar^ trackBarU;
+	public: System::Windows::Forms::TrackBar^ trackBarV;
+	public: System::Windows::Forms::CheckBox^ invertColors;
+	public: System::Windows::Forms::Label^ label1;
+	public: System::Windows::Forms::Label^ label2;
+	public: System::Windows::Forms::Label^ label3;
+	public: System::Windows::Forms::Label^ label4;
+	public: System::Windows::Forms::Label^ label5;
+	public: System::Windows::Forms::Label^ label6;
+		  // static bool RenderBlueChannel;
 
 
 		ToolWindow(void)
