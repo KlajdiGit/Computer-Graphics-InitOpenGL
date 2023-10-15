@@ -29,7 +29,7 @@ void GameController::RunGame()
 	m_shaderColor = Shader(); // value object. It's cretaed on stack. No need for 'new'
 	m_shaderColor.LoadShaders("Color.vertexshader", "Color.fragmentshader");
 	m_shaderDiffuse = Shader();
-	m_shaderDiffuse.LoadShaders("Diffuse.vertexshader", "Diffuse.fragmentshader");
+	m_shaderDiffuse.LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentSgader.fragmentshader");
 
 	//Create meshes
 	m_meshLight = Mesh();
