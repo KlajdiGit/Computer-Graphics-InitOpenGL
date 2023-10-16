@@ -16,9 +16,7 @@ namespace OpenGL {
 	{
 	public:
 
-		//static bool RenderRedChannel;
-		//static bool RenderGreenChannel;
-		 // static bool RenderBlueChannel;
+		
 	public: System::Windows::Forms::TrackBar^ trackBarY;
 	public: System::Windows::Forms::TrackBar^ trackBarU;
 	public: System::Windows::Forms::TrackBar^ trackBarV;
@@ -29,21 +27,23 @@ namespace OpenGL {
 	public: System::Windows::Forms::Label^ label4;
 	public: System::Windows::Forms::Label^ label5;
 	public: System::Windows::Forms::Label^ label6;
-		 static float trackBarYvalue;
+		  static float trackBarYvalue;
 		  static float trackBarUvalue;
 		  static float trackBarVvalue;
-
+		  static bool RenderInvertColors;
 
 
 		ToolWindow(void)
 		{
 			InitializeComponent();
-			/*RenderRedChannel = checkBoxRedChannel->Checked;
-			RenderGreenChannel = checkBoxGreenChannel->Checked;
-			RenderBlueChannel = checkBoxBlueChannel->Checked;*/
-			trackBarYvalue = trackBarY->Value;
+			
+			/*trackBarYvalue = trackBarY->Value;
 			trackBarUvalue = trackBarU->Value;
-			trackBarVvalue = trackBarV->Value;
+			trackBarVvalue = trackBarV->Value;*/
+			trackBarYvalue = 100.0f;
+			trackBarUvalue = 100.0f;
+			trackBarVvalue = 100.0f; 
+			RenderInvertColors = invertColors->Checked;
 
 		}
 
@@ -138,6 +138,7 @@ namespace OpenGL {
 			this->invertColors->TabIndex = 3;
 			this->invertColors->Text = L"Inver Colors";
 			this->invertColors->UseVisualStyleBackColor = true;
+			this->invertColors->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::invertColors_CheckedChanged);
 			// 
 			// label1
 			// 
@@ -223,47 +224,39 @@ namespace OpenGL {
 #pragma endregion
 	private: System::Void ToolWindow_Load(System::Object^ sender, System::EventArgs^ e) {
 
-		this->trackBarY->Value = 100;
-		this->trackBarU->Value = 100;
-		this->trackBarV->Value = 100;
-		this->trackBarY->Scroll += gcnew System::EventHandler(this, &ToolWindow::trackBar_Scroll);
-		this->trackBarU->Scroll += gcnew System::EventHandler(this, &ToolWindow::trackBar_Scroll);
-		this->trackBarV->Scroll += gcnew System::EventHandler(this, &ToolWindow::trackBar_Scroll);
+		this->trackBarY->Value = 100.0f;
+		this->trackBarU->Value = 100.0f;
+		this->trackBarV->Value = 100.0f;
+		
 	}
-	
 
-    private: System::Void trackBar_Scroll(System::Object^ sender, System::EventArgs^ e)
-	{
-		TrackBar^ trackBar = safe_cast<TrackBar^>(sender);
-		Label^ label;
-		float value = trackBar->Value / 100.0f; // Convert percentage to a value between 0.0 and 1.0
-
-		if (trackBar == this->trackBarY) {
-			label = this->label2;
-			// Update Y value in shader
-		}
-		else if (trackBar == this->trackBarU) {
-			label = this->label3;
-		}
-		else if (trackBar == this->trackBarV) {
-			label = this->label4;
-		}
-
-		label->Text = String::Format("{0}%", trackBar->Value);
-
-    }
 
 private: System::Void trackBarY_Scroll(System::Object^ sender, System::EventArgs^ e) {
 	trackBarYvalue = trackBarY->Value;
+	label2->Text = String::Format("{0}%", trackBarY->Value);
+
+
 }
 
 private: System::Void trackBarU_Scroll(System::Object^ sender, System::EventArgs^ e) {
 	trackBarUvalue = trackBarU->Value;
+	label3->Text = String::Format("{0}%", trackBarU->Value);
+
 }
 
 private: System::Void trackBarV_Scroll(System::Object^ sender, System::EventArgs^ e) {
 	trackBarVvalue = trackBarV->Value;
+	label4->Text = String::Format("{0}%", trackBarV->Value);
+
 }
+private: System::Void invertColors_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	RenderInvertColors = invertColors->Checked;
+	trackBarYvalue = 200 - trackBarY->Value;
+	trackBarUvalue = 200 - trackBarY->Value;
+	trackBarVvalue = 200 - trackBarY->Value;
+}
+	   
+
 };
 }
 
