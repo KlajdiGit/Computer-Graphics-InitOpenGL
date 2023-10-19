@@ -27,7 +27,6 @@ public:
 	void Cleanup();
 	void CalculateTransform();
 	void Render(glm::mat4 _pv);
-	//void SetYUV(float y, float u, float v);
 
 
 private:
@@ -55,11 +54,6 @@ private:
 	glm::vec3 m_lightPosition;
 	glm::vec3 m_lightColor;
 	glm::vec3 m_cameraPosition;
-
-	//// YUV
-	//float m_y;
-	//float m_u;
-	//float m_v;
 };
 
 #endif // MESH_H

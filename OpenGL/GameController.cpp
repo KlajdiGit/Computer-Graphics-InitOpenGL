@@ -4,11 +4,9 @@
 
 GameController::GameController()
 {
-	m_shaderColor = { };
-	m_shaderDiffuse = { };
+	m_shaderRgbYuv = { };
 	m_camera = { };
-	m_meshBox = { };
-	m_meshLight = { };
+	m_mesh = { };
 }
 
 void GameController::Initialize()
@@ -29,40 +27,34 @@ void GameController::RunGame()
 	window->Show();
 
 	// Create and compile our GLSL program from the shaders
-	m_shaderColor = Shader(); // value object. It's cretaed on stack. No need for 'new'
-	m_shaderColor.LoadShaders("Color.vertexshader", "Color.fragmentshader");
-	m_shaderDiffuse = Shader();
-	//m_shaderDiffuse.LoadShaders("Diffuse.vertexshader", "Diffuse.fragmentshader");
-	m_shaderDiffuse.LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
+	m_shaderRgbYuv = Shader(); // value object. It's cretaed on stack. No need for 'new'
+	m_shaderRgbYuv.LoadShaders("Color.vertexshader", "Color.fragmentshader");
+
 
 	//Create meshes
-	m_meshLight = Mesh();
-	m_meshLight.Create(&m_shaderColor);
+	m_mesh = Mesh();
+	m_mesh.Create(&m_shaderRgbYuv);
 
-	m_meshLight.SetPosition({ 1.0f, 0.5f, 0.5f });
-	m_meshLight.SetScale({ 1.0f, 1.0f, 1.0f });
+	m_mesh.SetPosition({ 1.0f, 0.5f, 0.5f });
+	m_mesh.SetScale({ 1.0f, 1.0f, 1.0f });
 
-	/*m_meshBox = Mesh();
-	m_meshBox.Create(&m_shaderDiffuse);
-	m_meshBox.SetLightColor({ 1.0f, 1.0f, 1.0f });
-	m_meshBox.SetLightPosition(m_meshLight.GetPosition());
-	m_meshBox.SetCameraPosition(m_camera.GetPosition());*/
 
 	do
 	{
 		System::Windows::Forms::Application::DoEvents();
 
-		GLfloat loc = glGetUniformLocation(m_shaderColor.GetProgramID(), "Y");
+		GLfloat loc = glGetUniformLocation(m_shaderRgbYuv.GetProgramID(), "Y");
 		glUniform1f(loc, (float)OpenGL::ToolWindow::trackBarYvalue / 100);
-		loc = glGetUniformLocation(m_shaderColor.GetProgramID(), "U");
+		loc = glGetUniformLocation(m_shaderRgbYuv.GetProgramID(), "U");
 		glUniform1f(loc, (float)OpenGL::ToolWindow::trackBarUvalue / 100);
-		loc = glGetUniformLocation(m_shaderColor.GetProgramID(), "V");
+		loc = glGetUniformLocation(m_shaderRgbYuv.GetProgramID(), "V");
 		glUniform1f(loc, (float)OpenGL::ToolWindow::trackBarVvalue / 100);
 
+		GLint loc2 = glGetUniformLocation(m_shaderRgbYuv.GetProgramID(), "RenderInvert");
+		glUniform1i(loc2, (int)OpenGL::ToolWindow::RenderInvertColors);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
-		//m_meshBox.Render(m_camera.GetProjection() * m_camera.GetView());
-		m_meshLight.Render(m_camera.GetProjection() * m_camera.GetView());
+		m_mesh.Render(m_camera.GetProjection() * m_camera.GetView());
 
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
 		glfwPollEvents();
@@ -70,8 +62,6 @@ void GameController::RunGame()
 	} while (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && // Check if the ESC key was pressed
 		glfwWindowShouldClose(WindowController::GetInstance().GetWindow()) == 0); // Check if the window was closed (a non-zero value means the window is closed)
 
-	m_meshLight.Cleanup();
-	m_meshBox.Cleanup();
-	m_shaderDiffuse.Cleanup();
-	m_shaderColor.Cleanup();
+	m_mesh.Cleanup();
+	m_shaderRgbYuv.Cleanup();
 }

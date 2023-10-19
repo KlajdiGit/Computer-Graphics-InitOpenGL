@@ -233,44 +233,29 @@ namespace OpenGL {
 
 private: System::Void trackBarY_Scroll(System::Object^ sender, System::EventArgs^ e) {
 	trackBarYvalue = trackBarY->Value;
-	label2->Text = String::Format("{0}%", trackBarY->Value);
-
+	label2->Text = trackBarY->Value.ToString() + "%";
 
 }
 
 private: System::Void trackBarU_Scroll(System::Object^ sender, System::EventArgs^ e) {
 	trackBarUvalue = trackBarU->Value;
-	label3->Text = String::Format("{0}%", trackBarU->Value);
-
+	label3->Text = trackBarU->Value.ToString() + "%";
 }
 
 private: System::Void trackBarV_Scroll(System::Object^ sender, System::EventArgs^ e) {
 	trackBarVvalue = trackBarV->Value;
-	label4->Text = String::Format("{0}%", trackBarV->Value);
+	label4->Text = trackBarV->Value.ToString() + "%";
 
 }
 private: System::Void invertColors_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	RenderInvertColors = invertColors->Checked;
-	trackBarYvalue = 200 - trackBarY->Value;
+	/*trackBarYvalue = 200 - trackBarY->Value;
 	trackBarUvalue = 200 - trackBarY->Value;
-	trackBarVvalue = 200 - trackBarY->Value;
+	trackBarVvalue = 200 - trackBarY->Value;*/
 }
 	   
 
 };
 }
 
-
-
-/*private: System::Void checkBoxRedChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-{
-	RenderRedChannel = checkBoxRedChannel->Checked;
-}
-private: System::Void checkBoxGreenChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-{
-	RenderGreenChannel = checkBoxGreenChannel->Checked;
-}
-private: System::Void checkBoxBlueChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-{
-	RenderBlueChannel = checkBoxBlueChannel->Checked;
-}*/
+ 

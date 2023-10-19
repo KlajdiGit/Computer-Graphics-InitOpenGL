@@ -15,12 +15,6 @@ Mesh::Mesh()
 	m_cameraPosition = { 0, 0, 0 };
 	m_lightPosition = { 0, 0, 0 };
 	m_lightColor = { 1, 1, 1 };
-
-
-	/*m_y = 0.0f;
-	m_u = 0.0f;
-	m_v = 0.0f;*/
-
 }
 
 Mesh::~Mesh()
@@ -38,63 +32,27 @@ void Mesh::Create(Shader* _shader)
 	m_texture2.LoadTexture("../Assets/Textures/Emoji.jpg");
 
 #pragma region VertexData
-
-	m_vertexData = { 
-		/* Position */ /* Normals */ /* Texture Coords	*/
-	   -0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,        1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
-		0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
-		0.5f, 0.5f, -0.5f,         0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
-	   -0.5f, 0.5f, -0.5f,         0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
-	   -0.5f, -0.5f, -0.5f,        0.0f, 0.0f, 1.0f,  0.0f, 0.0f
 	
-	  /* -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-	   -0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-	   -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		
-	   -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-	   -0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-	   -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-	   -0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-	   -0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-	   -0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		
-		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-		
-	   -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-	   -0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-	   -0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f,
-		
-	   -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-	   -0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-	   -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f*/
-	};
+	m_vertexData = { 
+		/* Position */       /* RGB colors */   /*Texture Coords*/
+	   -0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 0.0f, 0.0f,  1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f,   0.0f, 1.0f, 1.0f,  1.0f, 1.0f,
+		0.5f, 0.5f, -0.5f,   0.0f, 1.0f, 0.0f,  1.0f, 1.0f,
+	   -0.5f, 0.5f, -0.5f,   0.0f, 0.0f, 1.0f,  0.0f, 1.0f,
+	   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f
+	}; 
+
+	 
+	
+
 #pragma endregion
 
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, m_vertexData.size() * sizeof(float), m_vertexData.data(), GL_STATIC_DRAW);
 
-	/*m_indexData = {
-		2, 0, 3, 2, 1, 0
-	};
-	glGenBuffers(1, &m_indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indexData.size() * sizeof(GLubyte), m_indexData.data(), GL_STATIC_DRAW);*/
+	
 
 }
 
@@ -117,16 +75,15 @@ void Mesh::BindAttributes()
 		8 * sizeof(float),   // stride (8 floats per vertex definition)
 		(void*)0);           // array buffer offset 
 	
-
-	// 2nd attribute buffer : normals
-	glEnableVertexAttribArray(m_shader->GetAttrNormals());
-	glVertexAttribPointer(m_shader->GetAttrNormals(), // The attribute we want to configure
+	// 2nd attribute buffer : colors
+	glEnableVertexAttribArray(m_shader->GetAttrColors());
+	glVertexAttribPointer(m_shader->GetAttrColors(), // The attribute we want to configure
 		3,                   // size ( 3 components per color value)
 		GL_FLOAT,            // type 
 		GL_FALSE,            // normalized?
 		8 * sizeof(float),   // stride (8 floats per vertex definition)
-		(void*) (3 * sizeof(float)));           // array buffer offset 
-	
+		(void*)(3 * sizeof(float)));           // array buffer offset
+
 	// 3rd  attribute buffer : texCoords
 	glEnableVertexAttribArray(m_shader->GetAttrTexCoords());
 	glVertexAttribPointer(m_shader->GetAttrTexCoords(), // The attribute we want to configure
@@ -138,6 +95,7 @@ void Mesh::BindAttributes()
 
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer); //Bind the vertex buffer
+
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_texture.GetTexture());
@@ -162,7 +120,6 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 	m_shader->SetVec3("DiffuseColor", { 1.0f, 1.0f, 1.0f });
 	m_shader->SetFloat("SpecularStrength", 4);
 	
-	//m_shader->SetVec3("SpecularColor", { 3.0f, 0.0f, 0.0f });
 	m_shader->SetVec3("SpecularColor", { 3.0f, 3.0f, 3.0f });
 	
 	m_shader->SetVec3("LightPosition", m_lightPosition);
@@ -170,15 +127,11 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 	m_shader->SetMat4("WVP", _pv * m_world);
 	m_shader->SetVec3("CameraPosition", m_cameraPosition);
 
-	//m_shader->SetFloat("Y", m_y);
-	//m_shader->SetFloat("U", m_u);
-	//m_shader->SetFloat("V", m_v);
 }
 
 void Mesh::Render(glm::mat4 _pv)
 {
 	glUseProgram(m_shader->GetProgramID()); // Use our shader
-	//m_rotation.y += 0.005f;
 
 	CalculateTransform();
 	SetShaderVariables(_pv);
@@ -190,8 +143,3 @@ void Mesh::Render(glm::mat4 _pv)
 	glDisableVertexAttribArray(m_shader->GetAttrTexCoords());
 }
 
-//void Mesh::SetYUV(float y, float u, float v) {
-//	m_y = y;
-//	m_u = u;
-//	m_v = v;
-//}
