@@ -1,7 +1,5 @@
 #version 330
 
-//in vec3 retNormal;
-
 in vec3 retColors;
 in vec2 retTexCoord;
 
@@ -22,7 +20,7 @@ void main()
 
  if(RenderInvert)
  {
-   // Invert colors by subtracting with 1 as the max value an r,g,b component can take
+   // Invert colors by subtracting with 1 as the max value of a r,g and b component
    // with the actual r,g and b value
    color.rgb = vec3(1.0) - color.rgb; 
  }
