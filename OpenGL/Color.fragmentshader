@@ -10,7 +10,6 @@ uniform sampler2D sampler2;
 uniform float Y;
 uniform float U;
 uniform float V;
-
 uniform bool RenderInvert;
 
 
