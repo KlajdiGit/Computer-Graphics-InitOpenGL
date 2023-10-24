@@ -22,7 +22,7 @@ void main()
  {
    // Invert colors by subtracting with 1 as the max value of a r,g and b component
    // with the actual r,g and b value
-   color.rgb = vec3(1.0) - color.rgb; 
+   color.rgb = vec3(1.0) - color.rgb;
  }
 
  float y = Y * (0.299 * color.r + 0.587 * color.g + 0.114 * color.b);
