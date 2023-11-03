@@ -14,9 +14,9 @@ Mesh::Mesh()
 	m_rotation = { 0, 0, 0 };
 	m_scale = { 1, 1, 1 };
 	m_world = glm::mat4();
-	m_cameraPosition = { 0, 0, 0 };
-	m_lightPosition = { 0, 0, 0 };
-	m_lightColor = { 1, 1, 1 };
+	//m_cameraPosition = { 0, 0, 0 };
+	//m_lightPosition = { 0, 0, 0 };
+	//m_lightColor = { 1, 1, 1 };
 }
 
 Mesh::~Mesh()
