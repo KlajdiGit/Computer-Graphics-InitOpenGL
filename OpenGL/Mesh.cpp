@@ -175,7 +175,7 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 void Mesh::Render(glm::mat4 _pv)
 {
 	glUseProgram(m_shader->GetProgramID()); // Use our shader
-	m_rotation.y += 0.005f;
+	m_rotation.y += 0.0005f;
 
 	CalculateTransform();
 	SetShaderVariables(_pv);
