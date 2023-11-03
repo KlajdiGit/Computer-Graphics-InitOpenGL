@@ -157,12 +157,15 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 
 
 	//Configure light
-	//m_shader->SetVec3("light.position", m_lightPosition);
-	m_shader->SetVec3("light.direction", m_lightPosition);
+	m_shader->SetVec3("light.position", m_lightPosition);
 	m_shader->SetVec3("light.volor", m_lightColor);
 	m_shader->SetVec3("light.ambientColor", { 0.1f, 0.1f, 0.1f });
 	m_shader->SetVec3("light.diffuseColor", { 1.0f, 1.0f, 1.0f });
 	m_shader->SetVec3("light.specularColor", { 3.0f, 3.0f, 3.0f });
+	m_shader->SetFloat("light.constant", 1.0f);
+	m_shader->SetFloat("light.linear", 0.09f);
+	m_shader->SetFloat("light.quadratic", 0.032f);
+
 
     //Configure material
 	m_shader->SetFloat("material.specularStrength", 8);
