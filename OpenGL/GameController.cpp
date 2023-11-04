@@ -8,7 +8,6 @@ GameController::GameController()
 	m_shaderDiffuse = { };
 	m_camera = { };
 	m_meshBox = { };
-	m_meshLight = { };
 	m_meshBoxes.clear();
 }
 
@@ -69,7 +68,14 @@ void GameController::RunGame()
 		{
 			m_meshBoxes[count].Render(m_camera.GetProjection() * m_camera.GetView());
 		}
-		m_meshLight.Render(m_camera.GetProjection() * m_camera.GetView());
+
+		for (int count = 0; count < 4; count++)
+		{
+			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
+		}
+
+		//Fix this error
+		//m_meshLight.Render(m_camera.GetProjection() * m_camera.GetView());
 
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
 		glfwPollEvents();
@@ -79,7 +85,7 @@ void GameController::RunGame()
 
 	
 
-	m_meshLight.Cleanup();
+	//m_meshLight.Cleanup();
 	for (unsigned int count = 0; count < m_meshBoxes.size(); count++)
 	{
 		m_meshBoxes[count].Cleanup();
