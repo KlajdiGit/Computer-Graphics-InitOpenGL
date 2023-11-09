@@ -26,7 +26,7 @@ public:
 	//void SetLightColor(glm::vec3 _lightColor) { m_lightColor = _lightColor; }
 
 	// Methods
-	void Create(Shader* _shader);
+	void Create(Shader* _shader, string _file);
 	void Cleanup();
 	void CalculateTransform();
 	void Render(glm::mat4 _pv);
