@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include "Shader.h"
+#include "OBJ_Loader.h"
 
 vector<Mesh> Mesh::Lights;
 
@@ -14,9 +15,7 @@ Mesh::Mesh()
 	m_rotation = { 0, 0, 0 };
 	m_scale = { 1, 1, 1 };
 	m_world = glm::mat4();
-	//m_cameraPosition = { 0, 0, 0 };
-	//m_lightPosition = { 0, 0, 0 };
-	//m_lightColor = { 1, 1, 1 };
+	
 }
 
 Mesh::~Mesh()
@@ -28,6 +27,7 @@ void Mesh::Create(Shader* _shader, string _file)
 	m_shader = _shader;
 
 	objl::Loader Loader; //Initialize Loader
+	
 	M_ASSERT(Loader.LoadFile(_file) == true, "Failed to load mesh."); //Load .obj file
 
 	for (unsigned int i = 0; i < Loader.LoadedMeshes.size(); i++)

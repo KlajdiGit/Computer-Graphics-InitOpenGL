@@ -34,46 +34,18 @@ void GameController::RunGame()
 
 	//Create meshes
 	Mesh m = Mesh();
-	m.Create(&m_shaderColor, "..Assets/Models/teapot.obj");
+	m.Create(&m_shaderColor, "C:\\Users\\klajd\\Documents\\VS2022 projects\\InitOpenGL\\Assets\\ModelsTeapot.obj");
 	m.SetPosition({ 1.0f, 0.0f, 0.0f });
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
 	m.SetScale({ 0.01f, 0.01f, 0.01f });
 	Mesh::Lights.push_back(m);
 
 	Mesh teapot = Mesh();
-	teapot.Create(&m_shaderDiffuse, "../Assets/Models/teapot.obj");
+	teapot.Create(&m_shaderDiffuse, "C:\\Users\\klajd\\Documents\\VS2022 projects\\InitOpenGL\\Assets\\ModelsTeapot.obj");
 	teapot.SetCameraPosition(m_camera.GetPosition());
 	teapot.SetScale({ 0.02f, 0.02f, 0.02f });
 	teapot.SetPosition({ 0.0f, 0.0f, 0.0f });
 	m_meshBoxes.push_back(teapot);
-
-	/*
-	for (int count = 0; count < 4; count++)
-	{
-		Mesh m = Mesh();
-		m.Create(&m_shaderColor);
-		m.SetPosition({ 0.5f + (float)count / 10.0f, 0.0f, -0.5f});
-		m.SetColor({ glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f), glm::linearRand(0.0f, 1.0f) });
-		m.SetScale({ 0.1f, 0.1f, 0.1f });
-		Mesh::Lights.push_back(m);
-	}
-
-
-
-	for (int col = 0; col < 10; col++)
-	{
-		for (int count = 0; count < 10; count++)
-		{
-			Mesh box = Mesh();
-			box.Create(&m_shaderDiffuse);
-			//box.SetLightColor({ 1.0f, 1.0f, 1.0f });
-			//box.SetLightPosition(m_meshLight.GetPosition());
-			box.SetCameraPosition(m_camera.GetPosition());
-			box.SetScale({ 0.1f, 0.1f, 0.1f });
-			box.SetPosition({ 0.0f, -0.5f + (float)count / 10.0f, -0.2f + (float)col / 10.0f });
-			m_meshBoxes.push_back(box);
-		}
-	} */
 
 	do
 	{
