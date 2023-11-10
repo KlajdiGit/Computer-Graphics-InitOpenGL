@@ -11,6 +11,10 @@ Fonts::Fonts()
 	m_orthProj = { };
 }
 
+Fonts::~Fonts()
+{
+}
+
 void Fonts::Create(Shader* _shader, string _name, FT_UInt _size)
 {
 	m_shader = _shader;
@@ -22,7 +26,7 @@ void Fonts::AllocateBuffers()
 {
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW); // 6 (number of needed vertices) * 4 ( the stride of float)
 }
 
 void Fonts::Initialize(string _name, FT_UInt _size)
@@ -35,7 +39,7 @@ void Fonts::Initialize(string _name, FT_UInt _size)
 	M_ASSERT(FT_Init_FreeType(&m_library) == false, "Could not init FreeType Library");
 	M_ASSERT(FT_New_Face(m_library, fileName.c_str(), 0, &m_face) == false, "Failed to load font");
 
-	//Set font height to 48 (0 to auto-calculate width)
+	//Set font height to size (0 to auto-calculate width)
 	M_ASSERT(FT_Set_Pixel_Sizes(m_face, 0, _size) == false, "Failed to set character size");
 
 	//Disable byte-alignment restriction

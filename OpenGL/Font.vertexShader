@@ -2,7 +2,7 @@
 
 in vec4 certices;
 
-uniform mat4 Projection;
+uniform mat4 Projection; //orthogonal projection
 
 out vec2 retTexCoords;
 

@@ -17,6 +17,7 @@ class Fonts
 public:
 	//Constructors / Destructors
 	Fonts();
+	virtual ~Fonts();
 
 	//Methods
 	void Create(Shader* _shader, string _name, FT_UInt _size);
@@ -26,7 +27,7 @@ private:
 	//Members
 	Shader* m_shader;
 	FT_Library m_library;
-	FT_Face m_face;
+	FT_Face m_face;  // actual font that we load (arial for example)
 	map<char, Character> m_characters;
 	GLuint m_vertexBuffer;
 	glm::mat4 m_orthProj;
