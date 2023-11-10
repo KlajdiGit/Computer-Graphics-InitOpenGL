@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <iostream>
+#include <map>
 
 // Windows specific includes and defines
 #ifdef WIN32
@@ -19,6 +21,10 @@
 #include <glm/glm.hpp>   // Include GLM
 #include <glm/ext.hpp>   // Open Experimental to_string
 #include <glm/gtc/matrix_transform.hpp> //View / Projection
+
+//Font includes
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 #include "Resolution.h"
 #include "Singleton.h" 
