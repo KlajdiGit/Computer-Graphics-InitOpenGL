@@ -34,14 +34,14 @@ void GameController::RunGame()
 
 	//Create meshes
 	Mesh m = Mesh();
-	m.Create(&m_shaderColor, "C:\\Users\\klajd\\Documents\\VS2022 projects\\InitOpenGL\\Assets\\ModelsTeapot.obj");
+	m.Create(&m_shaderColor, "../Assets/Models/Teapot.obj");
 	m.SetPosition({ 1.0f, 0.0f, 0.0f });
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
 	m.SetScale({ 0.01f, 0.01f, 0.01f });
 	Mesh::Lights.push_back(m);
 
 	Mesh teapot = Mesh();
-	teapot.Create(&m_shaderDiffuse, "C:\\Users\\klajd\\Documents\\VS2022 projects\\InitOpenGL\\Assets\\ModelsTeapot.obj");
+	teapot.Create(&m_shaderDiffuse, "../Assets/Models/Teapot.obj");
 	teapot.SetCameraPosition(m_camera.GetPosition());
 	teapot.SetScale({ 0.02f, 0.02f, 0.02f });
 	teapot.SetPosition({ 0.0f, 0.0f, 0.0f });
