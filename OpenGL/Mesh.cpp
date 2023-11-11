@@ -60,10 +60,6 @@ void Mesh::Create(Shader* _shader, string _file)
 	m_texture2 = Texture();	
 	m_texture2.LoadTexture("../Assets/Textures/" + diffuseNap);
 
-#pragma region VertexData
-
-#pragma endregion
-
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, m_vertexData.size() * sizeof(float), m_vertexData.data(), GL_STATIC_DRAW);
@@ -173,7 +169,7 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 void Mesh::Render(glm::mat4 _pv)
 {
 	glUseProgram(m_shader->GetProgramID()); // Use our shader
-	m_rotation.y += 0.05f;
+	m_rotation.y += 0.005f;
 
 	CalculateTransform();
 	SetShaderVariables(_pv);
