@@ -6,7 +6,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <map>
+#include <map> //enable to use dictionaries
 
 // Windows specific includes and defines
 #ifdef WIN32

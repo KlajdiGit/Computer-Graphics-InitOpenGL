@@ -1,6 +1,6 @@
 #version 330
 
-in vec4 certices;
+in vec4 vertices;
 
 uniform mat4 Projection; //orthogonal projection
 
