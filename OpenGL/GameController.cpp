@@ -56,7 +56,7 @@ void GameController::RunGame()
 			m_meshBoxes[count].Render(m_camera.GetProjection() * m_camera.GetView());
 		}
 
-		for (int count = 0; count < Mesh::Lights.size(); count++)
+		for (unsigned int count = 0; count < Mesh::Lights.size(); count++)
 		{
 			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
 		}
