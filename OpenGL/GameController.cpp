@@ -9,7 +9,7 @@ GameController::GameController()
 	m_shaderDiffuse = { };
 	m_camera = { };
 	m_meshBox = { };
-	m_meshBoxes.clear();
+	m_meshes.clear();
 }
 
 void GameController::Initialize()
@@ -50,14 +50,21 @@ void GameController::RunGame()
 	teapot.SetCameraPosition(m_camera.GetPosition());
 	teapot.SetScale({ 0.02f, 0.02f, 0.02f });
 	teapot.SetPosition({ 0.0f, 0.0f, 0.0f });
-	m_meshBoxes.push_back(teapot);
+	m_meshes.push_back(teapot);
 
 	Mesh box = Mesh();
 	box.Create(&m_shaderDiffuse, "../Assets/Models/Cube.obj");
 	box.SetCameraPosition(m_camera.GetPosition());
 	box.SetScale({ 0.5f, 0.5f, 0.5f });
 	box.SetPosition({ -1.0f, -1.0f, -1.0f });
-	m_meshBoxes.push_back(box);
+	m_meshes.push_back(box);
+
+	Mesh plane = Mesh();
+	plane.Create(&m_shaderDiffuse, "../Assets/Models/Plane.obj");
+	plane.SetCameraPosition(m_camera.GetPosition());
+	plane.SetScale({ 0.3f, 0.3f, 0.3f });
+	plane.SetPosition({ 0.0f, 0.0f, 0.0f });
+	m_meshes.push_back(plane);
 
 	Fonts f = Fonts();
 	f.Create(&m_shaderFont, "arial.ttf", 100);
@@ -65,9 +72,9 @@ void GameController::RunGame()
 	{
 		glClear(GL_COLOR_BUFFER_BIT  /*| GL_DEPTH_BUFFER_BIT*/); // Clear the screen
 		//m_meshBox.Render(m_camera.GetProjection() * m_camera.GetView());
-		for (unsigned int count = 0; count < m_meshBoxes.size(); count++)
+		for (unsigned int count = 0; count < m_meshes.size(); count++)
 		{
-			m_meshBoxes[count].Render(m_camera.GetProjection() * m_camera.GetView());
+			m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
 		}
 
 		for (int count = 0; count < Mesh::Lights.size(); count++)
@@ -89,9 +96,9 @@ void GameController::RunGame()
 		Mesh::Lights[count].Cleanup();
 	}
 
-	for (unsigned int count = 0; count < m_meshBoxes.size(); count++)
+	for (unsigned int count = 0; count < m_meshes.size(); count++)
 	{
-		m_meshBoxes[count].Cleanup();
+		m_meshes[count].Cleanup();
 	}
 	m_shaderDiffuse.Cleanup();
 	m_shaderColor.Cleanup();

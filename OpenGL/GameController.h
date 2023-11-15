@@ -24,7 +24,7 @@ private:
 	Shader m_shaderFont;
 	Mesh m_meshBox;
 	Camera m_camera;
-	vector<Mesh> m_meshBoxes;
+	vector<Mesh> m_meshes;
 };
 
 #endif // GAME_CONTROLLER_H
