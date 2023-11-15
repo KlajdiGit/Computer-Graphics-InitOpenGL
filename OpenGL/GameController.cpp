@@ -18,7 +18,7 @@ void GameController::Initialize()
 	M_ASSERT(glewInit() == GLEW_OK, "Failed to initialize GLEW.") // Initialize GLEW
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE); // Ensure we can capture the escape key
 	glClearColor(0.1f, 0.1f, 0.1f, 0.0f); // Grey background 
-	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	srand((unsigned int)time(0));
@@ -63,7 +63,7 @@ void GameController::RunGame()
 	f.Create(&m_shaderFont, "arial.ttf", 100);
 	do
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
+		glClear(GL_COLOR_BUFFER_BIT  /*| GL_DEPTH_BUFFER_BIT*/); // Clear the screen
 		//m_meshBox.Render(m_camera.GetProjection() * m_camera.GetView());
 		for (unsigned int count = 0; count < m_meshBoxes.size(); count++)
 		{
