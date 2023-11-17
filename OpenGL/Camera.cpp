@@ -5,11 +5,17 @@ Camera::Camera()
 	m_projection = { };
 	m_view = { };
 	m_position = { };
+	m_lookAt = glm::vec3();
+	m_rotation = glm::vec3();
+	m_angle = 0;
 }
 
 Camera::Camera(Resolution _screenResolution)
 {
-	m_position = { 3, 3, 3 };
+	m_position = { 0, 0, 0 };
+	m_lookAt = { 0, 0, 0 };
+	m_rotation = { 0, 0, 0 };
+	m_angle = 0.0f;
 
 	//Projection matrix : 45 degrees Field of View, 4.3 ratio, display range : 0.1 unit <-> 100 units
 	m_projection = glm::perspective(glm::radians(45.0f),
@@ -28,6 +34,22 @@ Camera::Camera(Resolution _screenResolution)
 		glm::vec3(0, 1, 0)  // Head is up (set to 0, -1, 0 to look upside-down)
 	);
 }
+
+void Camera::Rotate()
+{
+	m_angle += 0.1f;
+	m_lookAt.x = cos(glm::radians(m_angle)) * 100;
+	m_lookAt.z = sin(glm::radians(m_angle)) * 100;
+
+	//Camera matrix
+	m_view = glm::lookAt(
+		m_position, // Camera is at (0, 0, 0) in World Space
+		m_lookAt, 
+		glm::vec3(0, 1, 0) // Head is up(set to 0, -1, 0 to look upside-down)
+	);
+}
+
+
 
 Camera::~Camera()
 {
