@@ -62,13 +62,13 @@ void GameController::RunGame()
 	m_meshes.push_back(box);
 
 	SkyBox skyBox = SkyBox();
-	skyBox.Create(&m_shaderSkyBox, "../Assets/Models/Skybox.obj",
-		         { "../Assets/Models/Skybox.obj/right.jpg",
-				   "../Assets/Models/Skybox.obj/left.jpg",
-				   "../Assets/Models/Skybox.obj/top.jpg",
-				   "../Assets/Models/Skybox.obj/bottom.jpg",
-				   "../Assets/Models/Skybox.obj/front.jpg",
-				   "../Assets/Models/Skybox.obj/back.jpg" });
+	skyBox.Create(&m_shaderSkyBox, "../Assets/Models/SkyBox.obj",
+		         { "../Assets/Models/SkyBox.obj/right.jpg",
+				   "../Assets/Models/SkyBox.obj/left.jpg",
+				   "../Assets/Models/SkyBox.obj/top.jpg",
+				   "../Assets/Models/SkyBox.obj/bottom.jpg",
+				   "../Assets/Models/SkyBox.obj/front.jpg",
+				   "../Assets/Models/SkyBox.obj/back.jpg" });
 
 	Fonts f = Fonts();
 	f.Create(&m_shaderFont, "arial.ttf", 100);
@@ -77,7 +77,7 @@ void GameController::RunGame()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		
 		m_camera.Rotate();
-		glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView()));
+		glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView())); // guarantees the camera will be at the center
 		skyBox.Render(m_camera.GetProjection() * view);
 
 		for (unsigned int count = 0; count < m_meshes.size(); count++)
