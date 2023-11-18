@@ -24,9 +24,9 @@ private:
 	Shader m_shaderDiffuse;
 	Shader m_shaderFont;
 	Shader m_shaderSkyBox;
-	Mesh m_meshBox;
 	Camera m_camera;
 	vector<Mesh> m_meshes;
+	SkyBox m_skyBox;
 };
 
 #endif // GAME_CONTROLLER_H

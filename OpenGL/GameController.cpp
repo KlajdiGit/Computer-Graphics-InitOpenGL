@@ -8,7 +8,7 @@ GameController::GameController()
 	m_shaderColor = { };
 	m_shaderDiffuse = { };
 	m_camera = { };
-	m_meshBox = { };
+	m_skyBox = { };
 	m_meshes.clear();
 }
 
@@ -36,6 +36,7 @@ void GameController::Initialize()
 
 void GameController::RunGame()
 {
+#pragma region SetupShaders
 	// Create and compile our GLSL program from the shaders
 	m_shaderColor = Shader(); // value object. It's cretaed on stack. No need for 'new'
 	m_shaderColor.LoadShaders("Color.vertexshader", "Color.fragmentshader");
@@ -45,8 +46,10 @@ void GameController::RunGame()
 	m_shaderSkyBox.LoadShaders("SkyBox.vertexshader", "SkyBox.fragmentshader");
 	m_shaderFont = Shader();
 	m_shaderFont.LoadShaders("Font.vertexshader", "Font.fragmentshader");
+#pragma endregion SetupShaders
 
-	//Create meshes
+#pragma region CreateMeshes
+    //Create meshes
 	Mesh m = Mesh();
 	m.Create(&m_shaderColor, "../Assets/Models/teapot.obj");
 	m.SetPosition({ 1.0f, 0.0f, 0.0f });
@@ -63,12 +66,14 @@ void GameController::RunGame()
 
 	SkyBox skyBox = SkyBox();
 	skyBox.Create(&m_shaderSkyBox, "../Assets/Models/SkyBox.obj",
-		         { "../Assets/Models/SkyBox.obj/right.jpg",
-				   "../Assets/Models/SkyBox.obj/left.jpg",
-				   "../Assets/Models/SkyBox.obj/top.jpg",
-				   "../Assets/Models/SkyBox.obj/bottom.jpg",
-				   "../Assets/Models/SkyBox.obj/front.jpg",
-				   "../Assets/Models/SkyBox.obj/back.jpg" });
+		         { "../Assets/Textures/SkyBox/right.jpg",
+				   "../Assets/Textures/SkyBox/left.jpg",
+				   "../Assets/Textures/SkyBox/top.jpg",
+				   "../Assets/Textures/SkyBox/bottom.jpg",
+				   "../Assets/Textures/SkyBox/front.jpg",
+				   "../Assets/Textures/SkyBox/back.jpg" });
+
+#pragma endregion CreateMeshes
 
 	Fonts f = Fonts();
 	f.Create(&m_shaderFont, "arial.ttf", 100);
