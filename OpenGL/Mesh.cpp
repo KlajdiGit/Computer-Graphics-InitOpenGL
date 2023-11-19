@@ -1,6 +1,8 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "OBJ_Loader.h"
+#include "ToolWindow.h"
+#include "ToolWindow.h"
 
 vector<Mesh> Mesh::Lights;
 
@@ -15,8 +17,8 @@ Mesh::Mesh()
 	m_rotation = { 0, 0, 0 };
 	m_scale = { 1, 1, 1 };
 	m_world = glm::mat4();
-	
 }
+
 
 Mesh::~Mesh()
 {
@@ -163,7 +165,10 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 
 		m_shader->SetVec3(Concat("light[", i, "].ambientColor").c_str(), { 0.1f, 0.1f, 0.1f });
 		m_shader->SetVec3(Concat("light[", i, "].diffuseColor").c_str(), Lights[i].GetColor());
-		m_shader->SetVec3(Concat("light[", i, "].specularColor").c_str(), { 3.0f, 3.0f, 3.0f });
+        m_shader->SetVec3(Concat("light[", i, "].specularColor").c_str(), { (float)OpenGL::ToolWindow::trackbarR,
+																			(float)OpenGL::ToolWindow::trackbarG,
+																			(float)OpenGL::ToolWindow::trackbarB
+																		   });
 
 		m_shader->SetVec3(Concat("light[", i, "].position").c_str(), Lights[i].GetPosition());
 		m_shader->SetVec3(Concat("light[", i, "].direction").c_str(), glm::normalize(glm::vec3({ 0.0f + i * 0.1f, 0, 0.0f + i * 0.1f }) - Lights[i].GetPosition()));
@@ -173,7 +178,7 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 
 
     //Configure material
-	m_shader->SetFloat("material.specularStrength", 8);
+	m_shader->SetFloat("material.specularStrength", (float)OpenGL::ToolWindow::trackbarSpecStrength);
 	m_shader->SetTextureSampler("material.diffuseTexture", GL_TEXTURE0, 0, m_texture.GetTexture());
 	m_shader->SetTextureSampler("material.specularTexture", GL_TEXTURE1, 1, m_texture2.GetTexture());
 }

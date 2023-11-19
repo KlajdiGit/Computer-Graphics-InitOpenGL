@@ -348,18 +348,18 @@ namespace OpenGL {
 	}*/
 
     private: System::Void componentR_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		trackbarR = componentR->Value;
-		rLabelVal->Text = (trackbarR / 100.0f).ToString();
+		trackbarR = componentR->Value / 100.0f;
+		rLabelVal->Text = (trackbarR).ToString();
     }
     
     private: System::Void componentG_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		trackbarG = componentG->Value;
-		gLabelVal->Text = (trackbarG / 100.0f).ToString();
+		trackbarG = componentG->Value / 100.0f;
+		gLabelVal->Text = (trackbarG).ToString();
     }
     
     private: System::Void componentB_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		trackbarB = componentB->Value;
-		bLabelVal->Text = (trackbarB / 100.0f).ToString();
+		trackbarB = componentB->Value / 100.0f;
+		bLabelVal->Text = (trackbarB).ToString();
 	}
     
     private: System::Void specularStrength_Scroll(System::Object^ sender, System::EventArgs^ e) {

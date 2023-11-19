@@ -12,6 +12,7 @@ class Mesh
 public:
 	// Constructors / Destructors
 	Mesh();
+
 	virtual ~Mesh();
 
 	//Accessors / Mutators
@@ -21,6 +22,7 @@ public:
 	void SetColor(glm::vec3 _color) { m_color = _color; }
 	glm::vec3 GetColor() { return m_color; }
 	void SetCameraPosition(glm::vec3 _cameraPosition) { m_cameraPosition = _cameraPosition; }
+
 
 	//void SetLightPosition(glm::vec3 _lightPosition) { m_lightPosition = _lightPosition; }
 	//void SetLightColor(glm::vec3 _lightColor) { m_lightColor = _lightColor; }
@@ -36,6 +38,7 @@ public:
 
 private:
 
+
 	//Methods
 	void SetShaderVariables(glm::mat4 _pv);
 	void BindAttributes();
@@ -49,6 +52,7 @@ private:
 	vector<GLfloat> m_vertexData; // Store vertex data in RAM
 	std::vector<GLubyte> m_indexData; // Store index data in RAM
 
+	
 
 	//Transform
 	glm::vec3 m_position;

@@ -46,7 +46,7 @@ void GameController::RunGame()
 #pragma endregion SetupShaders
 
 #pragma region CreateMeshes
-    //Create meshes
+	//Create meshes
 	Mesh m = Mesh();
 	m.Create(&m_shaderColor, "../Assets/Models/Sphere.obj");
 	m.SetPosition({ 0.0f, 0.0f, 0.1f });
@@ -59,6 +59,7 @@ void GameController::RunGame()
 	box.SetCameraPosition(m_camera.GetPosition());
 	box.SetScale({ 0.08f, 0.08f, 0.08f });
 	box.SetPosition({ 0.0f, 0.0f, 0.0f });
+
 	m_meshes.push_back(box);
 
 #pragma endregion CreateMeshes
@@ -67,7 +68,11 @@ void GameController::RunGame()
 	f.Create(&m_shaderFont, "arial.ttf", 100);
 	do
 	{
+
 		System::Windows::Forms::Application::DoEvents(); 
+
+		
+
 
 		GLfloat loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "rComponent");
 		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarR);
@@ -77,6 +82,13 @@ void GameController::RunGame()
 		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarB);
 		loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "specStrengthColor");
 		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarSpecStrength);
+		
+
+
+		/*std::cout << "rComponent: " << (float)OpenGL::ToolWindow::trackbarR << std::endl;
+		std::cout << "gComponent: " << (float)OpenGL::ToolWindow::trackbarG << std::endl;
+		std::cout << "bComponent: " << (float)OpenGL::ToolWindow::trackbarB << std::endl;
+		std::cout << "specStrengthColor: " << (float)OpenGL::ToolWindow::trackbarSpecStrength << std::endl;*/
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 	
