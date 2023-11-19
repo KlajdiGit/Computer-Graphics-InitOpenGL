@@ -14,6 +14,7 @@ GameController::GameController()
 
 void GameController::Initialize()
 {
+
 	GLFWwindow* window = WindowController::GetInstance().GetWindow(); // Call this first, as it creates a window required by GLEW
 	M_ASSERT(glewInit() == GLEW_OK, "Failed to initialize GLEW.") // Initialize GLEW
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE); // Ensure we can capture the escape key
@@ -36,6 +37,9 @@ void GameController::Initialize()
 
 void GameController::RunGame()
 {
+
+	OpenGL::ToolWindow^ window = gcnew OpenGL::ToolWindow();
+	window->Show();
 #pragma region SetupShaders
 	// Create and compile our GLSL program from the shaders
 	m_shaderColor = Shader(); // value object. It's cretaed on stack. No need for 'new'
@@ -79,6 +83,7 @@ void GameController::RunGame()
 	f.Create(&m_shaderFont, "arial.ttf", 100);
 	do
 	{
+		System::Windows::Forms::Application::DoEvents(); // Handle C++/CLI form events
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		
 		m_camera.Rotate();

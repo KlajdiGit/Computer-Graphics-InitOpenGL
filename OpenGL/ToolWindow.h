@@ -18,15 +18,48 @@ namespace OpenGL {
 
 		static bool RenderRedChannel;
 		static bool RenderGreenChannel;
+	private: System::Windows::Forms::RadioButton^ moveLight;
+	private: System::Windows::Forms::RadioButton^ colorByPosition;
+	private: System::Windows::Forms::RadioButton^ moveCubesToSphere;
+	private: System::Windows::Forms::Button^ resetLightPosition;
+	private: System::Windows::Forms::Button^ resetTeapotPosition;
+	private: System::Windows::Forms::TrackBar^ specularStrength;
+	private: System::Windows::Forms::TrackBar^ componentR;
+	private: System::Windows::Forms::TrackBar^ componentG;
+	private: System::Windows::Forms::TrackBar^ componentB;
+	private: System::Windows::Forms::Label^ specularStrengthLabel;
+	private: System::Windows::Forms::Label^ specularColorLabel;
+	private: System::Windows::Forms::Label^ rLabel;
+	private: System::Windows::Forms::Label^ gLabel;
+	private: System::Windows::Forms::Label^ bLabel;
+	private: System::Windows::Forms::Label^ specStrengthLabelVal;
+	private: System::Windows::Forms::Label^ rLabelVal;
+	private: System::Windows::Forms::Label^ gLabelVal;
+	private: System::Windows::Forms::Label^ bLabelVal;
+
+	public:
+
+	public:
+
+
+
+
+
+
+
+
+
+	public:
 		static bool RenderBlueChannel;
 
 
 		ToolWindow(void)
 		{
 			InitializeComponent();
-			RenderRedChannel = checkBoxRedChannel->Checked;
+
+			/*RenderRedChannel = checkBoxRedChannel->Checked;
 			RenderGreenChannel = checkBoxGreenChannel->Checked;
-			RenderBlueChannel = checkBoxBlueChannel->Checked;
+			RenderBlueChannel = checkBoxBlueChannel->Checked;*/
 
 		}
 
@@ -41,9 +74,9 @@ namespace OpenGL {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::CheckBox^ checkBoxRedChannel;
-	private: System::Windows::Forms::CheckBox^ checkBoxGreenChannel;
-	private: System::Windows::Forms::CheckBox^ checkBoxBlueChannel;
+
+
+
 	protected:
 
 
@@ -70,59 +103,221 @@ namespace OpenGL {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->checkBoxRedChannel = (gcnew System::Windows::Forms::CheckBox());
-			this->checkBoxGreenChannel = (gcnew System::Windows::Forms::CheckBox());
-			this->checkBoxBlueChannel = (gcnew System::Windows::Forms::CheckBox());
+			this->moveLight = (gcnew System::Windows::Forms::RadioButton());
+			this->colorByPosition = (gcnew System::Windows::Forms::RadioButton());
+			this->moveCubesToSphere = (gcnew System::Windows::Forms::RadioButton());
+			this->resetLightPosition = (gcnew System::Windows::Forms::Button());
+			this->resetTeapotPosition = (gcnew System::Windows::Forms::Button());
+			this->specularStrength = (gcnew System::Windows::Forms::TrackBar());
+			this->componentR = (gcnew System::Windows::Forms::TrackBar());
+			this->componentG = (gcnew System::Windows::Forms::TrackBar());
+			this->componentB = (gcnew System::Windows::Forms::TrackBar());
+			this->specularStrengthLabel = (gcnew System::Windows::Forms::Label());
+			this->specularColorLabel = (gcnew System::Windows::Forms::Label());
+			this->rLabel = (gcnew System::Windows::Forms::Label());
+			this->gLabel = (gcnew System::Windows::Forms::Label());
+			this->bLabel = (gcnew System::Windows::Forms::Label());
+			this->specStrengthLabelVal = (gcnew System::Windows::Forms::Label());
+			this->rLabelVal = (gcnew System::Windows::Forms::Label());
+			this->gLabelVal = (gcnew System::Windows::Forms::Label());
+			this->bLabelVal = (gcnew System::Windows::Forms::Label());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->specularStrength))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->componentR))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->componentG))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->componentB))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// checkBoxRedChannel
+			// moveLight
 			// 
-			this->checkBoxRedChannel->AutoSize = true;
-			this->checkBoxRedChannel->Checked = true;
-			this->checkBoxRedChannel->CheckState = System::Windows::Forms::CheckState::Checked;
-			this->checkBoxRedChannel->Location = System::Drawing::Point(13, 23);
-			this->checkBoxRedChannel->Name = L"checkBoxRedChannel";
-			this->checkBoxRedChannel->Size = System::Drawing::Size(88, 17);
-			this->checkBoxRedChannel->TabIndex = 0;
-			this->checkBoxRedChannel->Text = L"Red Channel";
-			this->checkBoxRedChannel->UseVisualStyleBackColor = true;
-			this->checkBoxRedChannel->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::checkBoxRedChannel_CheckedChanged);
+			this->moveLight->AutoSize = true;
+			this->moveLight->Checked = true;
+			this->moveLight->Location = System::Drawing::Point(61, 38);
+			this->moveLight->Name = L"moveLight";
+			this->moveLight->Size = System::Drawing::Size(78, 17);
+			this->moveLight->TabIndex = 0;
+			this->moveLight->TabStop = true;
+			this->moveLight->Text = L"Move Light";
+			this->moveLight->UseVisualStyleBackColor = true;
 			// 
-			// checkBoxGreenChannel
+			// colorByPosition
 			// 
-			this->checkBoxGreenChannel->AutoSize = true;
-			this->checkBoxGreenChannel->Location = System::Drawing::Point(13, 62);
-			this->checkBoxGreenChannel->Name = L"checkBoxGreenChannel";
-			this->checkBoxGreenChannel->Size = System::Drawing::Size(97, 17);
-			this->checkBoxGreenChannel->TabIndex = 1;
-			this->checkBoxGreenChannel->Text = L"Green Channel";
-			this->checkBoxGreenChannel->UseVisualStyleBackColor = true;
-			this->checkBoxGreenChannel->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::checkBoxGreenChannel_CheckedChanged);
+			this->colorByPosition->AutoSize = true;
+			this->colorByPosition->Location = System::Drawing::Point(61, 368);
+			this->colorByPosition->Name = L"colorByPosition";
+			this->colorByPosition->Size = System::Drawing::Size(104, 17);
+			this->colorByPosition->TabIndex = 1;
+			this->colorByPosition->Text = L"Color By Position";
+			this->colorByPosition->UseVisualStyleBackColor = true;
 			// 
-			// checkBoxBlueChannel
+			// moveCubesToSphere
 			// 
-			this->checkBoxBlueChannel->AutoSize = true;
-			this->checkBoxBlueChannel->Location = System::Drawing::Point(13, 101);
-			this->checkBoxBlueChannel->Name = L"checkBoxBlueChannel";
-			this->checkBoxBlueChannel->Size = System::Drawing::Size(89, 17);
-			this->checkBoxBlueChannel->TabIndex = 2;
-			this->checkBoxBlueChannel->Text = L"Blue Channel";
-			this->checkBoxBlueChannel->UseVisualStyleBackColor = true;
-			this->checkBoxBlueChannel->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::checkBoxBlueChannel_CheckedChanged);
+			this->moveCubesToSphere->AutoSize = true;
+			this->moveCubesToSphere->Location = System::Drawing::Point(61, 490);
+			this->moveCubesToSphere->Name = L"moveCubesToSphere";
+			this->moveCubesToSphere->Size = System::Drawing::Size(134, 17);
+			this->moveCubesToSphere->TabIndex = 2;
+			this->moveCubesToSphere->Text = L"Move Cubes to Sphere";
+			this->moveCubesToSphere->UseVisualStyleBackColor = true;
+			// 
+			// resetLightPosition
+			// 
+			this->resetLightPosition->Location = System::Drawing::Point(61, 70);
+			this->resetLightPosition->Name = L"resetLightPosition";
+			this->resetLightPosition->Size = System::Drawing::Size(116, 23);
+			this->resetLightPosition->TabIndex = 3;
+			this->resetLightPosition->Text = L"Reset Light Position";
+			this->resetLightPosition->UseVisualStyleBackColor = true;
+			// 
+			// resetTeapotPosition
+			// 
+			this->resetTeapotPosition->Location = System::Drawing::Point(61, 413);
+			this->resetTeapotPosition->Name = L"resetTeapotPosition";
+			this->resetTeapotPosition->Size = System::Drawing::Size(131, 23);
+			this->resetTeapotPosition->TabIndex = 4;
+			this->resetTeapotPosition->Text = L"Reset Teapot Position";
+			this->resetTeapotPosition->UseVisualStyleBackColor = true;
+			// 
+			// specularStrength
+			// 
+			this->specularStrength->Location = System::Drawing::Point(134, 114);
+			this->specularStrength->Name = L"specularStrength";
+			this->specularStrength->Size = System::Drawing::Size(469, 45);
+			this->specularStrength->TabIndex = 5;
+			// 
+			// componentR
+			// 
+			this->componentR->Location = System::Drawing::Point(134, 178);
+			this->componentR->Name = L"componentR";
+			this->componentR->Size = System::Drawing::Size(469, 45);
+			this->componentR->TabIndex = 6;
+			// 
+			// componentG
+			// 
+			this->componentG->Location = System::Drawing::Point(134, 248);
+			this->componentG->Name = L"componentG";
+			this->componentG->Size = System::Drawing::Size(469, 45);
+			this->componentG->TabIndex = 7;
+			// 
+			// componentB
+			// 
+			this->componentB->Location = System::Drawing::Point(134, 317);
+			this->componentB->Name = L"componentB";
+			this->componentB->Size = System::Drawing::Size(458, 45);
+			this->componentB->TabIndex = 8;
+			// 
+			// specularStrengthLabel
+			// 
+			this->specularStrengthLabel->AutoSize = true;
+			this->specularStrengthLabel->Location = System::Drawing::Point(12, 114);
+			this->specularStrengthLabel->Name = L"specularStrengthLabel";
+			this->specularStrengthLabel->Size = System::Drawing::Size(89, 13);
+			this->specularStrengthLabel->TabIndex = 9;
+			this->specularStrengthLabel->Text = L"Specular Strengh";
+			// 
+			// specularColorLabel
+			// 
+			this->specularColorLabel->AutoSize = true;
+			this->specularColorLabel->Location = System::Drawing::Point(12, 178);
+			this->specularColorLabel->Name = L"specularColorLabel";
+			this->specularColorLabel->Size = System::Drawing::Size(76, 13);
+			this->specularColorLabel->TabIndex = 10;
+			this->specularColorLabel->Text = L"Specular Color";
+			// 
+			// rLabel
+			// 
+			this->rLabel->AutoSize = true;
+			this->rLabel->Location = System::Drawing::Point(113, 178);
+			this->rLabel->Name = L"rLabel";
+			this->rLabel->Size = System::Drawing::Size(15, 13);
+			this->rLabel->TabIndex = 11;
+			this->rLabel->Text = L"R";
+			// 
+			// gLabel
+			// 
+			this->gLabel->AutoSize = true;
+			this->gLabel->Location = System::Drawing::Point(113, 248);
+			this->gLabel->Name = L"gLabel";
+			this->gLabel->Size = System::Drawing::Size(15, 13);
+			this->gLabel->TabIndex = 12;
+			this->gLabel->Text = L"G";
+			// 
+			// bLabel
+			// 
+			this->bLabel->AutoSize = true;
+			this->bLabel->Location = System::Drawing::Point(113, 317);
+			this->bLabel->Name = L"bLabel";
+			this->bLabel->Size = System::Drawing::Size(14, 13);
+			this->bLabel->TabIndex = 13;
+			this->bLabel->Text = L"B";
+			// 
+			// specStrengthLabelVal
+			// 
+			this->specStrengthLabelVal->AutoSize = true;
+			this->specStrengthLabelVal->Location = System::Drawing::Point(655, 114);
+			this->specStrengthLabelVal->Name = L"specStrengthLabelVal";
+			this->specStrengthLabelVal->Size = System::Drawing::Size(13, 13);
+			this->specStrengthLabelVal->TabIndex = 14;
+			this->specStrengthLabelVal->Text = L"4";
+			// 
+			// rLabelVal
+			// 
+			this->rLabelVal->AutoSize = true;
+			this->rLabelVal->Location = System::Drawing::Point(646, 178);
+			this->rLabelVal->Name = L"rLabelVal";
+			this->rLabelVal->Size = System::Drawing::Size(22, 13);
+			this->rLabelVal->TabIndex = 15;
+			this->rLabelVal->Text = L"1.0";
+			// 
+			// gLabelVal
+			// 
+			this->gLabelVal->AutoSize = true;
+			this->gLabelVal->Location = System::Drawing::Point(646, 248);
+			this->gLabelVal->Name = L"gLabelVal";
+			this->gLabelVal->Size = System::Drawing::Size(22, 13);
+			this->gLabelVal->TabIndex = 16;
+			this->gLabelVal->Text = L"1.0";
+			// 
+			// bLabelVal
+			// 
+			this->bLabelVal->AutoSize = true;
+			this->bLabelVal->Location = System::Drawing::Point(646, 317);
+			this->bLabelVal->Name = L"bLabelVal";
+			this->bLabelVal->Size = System::Drawing::Size(22, 13);
+			this->bLabelVal->TabIndex = 17;
+			this->bLabelVal->Text = L"1.0";
 			// 
 			// ToolWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 261);
-			this->Controls->Add(this->checkBoxBlueChannel);
-			this->Controls->Add(this->checkBoxGreenChannel);
-			this->Controls->Add(this->checkBoxRedChannel);
+			this->ClientSize = System::Drawing::Size(733, 543);
+			this->Controls->Add(this->bLabelVal);
+			this->Controls->Add(this->gLabelVal);
+			this->Controls->Add(this->rLabelVal);
+			this->Controls->Add(this->specStrengthLabelVal);
+			this->Controls->Add(this->bLabel);
+			this->Controls->Add(this->gLabel);
+			this->Controls->Add(this->rLabel);
+			this->Controls->Add(this->specularColorLabel);
+			this->Controls->Add(this->specularStrengthLabel);
+			this->Controls->Add(this->componentB);
+			this->Controls->Add(this->componentG);
+			this->Controls->Add(this->componentR);
+			this->Controls->Add(this->specularStrength);
+			this->Controls->Add(this->resetTeapotPosition);
+			this->Controls->Add(this->resetLightPosition);
+			this->Controls->Add(this->moveCubesToSphere);
+			this->Controls->Add(this->colorByPosition);
+			this->Controls->Add(this->moveLight);
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Name = L"ToolWindow";
 			this->Text = L"ToolWindow";
 			this->TopMost = true;
 			this->Load += gcnew System::EventHandler(this, &ToolWindow::ToolWindow_Load);
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->specularStrength))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->componentR))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->componentG))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->componentB))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -131,7 +326,7 @@ namespace OpenGL {
 	private: System::Void ToolWindow_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
 	
-	private: System::Void checkBoxRedChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+	/*private: System::Void checkBoxRedChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
 	{
 		RenderRedChannel = checkBoxRedChannel->Checked;
 	}
@@ -142,6 +337,7 @@ namespace OpenGL {
     private: System::Void checkBoxBlueChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
 	{
 		RenderBlueChannel = checkBoxBlueChannel->Checked;
-	}
+	}*/
+
 };
 }
