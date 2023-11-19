@@ -52,10 +52,10 @@ namespace OpenGL {
 		{
 			InitializeComponent();
 
-			/*RenderRedChannel = checkBoxRedChannel->Checked;
-			RenderGreenChannel = checkBoxGreenChannel->Checked;
-			RenderBlueChannel = checkBoxBlueChannel->Checked;*/
-
+			trackbarR = 100.0f;
+			trackbarG = 100.0f;
+			trackbarB = 100.0f;
+			trackbarSpecStrength = 4.0f;
 		}
 
 	protected:
@@ -180,7 +180,8 @@ namespace OpenGL {
 			this->specularStrength->Name = L"specularStrength";
 			this->specularStrength->Size = System::Drawing::Size(469, 45);
 			this->specularStrength->TabIndex = 5;
-			this->specularStrength->Value = 1;
+			this->specularStrength->Value = 4;
+			this->specularStrength->Scroll += gcnew System::EventHandler(this, &ToolWindow::specularStrength_Scroll);
 			// 
 			// componentR
 			// 
@@ -189,6 +190,7 @@ namespace OpenGL {
 			this->componentR->Name = L"componentR";
 			this->componentR->Size = System::Drawing::Size(469, 45);
 			this->componentR->TabIndex = 6;
+			this->componentR->Value = 100;
 			this->componentR->Scroll += gcnew System::EventHandler(this, &ToolWindow::componentR_Scroll);
 			// 
 			// componentG
@@ -198,6 +200,7 @@ namespace OpenGL {
 			this->componentG->Name = L"componentG";
 			this->componentG->Size = System::Drawing::Size(469, 45);
 			this->componentG->TabIndex = 7;
+			this->componentG->Value = 100;
 			this->componentG->Scroll += gcnew System::EventHandler(this, &ToolWindow::componentG_Scroll);
 			// 
 			// componentB
@@ -207,6 +210,7 @@ namespace OpenGL {
 			this->componentB->Name = L"componentB";
 			this->componentB->Size = System::Drawing::Size(458, 45);
 			this->componentB->TabIndex = 8;
+			this->componentB->Value = 100;
 			this->componentB->Scroll += gcnew System::EventHandler(this, &ToolWindow::componentB_Scroll);
 			// 
 			// specularStrengthLabel
@@ -343,14 +347,24 @@ namespace OpenGL {
 		RenderBlueChannel = checkBoxBlueChannel->Checked;
 	}*/
 
-private: System::Void componentR_Scroll(System::Object^ sender, System::EventArgs^ e) {
-
-}
-private: System::Void componentG_Scroll(System::Object^ sender, System::EventArgs^ e) {
-
-}
-private: System::Void componentB_Scroll(System::Object^ sender, System::EventArgs^ e) {
-
-}
+    private: System::Void componentR_Scroll(System::Object^ sender, System::EventArgs^ e) {
+		trackbarR = componentR->Value;
+		rLabelVal->Text = (componentR->Value / 100.0f).ToString();
+    }
+    
+    private: System::Void componentG_Scroll(System::Object^ sender, System::EventArgs^ e) {
+		trackbarG = componentG->Value;
+		gLabelVal->Text = (componentG->Value / 100.0f).ToString();
+    }
+    
+    private: System::Void componentB_Scroll(System::Object^ sender, System::EventArgs^ e) {
+		trackbarB = componentB->Value;
+		bLabelVal->Text = (componentB->Value / 100.0f).ToString();
+	}
+    
+    private: System::Void specularStrength_Scroll(System::Object^ sender, System::EventArgs^ e) {
+		trackbarSpecStrength = specularStrength->Value;
+		specStrengthLabelVal->Text = (specularStrength->Value).ToString();
+    }
 };
 }
