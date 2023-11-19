@@ -16,8 +16,11 @@ namespace OpenGL {
 	{
 	public:
 
-		static bool RenderRedChannel;
-		static bool RenderGreenChannel;
+	static float trackbarR;
+	static float trackbarG;
+	static float trackbarB;
+	static float trackbarSpecStrength;
+
 	private: System::Windows::Forms::RadioButton^ moveLight;
 	private: System::Windows::Forms::RadioButton^ colorByPosition;
 	private: System::Windows::Forms::RadioButton^ moveCubesToSphere;
@@ -42,15 +45,7 @@ namespace OpenGL {
 	public:
 
 
-
-
-
-
-
-
-
 	public:
-		static bool RenderBlueChannel;
 
 
 		ToolWindow(void)
@@ -180,30 +175,39 @@ namespace OpenGL {
 			// specularStrength
 			// 
 			this->specularStrength->Location = System::Drawing::Point(134, 114);
+			this->specularStrength->Maximum = 128;
+			this->specularStrength->Minimum = 1;
 			this->specularStrength->Name = L"specularStrength";
 			this->specularStrength->Size = System::Drawing::Size(469, 45);
 			this->specularStrength->TabIndex = 5;
+			this->specularStrength->Value = 1;
 			// 
 			// componentR
 			// 
 			this->componentR->Location = System::Drawing::Point(134, 178);
+			this->componentR->Maximum = 300;
 			this->componentR->Name = L"componentR";
 			this->componentR->Size = System::Drawing::Size(469, 45);
 			this->componentR->TabIndex = 6;
+			this->componentR->Scroll += gcnew System::EventHandler(this, &ToolWindow::componentR_Scroll);
 			// 
 			// componentG
 			// 
 			this->componentG->Location = System::Drawing::Point(134, 248);
+			this->componentG->Maximum = 300;
 			this->componentG->Name = L"componentG";
 			this->componentG->Size = System::Drawing::Size(469, 45);
 			this->componentG->TabIndex = 7;
+			this->componentG->Scroll += gcnew System::EventHandler(this, &ToolWindow::componentG_Scroll);
 			// 
 			// componentB
 			// 
 			this->componentB->Location = System::Drawing::Point(134, 317);
+			this->componentB->Maximum = 300;
 			this->componentB->Name = L"componentB";
 			this->componentB->Size = System::Drawing::Size(458, 45);
 			this->componentB->TabIndex = 8;
+			this->componentB->Scroll += gcnew System::EventHandler(this, &ToolWindow::componentB_Scroll);
 			// 
 			// specularStrengthLabel
 			// 
@@ -339,5 +343,14 @@ namespace OpenGL {
 		RenderBlueChannel = checkBoxBlueChannel->Checked;
 	}*/
 
+private: System::Void componentR_Scroll(System::Object^ sender, System::EventArgs^ e) {
+
+}
+private: System::Void componentG_Scroll(System::Object^ sender, System::EventArgs^ e) {
+
+}
+private: System::Void componentB_Scroll(System::Object^ sender, System::EventArgs^ e) {
+
+}
 };
 }
