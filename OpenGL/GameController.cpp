@@ -22,13 +22,6 @@ void GameController::Initialize()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	// glEnable(GL_CULL_FACE);
-	// glCullFace(GL_BACK);
-	// glFrontFace(GL_CW);
-
-	// glEnable(GL_CULL_FACE);
-	// glCullFace(GL_FRONT);
 	srand((unsigned int)time(0));
 
 	//Create a default perspective camera
@@ -62,20 +55,11 @@ void GameController::RunGame()
 	Mesh::Lights.push_back(m);
 
 	Mesh box = Mesh();
-	box.Create(&m_shaderDiffuse, "../Assets/Models/Teapot1.obj");
+	box.Create(&m_shaderDiffuse, "../Assets/Models/teapotSpc.obj");
 	box.SetCameraPosition(m_camera.GetPosition());
-	box.SetScale({ 0.1f, 0.1f, 0.1f });
+	box.SetScale({ 0.08f, 0.08f, 0.08f });
 	box.SetPosition({ 0.0f, 0.0f, 0.0f });
 	m_meshes.push_back(box);
-
-	/*SkyBox skyBox = SkyBox();
-	skyBox.Create(&m_shaderSkyBox, "../Assets/Models/SkyBox.obj",
-		         { "../Assets/Textures/SkyBox/right.jpg",
-				   "../Assets/Textures/SkyBox/left.jpg",
-				   "../Assets/Textures/SkyBox/top.jpg",
-				   "../Assets/Textures/SkyBox/bottom.jpg",
-				   "../Assets/Textures/SkyBox/front.jpg",
-				   "../Assets/Textures/SkyBox/back.jpg" });*/
 
 #pragma endregion CreateMeshes
 
@@ -83,13 +67,19 @@ void GameController::RunGame()
 	f.Create(&m_shaderFont, "arial.ttf", 100);
 	do
 	{
-		System::Windows::Forms::Application::DoEvents(); // Handle C++/CLI form events
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
-		
-		//m_camera.Rotate();
-		//glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView())); // guarantees the camera will be at the center
-		//skyBox.Render(m_camera.GetProjection() * view);
+		System::Windows::Forms::Application::DoEvents(); 
 
+		GLfloat loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "rComponent");
+		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarR);
+		loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "gComponent");
+		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarG);
+		loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "bComponent");
+		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarB);
+		loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "specStrengthColor");
+		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarSpecStrength);
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
+	
 		for (unsigned int count = 0; count < m_meshes.size(); count++)
 		{
 			m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
@@ -118,7 +108,6 @@ void GameController::RunGame()
 	{
 		m_meshes[count].Cleanup();
 	}
-	//skyBox.Cleanup();
 	m_shaderDiffuse.Cleanup();
 	m_shaderSkyBox.Cleanup();
 	m_shaderColor.Cleanup();

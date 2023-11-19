@@ -31,6 +31,11 @@ struct Light
     float falloff; */
 };
 
+uniform float rComponent;
+uniform float gComponent;
+uniform float bComponent;
+uniform float specStrengthColor;
+
 uniform Material material;
 #define NR_LIGHTS 1
 uniform Light light[NR_LIGHTS];
@@ -52,11 +57,16 @@ void main()
       vec3 lightDir = normalize(light[i].position - retFragPos); // Normalize, for correct dot products results
       float lambertianStrength = dot(lightDir, retNormal); //Add lambertion lighting
       vec3 refl = reflect(-lightDir, retNormal);
-      float specularStrength = pow(max(dot(retViewDirection, refl), 0.0f), material.specularStrength); 
+      //float specularStrength = pow(max(dot(retViewDirection, refl), 0.0f), material.specularStrength); 
         
       vec3 ambient = texture(material.diffuseTexture, retTexCoord).rgb * light[i].ambientColor / NR_LIGHTS;
       vec3 lambertian = lambertianStrength * texture(material.diffuseTexture, retTexCoord).rgb * light[i].diffuseColor;
-      vec3 specular = specularStrength * texture(material.specularTexture, retTexCoord).rgb * light[i].specularColor;
+     
+      vec3 specularColor = vec3(rComponent, gComponent, bComponent);
+      float specularStrength = pow(max(dot(retViewDirection, refl), 0.0f), specStrengthColor); 
+
+
+      vec3 specular = specularStrength * specularColor * texture(material.specularTexture, retTexCoord).rgb * light[i].specularColor;
 
       finalColor += ambient + lambertian + specular; //Calculate final color 
    }
