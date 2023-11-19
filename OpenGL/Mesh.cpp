@@ -132,8 +132,20 @@ void Mesh::BindAttributes()
 void Mesh::CalculateTransform()
 {
 	m_world = glm::translate(glm::mat4(1.0f), m_position);
+	m_world = glm::rotate(m_world, m_rotation.x, glm::vec3(1, 0, 0));
+	m_world = glm::scale(m_world, m_scale);  
+
+	/* glm::translate(glm::mat4(1.0f), m_position);
 	m_world = glm::rotate(m_world, m_rotation.y, glm::vec3(0, 1, 0));
-	m_world = glm::scale(m_world, m_scale);
+	m_world = glm::scale(m_world, m_scale);*/
+
+
+	/*glm::mat4 translateToOrigin = glm::translate(glm::mat4(1.0f), -m_position);
+	glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), m_rotation.x, glm::vec3(1, 0, 0));
+	glm::mat4 translateBack = glm::translate(glm::mat4(1.0f), m_position);
+
+	m_world = translateBack * rotation * translateToOrigin;
+	m_world = glm::scale(m_world, m_scale);*/
 }
 
 void Mesh::SetShaderVariables(glm::mat4 _pv)
@@ -169,7 +181,7 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 void Mesh::Render(glm::mat4 _pv)
 {
 	glUseProgram(m_shader->GetProgramID()); // Use our shader
-	m_rotation.y += 0.001f;
+	m_rotation.x += 0.001f;
 
 	CalculateTransform();
 	SetShaderVariables(_pv);

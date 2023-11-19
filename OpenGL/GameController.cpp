@@ -55,27 +55,27 @@ void GameController::RunGame()
 #pragma region CreateMeshes
     //Create meshes
 	Mesh m = Mesh();
-	m.Create(&m_shaderColor, "../Assets/Models/teapot.obj");
-	m.SetPosition({ 1.0f, 0.0f, 0.0f });
+	m.Create(&m_shaderColor, "../Assets/Models/Sphere.obj");
+	m.SetPosition({ 0.0f, 0.0f, 0.1f });
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
 	m.SetScale({ 0.01f, 0.01f, 0.01f });
 	Mesh::Lights.push_back(m);
 
 	Mesh box = Mesh();
-	box.Create(&m_shaderDiffuse, "../Assets/Models/Cube.obj");
+	box.Create(&m_shaderDiffuse, "../Assets/Models/Teapot1.obj");
 	box.SetCameraPosition(m_camera.GetPosition());
-	box.SetScale({ 0.5f, 0.5f, 0.5f });
-	box.SetPosition({ 1.0f, 0.0f, 5.0f });
+	box.SetScale({ 0.1f, 0.1f, 0.1f });
+	box.SetPosition({ 0.0f, 0.0f, 0.0f });
 	m_meshes.push_back(box);
 
-	SkyBox skyBox = SkyBox();
+	/*SkyBox skyBox = SkyBox();
 	skyBox.Create(&m_shaderSkyBox, "../Assets/Models/SkyBox.obj",
 		         { "../Assets/Textures/SkyBox/right.jpg",
 				   "../Assets/Textures/SkyBox/left.jpg",
 				   "../Assets/Textures/SkyBox/top.jpg",
 				   "../Assets/Textures/SkyBox/bottom.jpg",
 				   "../Assets/Textures/SkyBox/front.jpg",
-				   "../Assets/Textures/SkyBox/back.jpg" });
+				   "../Assets/Textures/SkyBox/back.jpg" });*/
 
 #pragma endregion CreateMeshes
 
@@ -86,9 +86,9 @@ void GameController::RunGame()
 		System::Windows::Forms::Application::DoEvents(); // Handle C++/CLI form events
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		
-		m_camera.Rotate();
-		glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView())); // guarantees the camera will be at the center
-		skyBox.Render(m_camera.GetProjection() * view);
+		//m_camera.Rotate();
+		//glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView())); // guarantees the camera will be at the center
+		//skyBox.Render(m_camera.GetProjection() * view);
 
 		for (unsigned int count = 0; count < m_meshes.size(); count++)
 		{
@@ -118,7 +118,7 @@ void GameController::RunGame()
 	{
 		m_meshes[count].Cleanup();
 	}
-	skyBox.Cleanup();
+	//skyBox.Cleanup();
 	m_shaderDiffuse.Cleanup();
 	m_shaderSkyBox.Cleanup();
 	m_shaderColor.Cleanup();
