@@ -16,7 +16,7 @@ GameController::GameController()
 double xpos = 0.0f;
 double ypos = 0.0f;
 glm::vec3 targetPos;
-
+float speedFactor;
 static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
@@ -27,11 +27,11 @@ static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 
 		
 		float x = (xpos / width) * 2.0f - 1.0f;
-		float y = (ypos / height) * 2.0f - 1.0f;
+		float y = 1.0 - (ypos / height) * 2.0f;
 		targetPos = glm::vec3(x, y, 0.0f);
+
 	}
 }
-
 
 void GameController::Initialize()
 {
@@ -90,6 +90,7 @@ void GameController::RunGame()
 	Fonts f = Fonts();
 	std::string mousePosition = "";
 	f.Create(&m_shaderFont, "arial.ttf", 100);
+	glm::vec3 spherePos = GetSpherePos();
 	do
 	{
 		
@@ -115,17 +116,14 @@ void GameController::RunGame()
 
 		for (int count = 0; count < Mesh::Lights.size(); count++)
 		{
-			/*glm::vec3 direction = glm::normalize(targetPos - m_spherePos);
-			m_spherePos += direction * 1.0f;
-			Mesh::Lights[count].SetPosition(m_spherePos);*/
-
-			/*if (glm::length(targetPos - m_spherePos) > 0.01f) {
-				// If not, update the sphere's position'
-				glm::vec3 direction = glm::normalize(targetPos - m_spherePos);
-				m_spherePos += direction * 1.0f;
-				Mesh::Lights[count].SetPosition(m_spherePos);
-			}*/
-			Mesh::Lights[count].SetPosition(targetPos);
+			
+			if (glm::length(targetPos - spherePos) > 0.01f)
+			{
+				glm::vec3 direction = glm::normalize(targetPos - spherePos); // Calculate direction vector
+				speedFactor = glm::length(targetPos) / glm::length(glm::vec3((100.0f, 100.0f, 100.0f)));
+				spherePos += direction * speedFactor;
+				Mesh::Lights[count].SetPosition(spherePos);
+			}
 
 			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
 		}

@@ -20,6 +20,7 @@ namespace OpenGL {
 	static float trackbarG;
 	static float trackbarB;
 	static float trackbarSpecStrength;
+	static bool moveLightButton;
 
 	private: System::Windows::Forms::RadioButton^ moveLight;
 	private: System::Windows::Forms::RadioButton^ colorByPosition;
@@ -56,6 +57,7 @@ namespace OpenGL {
 			trackbarG = 100.0f;
 			trackbarB = 100.0f;
 			trackbarSpecStrength = 4.0f;
+			moveLightButton = moveLight->Checked;
 		}
 
 	protected:
@@ -348,23 +350,59 @@ namespace OpenGL {
 	}*/
 
     private: System::Void componentR_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		trackbarR = componentR->Value / 100.0f;
-		rLabelVal->Text = (trackbarR).ToString();
+		if (moveLight->Checked)
+		{
+			trackbarR = componentR->Value / 100.0f;
+			rLabelVal->Text = (trackbarR).ToString();
+		}
+		else
+		{
+			componentR->Value = 100.0f;
+			trackbarR = componentR->Value / 100.0f;
+			rLabelVal->Text = (trackbarR).ToString();
+		}
     }
     
     private: System::Void componentG_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		trackbarG = componentG->Value / 100.0f;
-		gLabelVal->Text = (trackbarG).ToString();
+		if (moveLight->Checked)
+		{
+			trackbarG = componentG->Value / 100.0f;
+			gLabelVal->Text = (trackbarG).ToString();
+		}
+		else
+		{
+			componentG->Value = 100.0f;
+			trackbarG = componentG->Value / 100.0f;
+			gLabelVal->Text = (trackbarG).ToString();
+		}
     }
     
     private: System::Void componentB_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		trackbarB = componentB->Value / 100.0f;
-		bLabelVal->Text = (trackbarB).ToString();
+		if (moveLight->Checked)
+		{
+			trackbarB = componentB->Value / 100.0f;
+			bLabelVal->Text = (trackbarB).ToString();
+		}
+		else
+		{
+			componentB->Value = 100.0f;
+			trackbarB = componentB->Value / 100.0f;
+			bLabelVal->Text = (trackbarB).ToString();
+		}
 	}
     
     private: System::Void specularStrength_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		trackbarSpecStrength = specularStrength->Value;
-		specStrengthLabelVal->Text = (trackbarSpecStrength).ToString();
+		if (moveLight->Checked)
+		{
+			trackbarSpecStrength = specularStrength->Value;
+			specStrengthLabelVal->Text = (trackbarSpecStrength).ToString();
+		}
+		else
+		{
+			trackbarSpecStrength = 4;
+			specStrengthLabelVal->Text = (trackbarSpecStrength).ToString();
+		}
+		
     }
 };
 }
