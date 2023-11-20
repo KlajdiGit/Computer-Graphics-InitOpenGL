@@ -18,6 +18,7 @@ public:
 	//Methods
 	void Initialize();
 	void RunGame();
+	glm::vec3 GetSpherePos() { return m_spherePos; }
 
 private:
 	Shader m_shaderColor;
@@ -27,6 +28,7 @@ private:
 	Camera m_camera;
 	vector<Mesh> m_meshes;
 	SkyBox m_skyBox;
+	glm::vec3 m_spherePos;
 };
 
 #endif // GAME_CONTROLLER_H

@@ -10,7 +10,28 @@ GameController::GameController()
 	m_camera = { };
 	m_skyBox = { };
 	m_meshes.clear();
+	m_spherePos = { 0.0f, 0.0f, 0.1f };
 }
+
+double xpos = 0.0f;
+double ypos = 0.0f;
+glm::vec3 targetPos;
+
+static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		glfwGetCursorPos(window, &xpos, &ypos);
+
+		int width, height;
+		glfwGetWindowSize(window, &width, &height);
+
+		
+		float x = (xpos / width) * 2.0f - 1.0f;
+		float y = (ypos / height) * 2.0f - 1.0f;
+		targetPos = glm::vec3(x, y, 0.0f);
+	}
+}
+
 
 void GameController::Initialize()
 {
@@ -26,11 +47,13 @@ void GameController::Initialize()
 
 	//Create a default perspective camera
 	m_camera = Camera(WindowController::GetInstance().GetResolution());
+	glfwSetMouseButtonCallback(WindowController::GetInstance().GetWindow(), mouse_callback);
+
 }
+
 
 void GameController::RunGame()
 {
-
 	OpenGL::ToolWindow^ window = gcnew OpenGL::ToolWindow();
 	window->Show();
 #pragma region SetupShaders
@@ -49,7 +72,7 @@ void GameController::RunGame()
 	//Create meshes
 	Mesh m = Mesh();
 	m.Create(&m_shaderColor, "../Assets/Models/Sphere.obj");
-	m.SetPosition({ 0.0f, 0.0f, 0.1f });
+	m.SetPosition(m_spherePos);
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
 	m.SetScale({ 0.01f, 0.01f, 0.01f });
 	Mesh::Lights.push_back(m);
@@ -65,13 +88,12 @@ void GameController::RunGame()
 #pragma endregion CreateMeshes
 
 	Fonts f = Fonts();
+	std::string mousePosition = "";
 	f.Create(&m_shaderFont, "arial.ttf", 100);
 	do
 	{
-
-		System::Windows::Forms::Application::DoEvents(); 
-
 		
+		System::Windows::Forms::Application::DoEvents(); 
 
 
 		GLfloat loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "rComponent");
@@ -84,12 +106,6 @@ void GameController::RunGame()
 		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarSpecStrength);
 		
 
-
-		/*std::cout << "rComponent: " << (float)OpenGL::ToolWindow::trackbarR << std::endl;
-		std::cout << "gComponent: " << (float)OpenGL::ToolWindow::trackbarG << std::endl;
-		std::cout << "bComponent: " << (float)OpenGL::ToolWindow::trackbarB << std::endl;
-		std::cout << "specStrengthColor: " << (float)OpenGL::ToolWindow::trackbarSpecStrength << std::endl;*/
-
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 	
 		for (unsigned int count = 0; count < m_meshes.size(); count++)
@@ -99,10 +115,20 @@ void GameController::RunGame()
 
 		for (int count = 0; count < Mesh::Lights.size(); count++)
 		{
+			/*glm::vec3 direction = glm::normalize(targetPos - m_spherePos);
+			m_spherePos += direction * 1.0f;
+			Mesh::Lights[count].SetPosition(m_spherePos);*/
+
+			if (glm::length(targetPos - m_spherePos) > 0.01f) {
+				// If not, update the sphere's position'
+				glm::vec3 direction = glm::normalize(targetPos - m_spherePos);
+				m_spherePos += direction * 1.0f;
+				Mesh::Lights[count].SetPosition(m_spherePos);
+			}
 			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
 		}
-
-		f.RenderText("Testing text", 10, 500, 0.5f, { 1.0f, 1.0f, 0.0f });
+		mousePosition = "Mouse Pos: " + to_string((int)xpos) + "   " + to_string((int)ypos);
+		f.RenderText(mousePosition, 10, 50, 0.2f, {1.0f, 1.0f, 0.0f});
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
 		glfwPollEvents();
 
