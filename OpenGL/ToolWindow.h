@@ -20,7 +20,7 @@ namespace OpenGL {
 	static float trackbarG;
 	static float trackbarB;
 	static float trackbarSpecStrength;
-	static bool moveLightButton;
+	static bool resetLightButton;
 
 	private: System::Windows::Forms::RadioButton^ moveLight;
 	private: System::Windows::Forms::RadioButton^ colorByPosition;
@@ -57,7 +57,7 @@ namespace OpenGL {
 			trackbarG = 100.0f;
 			trackbarB = 100.0f;
 			trackbarSpecStrength = 4.0f;
-			moveLightButton = moveLight->Checked;
+			resetLightButton = false;
 		}
 
 	protected:
@@ -164,6 +164,7 @@ namespace OpenGL {
 			this->resetLightPosition->TabIndex = 3;
 			this->resetLightPosition->Text = L"Reset Light Position";
 			this->resetLightPosition->UseVisualStyleBackColor = true;
+			this->resetLightPosition->Click += gcnew System::EventHandler(this, &ToolWindow::resetLightPosition_Click);
 			// 
 			// resetTeapotPosition
 			// 
@@ -404,5 +405,8 @@ namespace OpenGL {
 		}
 		
     }
+private: System::Void resetLightPosition_Click(System::Object^ sender, System::EventArgs^ e) {
+	resetLightButton = true;
+}
 };
 }
