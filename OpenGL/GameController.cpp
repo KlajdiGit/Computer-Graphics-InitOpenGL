@@ -119,7 +119,7 @@ void GameController::RunGame()
 			
 			if (glm::length(targetPos - spherePos) > 0.01f)
 			{
-				glm::vec3 direction = glm::normalize(targetPos - spherePos); // Calculate direction vector
+				glm::vec3 direction = glm::normalize(targetPos - spherePos); 
 				speedFactor = glm::length(targetPos) / glm::length(glm::vec3((100.0f, 100.0f, 100.0f)));
 				spherePos += direction * speedFactor;
 				Mesh::Lights[count].SetPosition(spherePos);
