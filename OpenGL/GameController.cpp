@@ -119,12 +119,14 @@ void GameController::RunGame()
 			m_spherePos += direction * 1.0f;
 			Mesh::Lights[count].SetPosition(m_spherePos);*/
 
-			if (glm::length(targetPos - m_spherePos) > 0.01f) {
+			/*if (glm::length(targetPos - m_spherePos) > 0.01f) {
 				// If not, update the sphere's position'
 				glm::vec3 direction = glm::normalize(targetPos - m_spherePos);
 				m_spherePos += direction * 1.0f;
 				Mesh::Lights[count].SetPosition(m_spherePos);
-			}
+			}*/
+			Mesh::Lights[count].SetPosition(targetPos);
+
 			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
 		}
 		mousePosition = "Mouse Pos: " + to_string((int)xpos) + "   " + to_string((int)ypos);
