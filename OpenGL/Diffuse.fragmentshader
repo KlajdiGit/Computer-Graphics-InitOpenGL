@@ -31,10 +31,7 @@ struct Light
     float falloff; */
 };
 
-uniform float rComponent;
-uniform float gComponent;
-uniform float bComponent;
-uniform float specStrengthColor;
+
 
 uniform Material material;
 #define NR_LIGHTS 1

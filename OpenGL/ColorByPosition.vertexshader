@@ -5,16 +5,18 @@ in vec3 normals;
 in vec2 texCoords;
 
 uniform mat4 WVP;
-uniform mat4 World;
+
+uniform mat4 World; 
 
 out vec3 retNormal;
 out vec2 retTexCoord;
 
-
+out vec3 worldPos;
 
 void main()
 {
    gl_Position = WVP * vec4(vertices, 1.0);
    retNormal = normalize(normals);
    retTexCoord = texCoords;
+   worldPos = (World * vec4(vertices, 1.0)).xyz; 
 }

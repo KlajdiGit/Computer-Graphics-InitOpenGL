@@ -19,6 +19,7 @@ public:
 	void Initialize();
 	void RunGame();
 	glm::vec3 GetSpherePos() { return m_spherePos; }
+	glm::vec3 GetTeapotPos() { return m_teapotPos; }
 
 private:
 	Shader m_shaderColor;
@@ -29,6 +30,8 @@ private:
 	vector<Mesh> m_meshes;
 	SkyBox m_skyBox;
 	glm::vec3 m_spherePos;
+	glm::vec3 m_teapotPos;
+	Shader m_colorByPosition;
 };
 
 #endif // GAME_CONTROLLER_H

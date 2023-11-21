@@ -11,6 +11,8 @@ GameController::GameController()
 	m_skyBox = { };
 	m_meshes.clear();
 	m_spherePos = { 0.0f, 0.0f, 0.1f };
+	m_teapotPos = { 0.0f, 0.0f, 0.0f };
+	m_colorByPosition = { };
 }
 
 double xpos = 0.0f;
@@ -21,22 +23,15 @@ static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
+	
 	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
 		glfwGetCursorPos(window, &xpos, &ypos);
 
-		
-
-		
 		float x = (xpos / width) * 2.0f - 1.0f;
 		float y = 1.0 - (ypos / height) * 2.0f;
 		targetPos = glm::vec3(x, y, 0.0f);
 
 	}
-	/*if (OpenGL::ToolWindow::moveLightButton)
-	{
-		targetPos = glm::vec3(0.0f, 0.0f, 0.1f);
-		OpenGL::ToolWindow::moveLightButton = false;
-	}*/
 }
 
 void GameController::Initialize()
@@ -62,6 +57,7 @@ void GameController::RunGame()
 {
 	OpenGL::ToolWindow^ window = gcnew OpenGL::ToolWindow();
 	window->Show();
+
 #pragma region SetupShaders
 	// Create and compile our GLSL program from the shaders
 	m_shaderColor = Shader(); // value object. It's cretaed on stack. No need for 'new'
@@ -72,6 +68,10 @@ void GameController::RunGame()
 	m_shaderSkyBox.LoadShaders("SkyBox.vertexshader", "SkyBox.fragmentshader");
 	m_shaderFont = Shader();
 	m_shaderFont.LoadShaders("Font.vertexshader", "Font.fragmentshader");
+	
+	m_colorByPosition = Shader();
+	m_colorByPosition.LoadShaders("ColorByPosition.vertexShader", "ColorByPosition.fragmentShader");
+
 #pragma endregion SetupShaders
 
 #pragma region CreateMeshes
@@ -83,13 +83,14 @@ void GameController::RunGame()
 	m.SetScale({ 0.01f, 0.01f, 0.01f });
 	Mesh::Lights.push_back(m);
 
-	Mesh box = Mesh();
-	box.Create(&m_shaderDiffuse, "../Assets/Models/teapotSpc.obj");
-	box.SetCameraPosition(m_camera.GetPosition());
-	box.SetScale({ 0.08f, 0.08f, 0.08f });
-	box.SetPosition({ 0.0f, 0.0f, 0.0f });
+	Mesh teapotMesh = Mesh();
+	teapotMesh.Create(&m_shaderDiffuse, "../Assets/Models/teapotSpc.obj");
+	teapotMesh.SetCameraPosition(m_camera.GetPosition());
+	teapotMesh.SetScale({ 0.08f, 0.08f, 0.08f });
+	teapotMesh.SetPosition({ 0.0f, 0.0f, 0.0f });
 
-	m_meshes.push_back(box);
+	//m_meshes.push_back(teapotMesh);
+
 
 #pragma endregion CreateMeshes
 
@@ -97,55 +98,72 @@ void GameController::RunGame()
 	std::string mousePosition = "";
 	f.Create(&m_shaderFont, "arial.ttf", 100);
 	glm::vec3 spherePos = GetSpherePos();
+	glm::vec3 teapotPos = GetTeapotPos();
 	do
 	{
-		
-		System::Windows::Forms::Application::DoEvents(); 
-
-
-		GLfloat loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "rComponent");
-		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarR);
-		loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "gComponent");
-		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarG);
-		loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "bComponent");
-		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarB);
-		loc = glGetUniformLocation(m_shaderDiffuse.GetProgramID(), "specStrengthColor");
-		glUniform1f(loc, (float)OpenGL::ToolWindow::trackbarSpecStrength);
-		
+		System::Windows::Forms::Application::DoEvents();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
-	
-		for (unsigned int count = 0; count < m_meshes.size(); count++)
-		{
-			m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
-		}
 
-		for (int count = 0; count < Mesh::Lights.size(); count++)
+		if (OpenGL::ToolWindow::moveLightChannel)
 		{
-			if (!OpenGL::ToolWindow::resetLightButton)
+			teapotMesh.SetShader(&m_shaderDiffuse);
+			teapotMesh.Render(m_camera.GetProjection() * m_camera.GetView());
+
+			for (int count = 0; count < Mesh::Lights.size(); count++)
 			{
-				if (glm::length(targetPos - spherePos) > 0.01f)
+				if (!OpenGL::ToolWindow::resetLightButton)
 				{
-					glm::vec3 direction = glm::normalize(targetPos - spherePos);
+					if (glm::length(targetPos - spherePos) > 0.01f)
+					{
+						glm::vec3 direction = glm::normalize(targetPos - spherePos);
+						speedFactor = glm::length(targetPos) / glm::length(glm::vec3((100.0f, 100.0f, 100.0f)));
+
+						spherePos += direction * speedFactor;
+						Mesh::Lights[count].SetPosition(spherePos);
+					}
+			    }
+			    else
+			    {
+					Mesh::Lights[count].SetPosition({ 0.0f, 0.0f, 0.1f });
+					targetPos = { 0.0f, 0.0f, 0.1f };
+					spherePos = { 0.0f, 0.0f, 0.1f };
+					OpenGL::ToolWindow::resetLightButton = false;
+			    }
+
+			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
+		    }
+		}
+		else if (OpenGL::ToolWindow::colorByPositionChannel)
+		{
+			teapotMesh.SetShader(&m_colorByPosition);
+
+			if (!OpenGL::ToolWindow::resetTeapotButton)
+			{
+
+				if (glm::length(targetPos - teapotPos) > 0.01f)
+				{
+					glm::vec3 direction = glm::normalize(targetPos - teapotPos);
 					speedFactor = glm::length(targetPos) / glm::length(glm::vec3((100.0f, 100.0f, 100.0f)));
-					spherePos += direction * speedFactor;
-					Mesh::Lights[count].SetPosition(spherePos);
+					teapotPos += direction * speedFactor;
+					teapotMesh.SetPosition(teapotPos);
 				}
 			}
 			else
 			{
-				Mesh::Lights[count].SetPosition({ 0.0f, 0.0f, 0.1f });
-				targetPos = { 0.0f, 0.0f, 0.1f };
-				spherePos = { 0.0f, 0.0f, 0.1f };
-				OpenGL::ToolWindow::resetLightButton = false;
+				teapotMesh.SetPosition({ 0.0f, 0.0f, 0.0f });
+				targetPos = { 0.0f, 0.0f, 0.0f };
+				teapotPos = { 0.0f, 0.0f, 0.0f };
+				OpenGL::ToolWindow::resetTeapotButton = false;
 			}
-
-			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
+			teapotMesh.Render(m_camera.GetProjection() * m_camera.GetView());
 		}
-		mousePosition = "Mouse Pos: " + to_string((int)xpos) + "   " + to_string((int)ypos);
-		f.RenderText(mousePosition, 10, 50, 0.2f, {1.0f, 1.0f, 0.0f});
-		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
-		glfwPollEvents();
+		
+	
+	mousePosition = "Mouse Pos: " + to_string((int)xpos) + "   " + to_string((int)ypos);
+	f.RenderText(mousePosition, 10, 50, 0.2f, { 1.0f, 1.0f, 0.0f });
+	glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
+	glfwPollEvents();
 
 	} while (glfwGetKey(WindowController::GetInstance().GetWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && // Check if the ESC key was pressed
 		glfwWindowShouldClose(WindowController::GetInstance().GetWindow()) == 0); // Check if the window was closed (a non-zero value means the window is closed)
@@ -157,10 +175,11 @@ void GameController::RunGame()
 		Mesh::Lights[count].Cleanup();
 	}
 
-	for (unsigned int count = 0; count < m_meshes.size(); count++)
+	/*for (unsigned int count = 0; count < m_meshes.size(); count++)
 	{
 		m_meshes[count].Cleanup();
-	}
+	}*/
+	teapotMesh.Cleanup();
 	m_shaderDiffuse.Cleanup();
 	m_shaderSkyBox.Cleanup();
 	m_shaderColor.Cleanup();

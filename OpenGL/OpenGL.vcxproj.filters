@@ -118,5 +118,11 @@
     <None Include="SkyBox.fragmentshader">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="ColorByPosition.vertexshader">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="ColorByPosition.fragmentshader">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

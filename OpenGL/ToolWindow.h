@@ -21,6 +21,9 @@ namespace OpenGL {
 	static float trackbarB;
 	static float trackbarSpecStrength;
 	static bool resetLightButton;
+	static bool moveLightChannel;
+	static bool colorByPositionChannel;
+	static bool resetTeapotButton;
 
 	private: System::Windows::Forms::RadioButton^ moveLight;
 	private: System::Windows::Forms::RadioButton^ colorByPosition;
@@ -58,6 +61,9 @@ namespace OpenGL {
 			trackbarB = 100.0f;
 			trackbarSpecStrength = 4.0f;
 			resetLightButton = false;
+			resetTeapotButton = false;
+			moveLightChannel = moveLight->Checked;
+			colorByPositionChannel = colorByPosition->Checked;
 		}
 
 	protected:
@@ -135,6 +141,7 @@ namespace OpenGL {
 			this->moveLight->TabStop = true;
 			this->moveLight->Text = L"Move Light";
 			this->moveLight->UseVisualStyleBackColor = true;
+			this->moveLight->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::moveLight_CheckedChanged);
 			// 
 			// colorByPosition
 			// 
@@ -145,6 +152,7 @@ namespace OpenGL {
 			this->colorByPosition->TabIndex = 1;
 			this->colorByPosition->Text = L"Color By Position";
 			this->colorByPosition->UseVisualStyleBackColor = true;
+			this->colorByPosition->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::colorByPosition_CheckedChanged);
 			// 
 			// moveCubesToSphere
 			// 
@@ -174,6 +182,7 @@ namespace OpenGL {
 			this->resetTeapotPosition->TabIndex = 4;
 			this->resetTeapotPosition->Text = L"Reset Teapot Position";
 			this->resetTeapotPosition->UseVisualStyleBackColor = true;
+			this->resetTeapotPosition->Click += gcnew System::EventHandler(this, &ToolWindow::resetTeapotPosition_Click);
 			// 
 			// specularStrength
 			// 
@@ -301,7 +310,7 @@ namespace OpenGL {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(733, 543);
+			this->ClientSize = System::Drawing::Size(771, 530);
 			this->Controls->Add(this->bLabelVal);
 			this->Controls->Add(this->gLabelVal);
 			this->Controls->Add(this->rLabelVal);
@@ -337,19 +346,6 @@ namespace OpenGL {
 	private: System::Void ToolWindow_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
 	
-	/*private: System::Void checkBoxRedChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
-	{
-		RenderRedChannel = checkBoxRedChannel->Checked;
-	}
-    private: System::Void checkBoxGreenChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
-    {
-		RenderGreenChannel = checkBoxGreenChannel->Checked;
-    }
-    private: System::Void checkBoxBlueChannel_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
-	{
-		RenderBlueChannel = checkBoxBlueChannel->Checked;
-	}*/
-
     private: System::Void componentR_Scroll(System::Object^ sender, System::EventArgs^ e) {
 		if (moveLight->Checked)
 		{
@@ -407,6 +403,15 @@ namespace OpenGL {
     }
 private: System::Void resetLightPosition_Click(System::Object^ sender, System::EventArgs^ e) {
 	resetLightButton = true;
+}
+private: System::Void moveLight_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	moveLightChannel = moveLight->Checked;
+}
+private: System::Void colorByPosition_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+	colorByPositionChannel = colorByPosition->Checked;
+}
+private: System::Void resetTeapotPosition_Click(System::Object^ sender, System::EventArgs^ e) {
+	resetTeapotButton = true;
 }
 };
 }

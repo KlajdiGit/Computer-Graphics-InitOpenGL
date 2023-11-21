@@ -32,7 +32,7 @@ public:
 	void Cleanup();
 	void CalculateTransform();
 	void Render(glm::mat4 _pv);
-
+	void SetShader(Shader* _shader);
 	//Members
 	static vector<Mesh> Lights;
 
