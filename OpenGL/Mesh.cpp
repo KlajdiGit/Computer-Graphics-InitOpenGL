@@ -54,17 +54,29 @@ void Mesh::Create(Shader* _shader, string _file)
 
 	//Remove directory if present
 	string diffuseNap = Loader.LoadedMaterials[0].map_Kd;
+	
 	const size_t last_slash_idx = diffuseNap.find_last_of("\\");
 	if (std::string::npos != last_slash_idx)
 	{
 		diffuseNap.erase(0, last_slash_idx + 1);
 	}
 
+	string SpecularNap = Loader.LoadedMaterials[0].map_Ks;
+
+	const size_t last_slash_idx2 = SpecularNap.find_last_of("\\");
+	if (std::string::npos != last_slash_idx2)
+	{
+		SpecularNap.erase(0, last_slash_idx2 + 1);
+	}
+
 	m_texture = Texture();
 	m_texture.LoadTexture("../Assets/Textures/" + diffuseNap);
 
-	m_texture2 = Texture();	
-	m_texture2.LoadTexture("../Assets/Textures/" + diffuseNap);
+	m_texture2 = Texture();
+	if(SpecularNap == "")
+		m_texture2.LoadTexture("../Assets/Textures/" + diffuseNap);
+	else
+	    m_texture2.LoadTexture("../Assets/Textures/" + SpecularNap);
 
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
@@ -169,9 +181,9 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 
 		m_shader->SetVec3(Concat("light[", i, "].ambientColor").c_str(), { 0.1f, 0.1f, 0.1f });
 		m_shader->SetVec3(Concat("light[", i, "].diffuseColor").c_str(), Lights[i].GetColor());
-        m_shader->SetVec3(Concat("light[", i, "].specularColor").c_str(), { (float)OpenGL::ToolWindow::trackbarR,
-																			(float)OpenGL::ToolWindow::trackbarG,
-																			(float)OpenGL::ToolWindow::trackbarB
+        m_shader->SetVec3(Concat("light[", i, "].specularColor").c_str(), { (float)OpenGL::ToolWindow::trackbarR / 3.0f,
+																			(float)OpenGL::ToolWindow::trackbarG / 3.0f,
+																			(float)OpenGL::ToolWindow::trackbarB / 3.0f
 																		   });
 
 		m_shader->SetVec3(Concat("light[", i, "].position").c_str(), Lights[i].GetPosition());

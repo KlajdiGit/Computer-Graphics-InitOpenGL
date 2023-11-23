@@ -27,11 +27,13 @@ private:
 	Shader m_shaderFont;
 	Shader m_shaderSkyBox;
 	Camera m_camera;
-	vector<Mesh> m_meshes;
+	vector<Mesh> m_boxes;
 	SkyBox m_skyBox;
 	glm::vec3 m_spherePos;
 	glm::vec3 m_teapotPos;
 	Shader m_colorByPosition;
+
+	Shader m_simpleShader;
 };
 
 #endif // GAME_CONTROLLER_H

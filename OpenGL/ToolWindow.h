@@ -24,6 +24,7 @@ namespace OpenGL {
 	static bool moveLightChannel;
 	static bool colorByPositionChannel;
 	static bool resetTeapotButton;
+	static bool moveCubesChannel;
 
 	private: System::Windows::Forms::RadioButton^ moveLight;
 	private: System::Windows::Forms::RadioButton^ colorByPosition;
@@ -64,6 +65,7 @@ namespace OpenGL {
 			resetTeapotButton = false;
 			moveLightChannel = moveLight->Checked;
 			colorByPositionChannel = colorByPosition->Checked;
+			moveCubesChannel = moveCubesToSphere->Checked;
 		}
 
 	protected:
@@ -163,6 +165,7 @@ namespace OpenGL {
 			this->moveCubesToSphere->TabIndex = 2;
 			this->moveCubesToSphere->Text = L"Move Cubes to Sphere";
 			this->moveCubesToSphere->UseVisualStyleBackColor = true;
+			this->moveCubesToSphere->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::moveCubesToSphere_CheckedChanged);
 			// 
 			// resetLightPosition
 			// 
@@ -347,71 +350,68 @@ namespace OpenGL {
 	}
 	
     private: System::Void componentR_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		if (moveLight->Checked)
-		{
+		
 			trackbarR = componentR->Value / 100.0f;
 			rLabelVal->Text = (trackbarR).ToString();
-		}
-		else
-		{
-			componentR->Value = 100.0f;
-			trackbarR = componentR->Value / 100.0f;
-			rLabelVal->Text = (trackbarR).ToString();
-		}
+		
     }
     
     private: System::Void componentG_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		if (moveLight->Checked)
-		{
+		
 			trackbarG = componentG->Value / 100.0f;
 			gLabelVal->Text = (trackbarG).ToString();
-		}
-		else
-		{
-			componentG->Value = 100.0f;
-			trackbarG = componentG->Value / 100.0f;
-			gLabelVal->Text = (trackbarG).ToString();
-		}
+	
     }
     
     private: System::Void componentB_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		if (moveLight->Checked)
-		{
+		
 			trackbarB = componentB->Value / 100.0f;
 			bLabelVal->Text = (trackbarB).ToString();
-		}
-		else
-		{
-			componentB->Value = 100.0f;
-			trackbarB = componentB->Value / 100.0f;
-			bLabelVal->Text = (trackbarB).ToString();
-		}
 	}
     
     private: System::Void specularStrength_Scroll(System::Object^ sender, System::EventArgs^ e) {
-		if (moveLight->Checked)
-		{
+		
 			trackbarSpecStrength = specularStrength->Value;
 			specStrengthLabelVal->Text = (trackbarSpecStrength).ToString();
-		}
-		else
-		{
-			trackbarSpecStrength = 4;
-			specStrengthLabelVal->Text = (trackbarSpecStrength).ToString();
-		}
-		
     }
-private: System::Void resetLightPosition_Click(System::Object^ sender, System::EventArgs^ e) {
-	resetLightButton = true;
-}
-private: System::Void moveLight_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-	moveLightChannel = moveLight->Checked;
-}
-private: System::Void colorByPosition_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
-	colorByPositionChannel = colorByPosition->Checked;
-}
-private: System::Void resetTeapotPosition_Click(System::Object^ sender, System::EventArgs^ e) {
-	resetTeapotButton = true;
-}
+
+    private: System::Void resetLightPosition_Click(System::Object^ sender, System::EventArgs^ e) {
+			
+		resetLightButton = true;
+    }
+
+    private: System::Void moveLight_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		
+		moveLightChannel = moveLight->Checked;
+    }
+
+    private: System::Void colorByPosition_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		
+		colorByPositionChannel = colorByPosition->Checked;
+    }
+
+    private: System::Void resetTeapotPosition_Click(System::Object^ sender, System::EventArgs^ e) {
+		
+		resetTeapotButton = true;
+    }
+
+    private: System::Void moveCubesToSphere_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
+		
+		componentR->Value = 100.0f;
+	    trackbarR = componentR->Value / 100.0f;
+	    rLabelVal->Text = (trackbarR).ToString();
+
+	    componentG->Value = 100.0f;
+	    trackbarG = componentG->Value / 100.0f;
+	    gLabelVal->Text = (trackbarG).ToString();
+
+    	componentB->Value = 100.0f;
+    	trackbarB = componentB->Value / 100.0f;
+    	bLabelVal->Text = (trackbarB).ToString();
+
+	    trackbarSpecStrength = 4.0f;
+	    specStrengthLabelVal->Text = (trackbarSpecStrength).ToString();
+    	moveCubesChannel = moveCubesToSphere->Checked;
+    }
 };
 }
