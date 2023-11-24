@@ -1,5 +1,7 @@
 #include "Camera.h"
 
+
+
 Camera::Camera()
 {
 	m_projection = { };
@@ -12,7 +14,7 @@ Camera::Camera()
 
 Camera::Camera(Resolution _screenResolution)
 {
-	m_position = { 0, 0, 0 };
+	m_position = { 3, 3, 3 };
 	m_lookAt = { 0, 0, 0 };
 	m_rotation = { 0, 0, 0 };
 	m_angle = 0.0f;

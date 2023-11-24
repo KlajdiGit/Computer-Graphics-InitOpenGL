@@ -65,7 +65,7 @@ void GameController::RunGame()
 	m_meshes.push_back(box);
 
 	Mesh wall = Mesh();
-	wall.Create(&m_shaderDiffuse, "../Assets/Models/brickWall.obj");
+	wall.Create(&m_shaderDiffuse, "../Assets/Models/wall.obj");
 	wall.SetCameraPosition(m_camera.GetPosition());
 	wall.SetScale({ 0.05f, 0.05f, 0.05f });
 	wall.SetPosition({ 0.0f, 0.0f, 0.0f });
