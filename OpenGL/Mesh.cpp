@@ -67,16 +67,15 @@ void Mesh::Create(Shader* _shader, string _file)
 	m_textureSpecular = Texture();
 	if (Loader.LoadedMaterials[0].map_Ks != "")
 	{
-		m_textureDiffuse.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_Ks));
+		m_textureSpecular.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_Ks));
 	}
 
 	m_textureNormal = Texture();
 	if (Loader.LoadedMaterials[0].map_bump != "")
 	{
-		m_textureDiffuse.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_bump));
+		m_textureNormal.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_bump));
 		m_enableNormalMap = true;
 	}
-	
 
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
