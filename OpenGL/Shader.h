@@ -20,6 +20,10 @@ public:
 	GLuint GetSampler2() { return m_sampler2; }
 	GLuint GetAttrWVP() { return m_attrWVP; }
 
+	GLuint GetAttrTangents() { return m_attrTangents; }
+	GLuint GetAttrBitangents() { return m_attrBitangents; }
+
+
 	//Methods
 	void LoadShaders(const char* _vertexFilePath, const char* _fragmentFilePath);
 	void Cleanup();
@@ -47,6 +51,9 @@ private:
 	GLuint m_sampler2;
 	GLint m_result; 
 	int m_infoLogLength;
+
+	GLuint m_attrTangents;
+	GLuint m_attrBitangents;
 	
 };
 

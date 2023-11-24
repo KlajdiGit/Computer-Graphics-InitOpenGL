@@ -52,12 +52,12 @@ void GameController::RunGame()
     //Create meshes
 	Mesh m = Mesh();
 	m.Create(&m_shaderColor, "../Assets/Models/teapot.obj");
-	m.SetPosition({ 1.5f, 0.0f, 1.0f });
+	m.SetPosition({ 0.0f, 0.8f, 1.0f });
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
 	m.SetScale({ 0.01f, 0.01f, 0.01f });
 	Mesh::Lights.push_back(m);
 
-	Mesh box = Mesh();
+	/*Mesh box = Mesh();
 	box.Create(&m_shaderDiffuse, "../Assets/Models/Cube.obj");
 	box.SetCameraPosition(m_camera.GetPosition());
 	box.SetScale({ 0.25f, 0.25f, 0.25f });
@@ -69,7 +69,14 @@ void GameController::RunGame()
 	wall.SetCameraPosition(m_camera.GetPosition());
 	wall.SetScale({ 0.05f, 0.05f, 0.05f });
 	wall.SetPosition({ 0.0f, 0.0f, 0.0f });
-	m_meshes.push_back(wall);
+	m_meshes.push_back(wall);*/
+
+	Mesh fighter = Mesh();
+	fighter.Create(&m_shaderDiffuse, "../Assets/Models/Fighter.obj");
+	fighter.SetCameraPosition(m_camera.GetPosition());
+	fighter.SetScale({ 0.002f, 0.002f, 0.002f });
+	fighter.SetPosition({ 0.0f, 0.0f, 0.0f });
+	m_meshes.push_back(fighter);
 
 #pragma endregion CreateMeshes
 
