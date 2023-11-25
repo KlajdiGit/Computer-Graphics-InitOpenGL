@@ -149,9 +149,9 @@ void Mesh::CalculateTangents(vector<objl::Vertex> _vertices, objl::Vector3& _tan
 	_tangent.Y = f * (deltaUV2.Y * edge1.Y - deltaUV1.Y * edge2.Y);
 	_tangent.Z = f * (deltaUV2.Y * edge1.Z - deltaUV1.Y * edge2.Z);
 
-	_bitangent.X = f * (-deltaUV2.Y * edge1.X + deltaUV1.Y * edge2.X);
-	_bitangent.Y = f * (-deltaUV2.Y * edge1.Y + deltaUV1.Y * edge2.Y);
-	_bitangent.Z = f * (-deltaUV2.Y * edge1.Z + deltaUV1.Y * edge2.Z);
+	_bitangent.X = f * (-deltaUV2.X * edge1.X + deltaUV1.X * edge2.X);
+	_bitangent.Y = f * (-deltaUV2.X * edge1.Y + deltaUV1.X * edge2.Y);
+	_bitangent.Z = f * (-deltaUV2.X * edge1.Z + deltaUV1.X * edge2.Z);
 }
 
 
