@@ -21,14 +21,10 @@ void GameController::Initialize()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
-	// glEnable(GL_CULL_FACE);
-	// glCullFace(GL_BACK);
-	// glFrontFace(GL_CW);
-
-	// glEnable(GL_CULL_FACE);
-	// glCullFace(GL_FRONT);
+	glEnable(GL_CULL_FACE);
 	srand((unsigned int)time(0));
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
 
 	//Create a default perspective camera
 	m_camera = Camera(WindowController::GetInstance().GetResolution());
@@ -57,35 +53,34 @@ void GameController::RunGame()
 	m.SetScale({ 0.01f, 0.01f, 0.01f });
 	Mesh::Lights.push_back(m);
 
-	/*Mesh box = Mesh();
-	box.Create(&m_shaderDiffuse, "../Assets/Models/Cube.obj");
-	box.SetCameraPosition(m_camera.GetPosition());
-	box.SetScale({ 0.25f, 0.25f, 0.25f });
-	box.SetPosition({ 0.0f, 1.0f, 1.0f });
-	m_meshes.push_back(box);
-
-	Mesh wall = Mesh();
-	wall.Create(&m_shaderDiffuse, "../Assets/Models/wall.obj");
-	wall.SetCameraPosition(m_camera.GetPosition());
-	wall.SetScale({ 0.05f, 0.05f, 0.05f });
-	wall.SetPosition({ 0.0f, 0.0f, 0.0f });
-	m_meshes.push_back(wall);*/
-
-	Mesh fighter = Mesh();
-	fighter.Create(&m_shaderDiffuse, "../Assets/Models/Fighter.obj");
-	fighter.SetCameraPosition(m_camera.GetPosition());
-	fighter.SetScale({ 0.002f, 0.002f, 0.002f });
-	fighter.SetPosition({ 0.0f, 0.0f, 0.0f });
-	m_meshes.push_back(fighter);
+	Mesh cube = Mesh();
+	cube.Create(&m_shaderDiffuse, "../Assets/Models/Cube.obj", 1000);
+	cube.SetCameraPosition(m_camera.GetPosition());
+	cube.SetScale({ 0.05f, 0.05f, 0.05f });
+	cube.SetPosition({ 0.0f, 0.0f, 0.0f });
+	m_meshes.push_back(cube);
 
 #pragma endregion CreateMeshes
 
 	Fonts f = Fonts();
 	f.Create(&m_shaderFont, "arial.ttf", 100);
+
+	double lastTime = glfwGetTime();
+	int fps = 0;
+	string fpsS = "0";
 	do
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		
+		double currentTime = glfwGetTime();
+		fps++;
+		if (currentTime - lastTime >= 1.0)
+		{
+			fpsS = "FPS: " + to_string(fps);
+			fps = 0;
+			lastTime += 1.0;
+		}
+		f.RenderText(fpsS, 100, 100, 0.5, { 1.0, 1.0, 0.0 });
 		//m_camera.Rotate();
 		//glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView())); // guarantees the camera will be at the center
 

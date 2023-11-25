@@ -19,6 +19,7 @@ public:
 	GLuint GetSampler1() { return m_sampler1; }
 	GLuint GetSampler2() { return m_sampler2; }
 	GLuint GetAttrWVP() { return m_attrWVP; }
+	GLuint GetAttrInstanceMatrix() { return m_attrInstanceMatrix; }
 
 	GLuint GetAttrTangents() { return m_attrTangents; }
 	GLuint GetAttrBitangents() { return m_attrBitangents; }
@@ -54,6 +55,7 @@ private:
 
 	GLuint m_attrTangents;
 	GLuint m_attrBitangents;
+	GLuint m_attrInstanceMatrix;
 	
 };
 
