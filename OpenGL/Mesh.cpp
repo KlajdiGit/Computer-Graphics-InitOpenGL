@@ -81,14 +81,6 @@ void Mesh::Create(Shader* _shader, string _file)
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, m_vertexData.size() * sizeof(float), m_vertexData.data(), GL_STATIC_DRAW);
-
-	/*m_indexData = {
-		2, 0, 3, 2, 1, 0
-	};
-	glGenBuffers(1, &m_indexBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indexData.size() * sizeof(GLubyte), m_indexData.data(), GL_STATIC_DRAW);*/
-
 }
 
 string Mesh::Concat(string _s1, int _index, string _s2)
@@ -152,18 +144,6 @@ void Mesh::CalculateTransform()
 	m_world = glm::translate(glm::mat4(1.0f), m_position);
 	m_world = glm::rotate(m_world, m_rotation.x, glm::vec3(1, 0, 0));
 	m_world = glm::scale(m_world, m_scale);  
-
-	/* glm::translate(glm::mat4(1.0f), m_position);
-	m_world = glm::rotate(m_world, m_rotation.y, glm::vec3(0, 1, 0));
-	m_world = glm::scale(m_world, m_scale);*/
-
-
-	/*glm::mat4 translateToOrigin = glm::translate(glm::mat4(1.0f), -m_position);
-	glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), m_rotation.x, glm::vec3(1, 0, 0));
-	glm::mat4 translateBack = glm::translate(glm::mat4(1.0f), m_position);
-
-	m_world = translateBack * rotation * translateToOrigin;
-	m_world = glm::scale(m_world, m_scale);*/
 }
 
 void Mesh::SetShaderVariables(glm::mat4 _pv)

@@ -21,6 +21,7 @@ double xpos = 0.0f;
 double ypos = 0.0f;
 glm::vec3 targetPos;
 float speedFactor;
+//Source: https://stackoverflow.com/questions/45130391/opengl-get-cursor-coordinate-on-mouse-click-in-c
 static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 {
 	int width, height;
