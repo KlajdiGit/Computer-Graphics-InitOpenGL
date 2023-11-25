@@ -48,7 +48,7 @@ private:
 	Texture m_textureNormal;
 	GLuint m_vertexBuffer; // GPU buffer
 	GLuint m_indexBuffer; // GPU buffer
-	vector<GLfloat> m_vertexData; // Store vertex data in RAM
+	std::vector<GLfloat> m_vertexData; // Store vertex data in RAM
 	std::vector<GLubyte> m_indexData; // Store index data in RAM
 	bool m_enableNormalMap;
 
