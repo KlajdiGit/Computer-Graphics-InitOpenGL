@@ -54,7 +54,7 @@ void GameController::RunGame()
 	m.Create(&m_shaderColor, "../Assets/Models/teapot.obj");
 	m.SetPosition({ 0.0f, 0.8f, 1.0f });
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
-	m.SetScale({ 0.01f, 0.01f, 0.01f });
+	m.SetScale({ 0.1f, 0.1f, 0.1f });
 	Mesh::Lights.push_back(m);
 
 	Mesh fighter = Mesh();
