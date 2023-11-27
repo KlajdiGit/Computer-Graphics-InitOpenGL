@@ -60,7 +60,7 @@ void GameController::RunGame()
 	Mesh fighter = Mesh();
 	fighter.Create(&m_shaderDiffuse, "../Assets/Models/Fighter.obj");
 	fighter.SetCameraPosition(m_camera.GetPosition());
-	fighter.SetScale({ 0.002f, 0.002f, 0.002f });
+	fighter.SetScale({ 0.0002f, 0.0002f, 0.0002f });
 	fighter.SetPosition({ 0.0f, 0.0f, 0.0f });
 	m_meshes.push_back(fighter);
 
