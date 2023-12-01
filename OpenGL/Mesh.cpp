@@ -6,6 +6,7 @@ vector<Mesh> Mesh::Lights;
 
 Mesh::Mesh()
 {
+	
 	m_shader = nullptr;
 	m_textureDiffuse = { };
 	m_textureSpecular = { };
@@ -16,7 +17,7 @@ Mesh::Mesh()
 	m_rotation = { 0, 0, 0 };
 	m_scale = { 1, 1, 1 };
 	m_world = glm::mat4();
-	m_enableNormalMap = false;
+	//m_enableNormalMap = false;
 	m_instanceCount = 1;
 	m_enableInstancing = false;
 	m_elementSize = 0;
@@ -39,9 +40,6 @@ string Mesh::RemoveFolder(string _map)
 
 void Mesh::Create(Shader* _shader, string _file, int _instanceCount)
 {
-	objl::Loader Loader; //Initialize Loader
-
-	M_ASSERT(Loader.LoadFile(_file) == true, "Failed to load mesh."); //Load .obj file
 
 	m_shader = _shader;
 	m_instanceCount = _instanceCount;
@@ -51,6 +49,10 @@ void Mesh::Create(Shader* _shader, string _file, int _instanceCount)
 	}
 
 #pragma region LoadMesh
+	objl::Loader Loader; //Initialize Loader
+
+	M_ASSERT(Loader.LoadFile(_file) == true, "Failed to load mesh."); //Load .obj file
+
 	m_textureDiffuse = Texture();
 	m_textureDiffuse.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_Kd));
 
@@ -71,7 +73,7 @@ void Mesh::Create(Shader* _shader, string _file, int _instanceCount)
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, m_vertexData.size() * sizeof(float), m_vertexData.data(), GL_STATIC_DRAW);
-#pragma endregion Loadmesh
+#pragma endregion LoadMesh
 
 	if (m_enableInstancing)
 	{
@@ -292,6 +294,7 @@ void Mesh::BindAttributes()
 		glVertexAttribDivisor(m_shader->GetAttrInstanceMatrix() + 3, 1);
 	}
 #pragma endregion BindInstancingData
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_textureDiffuse.GetTexture());
 	glUniform1i(m_shader->GetSampler1(), 0);
