@@ -15,6 +15,16 @@ Fonts::~Fonts()
 {
 }
 
+void Fonts::Cleanup()
+{
+	glDeleteBuffers(1, &m_vertexBuffer);
+	map<char, Character>::iterator it;
+	for (it = m_characters.begin(); it != m_characters.end(); it++)
+	{
+		glDeleteTextures(1, &it->second.TextureID);
+	}
+}
+
 void Fonts::Create(Shader* _shader, string _name, FT_UInt _size)
 {
 	m_shader = _shader;

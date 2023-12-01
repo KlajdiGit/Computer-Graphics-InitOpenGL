@@ -7,6 +7,7 @@ GameController::GameController()
 {
 	m_shaderColor = { };
 	m_shaderDiffuse = { };
+	m_shaderPost = { };
 	m_camera = { };
 	m_skyBox = { };
 	m_meshes.clear();
@@ -17,17 +18,19 @@ void GameController::Initialize()
 	GLFWwindow* window = WindowController::GetInstance().GetWindow(); // Call this first, as it creates a window required by GLEW
 	M_ASSERT(glewInit() == GLEW_OK, "Failed to initialize GLEW.") // Initialize GLEW
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE); // Ensure we can capture the escape key
-	glClearColor(1.0f, 0.0f, 0.0f, 0.0f); // Grey background 
+	glClearColor(0, 0, 0, 1); // Black background 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glEnable(GL_CULL_FACE);
 	srand((unsigned int)time(0));
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
 	//Create a default perspective camera
-	m_camera = Camera(WindowController::GetInstance().GetResolution());
+	Resolution r = WindowController::GetInstance().GetResolution();
+	glViewport(0, 0, r.m_width, r.m_height);
+	m_camera = Camera(r);
 }
 
 void GameController::RunGame()
@@ -38,10 +41,10 @@ void GameController::RunGame()
 	m_shaderColor.LoadShaders("Color.vertexshader", "Color.fragmentshader");
 	m_shaderDiffuse = Shader();
 	m_shaderDiffuse.LoadShaders("Diffuse.vertexshader", "Diffuse.fragmentshader");
-	m_shaderSkyBox = Shader();
-	m_shaderSkyBox.LoadShaders("SkyBox.vertexshader", "SkyBox.fragmentshader");
 	m_shaderFont = Shader();
 	m_shaderFont.LoadShaders("Font.vertexshader", "Font.fragmentshader");
+	m_shaderPost = Shader();
+	m_shaderPost.LoadShaders("PostProcessor.vertexshader", "PostProcessor.fragmentshader");
 #pragma endregion SetupShaders
 
 #pragma region CreateMeshes
@@ -54,9 +57,9 @@ void GameController::RunGame()
 	Mesh::Lights.push_back(m);
 
 	Mesh cube = Mesh();
-	cube.Create(&m_shaderDiffuse, "../Assets/Models/Cube.obj", 1000);
+	cube.Create(&m_shaderDiffuse, "../Assets/Models/Cube.obj", 10);
 	cube.SetCameraPosition(m_camera.GetPosition());
-	cube.SetScale({ 0.05f, 0.05f, 0.05f });
+	cube.SetScale({ 0.1f, 0.1f, 0.1f });
 	cube.SetPosition({ 0.0f, 0.0f, 0.0f });
 	m_meshes.push_back(cube);
 
@@ -64,6 +67,8 @@ void GameController::RunGame()
 
 	Fonts f = Fonts();
 	f.Create(&m_shaderFont, "arial.ttf", 100);
+	m_postProcessor = PostProcessor();
+	m_postProcessor.Create(&m_shaderPost);
 
 	double lastTime = glfwGetTime();
 	int fps = 0;
@@ -72,29 +77,27 @@ void GameController::RunGame()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		
+		m_postProcessor.Start();
+		for (unsigned int count = 0; count < m_meshes.size(); count++)
+		{
+			m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
+		}
+		for (int count = 0; count < Mesh::Lights.size(); count++)
+		{
+			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
+		}
+
 		double currentTime = glfwGetTime();
 		fps++;
 		if (currentTime - lastTime >= 1.0)
 		{
 			fpsS = "FPS: " + to_string(fps);
 			fps = 0;
-			lastTime += 1.0;
+			lastTime += currentTime;
 		}
+		m_postProcessor.End();
 		f.RenderText(fpsS, 100, 100, 0.5, { 1.0, 1.0, 0.0 });
-		//m_camera.Rotate();
-		//glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView())); // guarantees the camera will be at the center
 
-		for (unsigned int count = 0; count < m_meshes.size(); count++)
-		{
-			m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
-		}
-
-		for (int count = 0; count < Mesh::Lights.size(); count++)
-		{
-			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
-		}
-
-		f.RenderText("Testing text", 10, 500, 0.5f, { 1.0f, 1.0f, 0.0f });
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
 		glfwPollEvents();
 
@@ -112,7 +115,9 @@ void GameController::RunGame()
 	{
 		m_meshes[count].Cleanup();
 	}
+	f.Cleanup();
+	m_postProcessor.Cleanup();
 	m_shaderDiffuse.Cleanup();
-	m_shaderSkyBox.Cleanup();
 	m_shaderColor.Cleanup();
+	m_shaderPost.Cleanup();
 }
