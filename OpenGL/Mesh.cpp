@@ -295,17 +295,17 @@ void Mesh::BindAttributes()
 	}
 #pragma endregion BindInstancingData
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_textureDiffuse.GetTexture());
-	glUniform1i(m_shader->GetSampler1(), 0);
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, m_textureDiffuse.GetTexture());
+	//glUniform1i(m_shader->GetSampler1(), 0);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, m_textureSpecular.GetTexture());
-	glUniform1i(m_shader->GetSampler2(), 1);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, m_textureSpecular.GetTexture());
+	//glUniform1i(m_shader->GetSampler2(), 1);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, m_textureNormal.GetTexture());
-	glUniform1i(m_shader->GetSampler2(), 1);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, m_textureNormal.GetTexture());
+	//glUniform1i(m_shader->GetSampler2(), 1);
 } 
 
 void Mesh::CalculateTransform()
