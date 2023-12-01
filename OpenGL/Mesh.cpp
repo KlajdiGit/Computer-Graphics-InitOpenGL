@@ -69,6 +69,50 @@ void Mesh::Create(Shader* _shader, string _file, int _instanceCount)
 		m_enableNormalMap = true;
 	}
 
+	for (unsigned int i = 0; i < Loader.LoadedMeshes.size(); i++)
+	{
+		objl::Mesh curMesh = Loader.LoadedMeshes[i];
+		vector<objl::Vector3> tangents;
+		vector<objl::Vector3> bitangents;
+		vector<objl::Vertex> triangle;
+		objl::Vector3 tangent;
+		objl::Vector3 bitangent;
+		for (unsigned int j = 0; j < curMesh.Vertices.size(); j += 3)
+		{
+			triangle.clear();
+			triangle.push_back(curMesh.Vertices[j]);
+			triangle.push_back(curMesh.Vertices[j + 1]);
+			triangle.push_back(curMesh.Vertices[j + 2]);
+			CalculateTangents(triangle, tangent, bitangent);
+			tangents.push_back(tangent);
+			bitangents.push_back(bitangent);
+		}
+
+
+		for (unsigned int j = 0; j < curMesh.Vertices.size(); j++)
+		{
+			m_vertexData.push_back(curMesh.Vertices[j].Position.X);
+			m_vertexData.push_back(curMesh.Vertices[j].Position.Y);
+			m_vertexData.push_back(curMesh.Vertices[j].Position.Z);
+			m_vertexData.push_back(curMesh.Vertices[j].Normal.X);
+			m_vertexData.push_back(curMesh.Vertices[j].Normal.Y);
+			m_vertexData.push_back(curMesh.Vertices[j].Normal.Z);
+			m_vertexData.push_back(curMesh.Vertices[j].TextureCoordinate.X);
+			m_vertexData.push_back(curMesh.Vertices[j].TextureCoordinate.Y);
+
+			if (Loader.LoadedMaterials[0].map_bump != "")
+			{
+				int index = j / 3;
+				m_vertexData.push_back(tangents[index].X);
+				m_vertexData.push_back(tangents[index].Y);
+				m_vertexData.push_back(tangents[index].Z);
+				m_vertexData.push_back(bitangents[index].X);
+				m_vertexData.push_back(bitangents[index].Y);
+				m_vertexData.push_back(bitangents[index].Z);
+
+			}
+		}
+	}
 
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
@@ -101,50 +145,6 @@ void Mesh::Create(Shader* _shader, string _file, int _instanceCount)
 
 	
 	
-	for (unsigned int i = 0; i < Loader.LoadedMeshes.size(); i++)
-	{
-		objl::Mesh curMesh = Loader.LoadedMeshes[i];
-		vector<objl::Vector3> tangents;
-		vector<objl::Vector3> bitangents;
-		vector<objl::Vertex> triangle;
-		objl::Vector3 tangent;
-		objl::Vector3 bitangent;
-		for (unsigned int j = 0; j < curMesh.Vertices.size(); j+=3)
-		{
-			triangle.clear();
-			triangle.push_back(curMesh.Vertices[j]);
-			triangle.push_back(curMesh.Vertices[j+1]);
-			triangle.push_back(curMesh.Vertices[j+2]);
-			CalculateTangents(triangle, tangent, bitangent);
-			tangents.push_back(tangent);
-			bitangents.push_back(bitangent);
-		}
-
-
-		for (unsigned int j = 0; j < curMesh.Vertices.size(); j++)
-		{
-			m_vertexData.push_back(curMesh.Vertices[j].Position.X);
-			m_vertexData.push_back(curMesh.Vertices[j].Position.Y);
-			m_vertexData.push_back(curMesh.Vertices[j].Position.Z);
-			m_vertexData.push_back(curMesh.Vertices[j].Normal.X);
-			m_vertexData.push_back(curMesh.Vertices[j].Normal.Y);
-			m_vertexData.push_back(curMesh.Vertices[j].Normal.Z);
-			m_vertexData.push_back(curMesh.Vertices[j].TextureCoordinate.X);
-			m_vertexData.push_back(curMesh.Vertices[j].TextureCoordinate.Y);
-
-			if (Loader.LoadedMaterials[0].map_bump != "")
-			{
-				int index = j / 3;
-				m_vertexData.push_back(tangents[index].X);
-				m_vertexData.push_back(tangents[index].Y);
-				m_vertexData.push_back(tangents[index].Z);
-				m_vertexData.push_back(bitangents[index].X);
-				m_vertexData.push_back(bitangents[index].Y);
-				m_vertexData.push_back(bitangents[index].Z);
-
-			}
-		}
-	} 
 
 
 }
@@ -222,7 +222,7 @@ void Mesh::BindAttributes()
 		GL_FALSE,            // normalized?
 		stride * sizeof(float),   // stride (8 floats per vertex definition)
 		(void*)(6 * sizeof(float)));           // array buffer offset 
-	m_elementSize += 8;
+	m_elementSize = 8;
 #pragma endregion BindVertexData
 
 #pragma region BindNormalMapData
