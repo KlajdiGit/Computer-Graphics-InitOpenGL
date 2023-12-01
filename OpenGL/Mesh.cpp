@@ -147,7 +147,11 @@ void Mesh::CalculateTangents(vector<objl::Vertex> _vertices, objl::Vector3& _tan
 void Mesh::BindAttributes()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer); //Bind the vertex buffer
-
+	int stride = 8;
+	if (m_enableNormalMap)
+	{
+		stride += 6;
+	}
 
 	// 1st attribute buffer : vertices
 	glEnableVertexAttribArray(m_shader->GetAttrVertices());
@@ -155,7 +159,7 @@ void Mesh::BindAttributes()
 		3,                   // size (3 vertices per primitive)
 		GL_FLOAT,            // type 
 		GL_FALSE,            // normalized?
-		8 * sizeof(float),   // stride (8 floats per vertex definition)
+		stride * sizeof(float),   // stride (8 floats per vertex definition)
 		(void*)0);           // array buffer offset 
 	
 
@@ -165,7 +169,7 @@ void Mesh::BindAttributes()
 		3,                   // size ( 3 components per color value)
 		GL_FLOAT,            // type 
 		GL_FALSE,            // normalized?
-		8 * sizeof(float),   // stride (8 floats per vertex definition)
+		stride * sizeof(float),   // stride (8 floats per vertex definition)
 		(void*) (3 * sizeof(float)));           // array buffer offset 
 	
 	// 3rd  attribute buffer : texCoords
@@ -174,7 +178,7 @@ void Mesh::BindAttributes()
 		2,                   // size ( 2 components per color value)
 		GL_FLOAT,            // type 
 		GL_FALSE,            // normalized?
-		8 * sizeof(float),   // stride (8 floats per vertex definition)
+		stride * sizeof(float),   // stride (8 floats per vertex definition)
 		(void*)(6 * sizeof(float)));           // array buffer offset 
 
 	glActiveTexture(GL_TEXTURE0);
