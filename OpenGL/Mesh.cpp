@@ -306,7 +306,7 @@ void Mesh::BindAttributes()
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, m_textureNormal.GetTexture());
 	glUniform1i(m_shader->GetSampler2(), 1);
-}
+} 
 
 void Mesh::CalculateTransform()
 {
