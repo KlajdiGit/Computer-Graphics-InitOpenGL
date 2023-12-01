@@ -43,6 +43,22 @@ void Mesh::Create(Shader* _shader, string _file)
 	
 	M_ASSERT(Loader.LoadFile(_file) == true, "Failed to load mesh."); //Load .obj file
 
+	m_textureDiffuse = Texture();
+	m_textureDiffuse.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_Kd));
+
+	m_textureSpecular = Texture();
+	if (Loader.LoadedMaterials[0].map_Ks != "")
+	{
+		m_textureSpecular.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_Ks));
+	}
+
+	m_textureNormal = Texture();
+	if (Loader.LoadedMaterials[0].map_bump != "")
+	{
+		m_textureNormal.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_bump));
+		m_enableNormalMap = true;
+	}
+
 	for (unsigned int i = 0; i < Loader.LoadedMeshes.size(); i++)
 	{
 		objl::Mesh curMesh = Loader.LoadedMeshes[i];
@@ -87,22 +103,7 @@ void Mesh::Create(Shader* _shader, string _file)
 		}
 	}
 
-	m_textureDiffuse = Texture();
-	m_textureDiffuse.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_Kd));
 
-	m_textureSpecular = Texture();
-	if (Loader.LoadedMaterials[0].map_Ks != "")
-	{
-		m_textureSpecular.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_Ks));
-	}
-
-	m_textureNormal = Texture();
-	if (Loader.LoadedMaterials[0].map_bump != "")
-	{
-		m_textureNormal.LoadTexture("../Assets/Textures/" + RemoveFolder(Loader.LoadedMaterials[0].map_bump));
-		m_enableNormalMap = true;
-	}
-	
 
 	glGenBuffers(1, &m_vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer);
