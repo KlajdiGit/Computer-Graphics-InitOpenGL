@@ -17,7 +17,7 @@ Mesh::Mesh()
 	m_rotation = { 0, 0, 0 };
 	m_scale = { 1, 1, 1 };
 	m_world = glm::mat4();
-	//m_enableNormalMap = false;
+	m_instanceBuffer = 0;
 	m_instanceCount = 1;
 	m_enableInstancing = false;
 	m_elementSize = 0;
