@@ -6,7 +6,7 @@ vector<Mesh> Mesh::Lights;
 
 Mesh::Mesh()
 {
-	
+
 	m_shader = nullptr;
 	m_textureDiffuse = { };
 	m_textureSpecular = { };
@@ -143,8 +143,8 @@ void Mesh::Create(Shader* _shader, string _file, int _instanceCount)
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	
-	
+
+
 
 
 }
@@ -203,7 +203,7 @@ void Mesh::BindAttributes()
 		GL_FALSE,            // normalized?
 		stride * sizeof(float),   // stride (8 floats per vertex definition)
 		(void*)0);           // array buffer offset 
-	
+
 
 	// 2nd attribute buffer : normals
 	glEnableVertexAttribArray(m_shader->GetAttrNormals());
@@ -212,8 +212,8 @@ void Mesh::BindAttributes()
 		GL_FLOAT,            // type 
 		GL_FALSE,            // normalized?
 		stride * sizeof(float),   // stride (8 floats per vertex definition)
-		(void*) (3 * sizeof(float)));           // array buffer offset 
-	
+		(void*)(3 * sizeof(float)));           // array buffer offset 
+
 	// 3rd  attribute buffer : texCoords
 	glEnableVertexAttribArray(m_shader->GetAttrTexCoords());
 	glVertexAttribPointer(m_shader->GetAttrTexCoords(), // The attribute we want to configure
@@ -236,7 +236,7 @@ void Mesh::BindAttributes()
 			GL_FALSE,      // normalized? 
 			stride * sizeof(float),    // stride floats per vertex definition
 			(void*)(8 * sizeof(float)));  // array buffer offset
-		 
+
 		//5th attribute buffer : bitangent
 		glEnableVertexAttribArray(m_shader->GetAttrBitangents());
 		glVertexAttribPointer(m_shader->GetAttrBitangents(), //The attribute we want to congigure
@@ -257,7 +257,7 @@ void Mesh::BindAttributes()
 
 		// Set attribute for instance matrix (4 times vec4
 		glEnableVertexAttribArray(m_shader->GetAttrInstanceMatrix());
-		glVertexAttribPointer(m_shader->GetAttrInstanceMatrix(), 
+		glVertexAttribPointer(m_shader->GetAttrInstanceMatrix(),
 			4,             // size (4 components)
 			GL_FLOAT,      // type
 			GL_FALSE,      // normalized? 
@@ -294,7 +294,7 @@ void Mesh::BindAttributes()
 		glVertexAttribDivisor(m_shader->GetAttrInstanceMatrix() + 3, 1);
 	}
 #pragma endregion BindInstancingData
-} 
+}
 
 void Mesh::CalculateTransform()
 {
@@ -329,7 +329,7 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 	}
 
 
-    //Configure material
+	//Configure material
 	m_shader->SetFloat("material.specularStrength", 8);
 	m_shader->SetTextureSampler("material.diffuseTexture", GL_TEXTURE0, 0, m_textureDiffuse.GetTexture());
 	m_shader->SetTextureSampler("material.specularTexture", GL_TEXTURE1, 1, m_textureSpecular.GetTexture());

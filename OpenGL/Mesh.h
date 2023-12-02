@@ -71,5 +71,4 @@ private:
 	//glm::vec3 m_lightPosition;
 	//glm::vec3 m_lightColor;
 };
-
 #endif // MESH_H
