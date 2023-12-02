@@ -93,7 +93,7 @@ void GameController::RunGame()
 		{
 			fpsS = "FPS: " + to_string(fps);
 			fps = 0;
-			lastTime += currentTime;
+			lastTime = currentTime;
 		}
 		m_postProcessor.End();
 		f.RenderText(fpsS, 100, 100, 0.5, { 1.0, 1.0, 0.0 });
