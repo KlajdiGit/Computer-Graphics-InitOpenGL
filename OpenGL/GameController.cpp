@@ -16,8 +16,8 @@ GameController::GameController()
 void GameController::Initialize()
 {
 	GLFWwindow* window = WindowController::GetInstance().GetWindow(); // Call this first, as it creates a window required by GLEW
-	M_ASSERT(glewInit() == GLEW_OK, "Failed to initialize GLEW.") // Initialize GLEW
-		glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE); // Ensure we can capture the escape key
+	M_ASSERT(glewInit() == GLEW_OK, "Failed to initialize GLEW.");// Initialize GLEW
+	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE); // Ensure we can capture the escape key
 	glClearColor(0, 0, 0, 1); // Black background 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -67,8 +67,8 @@ void GameController::RunGame()
 
 	Fonts f = Fonts();
 	f.Create(&m_shaderFont, "arial.ttf", 100);
-	m_postProcessor = PostProcessor();
-	m_postProcessor.Create(&m_shaderPost);
+	//m_postProcessor = PostProcessor();
+	//m_postProcessor.Create(&m_shaderPost);
 
 	double lastTime = glfwGetTime();
 	int fps = 0;
@@ -97,7 +97,7 @@ void GameController::RunGame()
 			fps = 0;
 			lastTime = currentTime;
 		}
-		m_postProcessor.End();
+		//m_postProcessor.End();
 		f.RenderText(fpsS, 100, 100, 0.5, { 1.0, 1.0, 0.0 });
 
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
