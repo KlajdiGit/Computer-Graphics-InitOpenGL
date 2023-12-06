@@ -1,11 +1,8 @@
 namespace ASEMeshes 
 {
-
-
 	using namespace System;
 	using namespace System::Collections::Generic;
 	using namespace System::IO;
-
 
 	ref class Vec3
 	{
@@ -20,7 +17,6 @@ namespace ASEMeshes
 		property float X;
 		property float Y;
 		property float Z;
-
 	};
 
 	ref class Map
@@ -37,8 +33,6 @@ namespace ASEMeshes
 	ref class Material
 	{
 	public:
-
-
 		Material() { Maps = gcnew List<Map^>(); }
 
 		property int Index;
@@ -120,5 +114,5 @@ namespace ASEMeshes
 		Vec3^ ParseStringToVec3(String^ _vectorS);
 	};
 
-}
+};
 

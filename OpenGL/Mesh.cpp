@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "Shader.h"
-#include "OBJ_Loader.h"
+#include "StandardIncludes.h"
+#include <msclr\marshal_cppstd.h>
 #include "ASEMesh.h"
 using namespace ASEMeshes;
 
@@ -40,9 +41,16 @@ string Mesh::RemoveFolder(string _map)
 	return _map;
 }
 
-bool Texture::EndsWith(const std::string& _str, const std::string& _suffix)
+bool Mesh::EndsWith(std::string const& _fullString, std::string const& _ending)
 {
-	return (_str.compare(_str.length() - _suffix.length(), _suffix.length(), _suffix) == 0);
+	if (_fullString.length() >= _ending.length())
+	{
+		return (0 == _fullString.compare(_fullString.length()  - _ending.length(), _ending.length(), _ending));
+	}
+	else
+	{
+		return false;
+	}
 }
 
 void Mesh::Create(Shader* _shader, string _file, int _instanceCount)

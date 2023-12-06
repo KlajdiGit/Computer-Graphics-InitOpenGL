@@ -51,16 +51,16 @@ void GameController::RunGame()
     //Create meshes
 	Mesh m = Mesh();
 	m.Create(&m_shaderColor, "../Assets/Models/teapot.obj");
-	m.SetPosition({ 0.0f, 0.8f, 1.0f });
+	m.SetPosition({ 0.0f, 0.0f, 0.0f });
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
-	m.SetScale({ 0.015f, 0.05f, 0.05f });
+	m.SetScale({ 0.005f, 0.005f, 0.005f });
 	Mesh::Lights.push_back(m);
 
 	Mesh fighter = Mesh();
-	fighter.Create(&m_shaderDiffuse, "../Assets/Models/Fighter.ase");
+	fighter.Create(&m_shaderDiffuse, "../Assets/Models/Fighter3.ase");
 	fighter.SetCameraPosition(m_camera.GetPosition());
 	fighter.SetScale({ 0.0008f, 0.0008f, 0.0008f });
-	fighter.SetPosition({ 0.0f, 0.0f, 0.0f });
+	fighter.SetPosition({ 0.0f, 0.0f, -3.0f });
 	m_meshes.push_back(fighter);
 
 #pragma endregion CreateMeshes
@@ -77,7 +77,7 @@ void GameController::RunGame()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		
-		m_postProcessor.Start();
+		//m_postProcessor.Start();
 		for (unsigned int count = 0; count < m_meshes.size(); count++)
 		{
 			m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
@@ -95,7 +95,7 @@ void GameController::RunGame()
 			fps = 0;
 			lastTime = currentTime;
 		}
-		m_postProcessor.End();
+		//m_postProcessor.End();
 		f.RenderText(fpsS, 100, 100, 0.5, { 1.0, 1.0, 0.0 });
 
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers

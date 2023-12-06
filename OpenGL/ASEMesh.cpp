@@ -16,7 +16,7 @@ void ASEMesh::ParseASEFile()
 	ASEFile = ASEFile->Replace('\t', ' ');
 
 	cli::array<String^>^ splitTerm = gcnew cli::array<String^>(1);
-	splitTerm[0] = "*MATERIAL";
+	splitTerm[0] = "*MATERIAL ";
 	cli::array<String^>^ MaterialSections = ASEFile->Split(splitTerm, StringSplitOptions::RemoveEmptyEntries);
 	ParseMaterials(MaterialSections);
 
@@ -80,7 +80,7 @@ void ASEMesh::ParseMaterials(cli::array<String^>^ _materials)
 		m->Shading = ExtractValue(lines, "*MATERIAL_SHADING ", lineFound);
 
 		cli::array<String^>^ qx = gcnew cli::array<String^>(1);
-		qx[0] = "\n *MAP_";
+		qx[0] = "\n  *MAP_";
 		cli::array<String^>^ maps = _materials[count]->Split(qx, StringSplitOptions::RemoveEmptyEntries);
 		ParseMaps(maps, m);
 
@@ -95,7 +95,7 @@ void ASEMesh::ParseMaps(cli::array<String^>^ _maps, Material^ _material)
 		int lineFound = -1;
 		cli::array<String^>^ lines = _maps[count]->Split('\n');
 		Map^ m = gcnew Map();
-		m->Name = ExtractValue(lines, " {", lineFound);
+		m->Name = ExtractValue(lines, "*MAP_NAME ", lineFound);
 		m->TextureFileName = ExtractValue(lines, "*BITMAP ", lineFound);
 		m->UVW_U_Offset = float::Parse(ExtractValue(lines, "*UVW_U_OFFSET ", lineFound));
 		m->UVW_V_Offset = float::Parse(ExtractValue(lines, "*UVW_V_OFFSET ", lineFound));
