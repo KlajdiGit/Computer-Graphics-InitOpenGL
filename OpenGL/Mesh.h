@@ -43,6 +43,8 @@ private:
 	string Concat(string _s1, int _index, string _s2);
 	string RemoveFolder(string _map);
 	void  CalculateTangents(vector<objl::Vertex> _vertices, objl::Vector3& _tangent, objl::Vector3& _bitangent);
+	bool EndsWith(const std::string& _str, const std::string& _suffix);
+
 
 	Shader* m_shader;
 	Texture m_textureDiffuse;

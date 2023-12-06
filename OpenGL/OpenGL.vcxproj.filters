@@ -16,6 +16,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{ed14d27d-ada3-42d5-b087-730ae63a7353}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ASEMeshes">
+      <UniqueIdentifier>{dcde6b0e-b3ba-410a-9716-7c768107330a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenGL.cpp">
@@ -49,6 +52,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PostProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ASEMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -92,6 +98,9 @@
     <ClInclude Include="PostProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ASEMesh.h">
+      <Filter>Header Files\ASEMeshes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SimpleFragmentShader.fragmentshader">
@@ -127,8 +136,6 @@
     <None Include="PostProcessor.vertexshader">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="PostProcessot.fragmentshader">
-      <Filter>Shaders</Filter>
-    </None>
+    <None Include="PostProcessor.fragmentshader" />
   </ItemGroup>
 </Project>

@@ -53,15 +53,15 @@ void GameController::RunGame()
 	m.Create(&m_shaderColor, "../Assets/Models/teapot.obj");
 	m.SetPosition({ 0.0f, 0.8f, 1.0f });
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
-	m.SetScale({ 0.01f, 0.01f, 0.01f });
+	m.SetScale({ 0.015f, 0.05f, 0.05f });
 	Mesh::Lights.push_back(m);
 
-	Mesh cube = Mesh();
-	cube.Create(&m_shaderDiffuse, "../Assets/Models/Cube.obj", 10);
-	cube.SetCameraPosition(m_camera.GetPosition());
-	cube.SetScale({ 0.1f, 0.1f, 0.1f });
-	cube.SetPosition({ 0.0f, 0.0f, 0.0f });
-	m_meshes.push_back(cube);
+	Mesh fighter = Mesh();
+	fighter.Create(&m_shaderDiffuse, "../Assets/Models/Fighter.ase");
+	fighter.SetCameraPosition(m_camera.GetPosition());
+	fighter.SetScale({ 0.0008f, 0.0008f, 0.0008f });
+	fighter.SetPosition({ 0.0f, 0.0f, 0.0f });
+	m_meshes.push_back(fighter);
 
 #pragma endregion CreateMeshes
 
