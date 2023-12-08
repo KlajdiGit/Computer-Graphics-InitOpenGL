@@ -454,10 +454,10 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 	m_shader->SetTextureSampler("material.normalTexture", GL_TEXTURE2, 2, m_textureNormal.GetTexture());
 }
 
-void Mesh::Render(glm::mat4 _pv)
+void Mesh::Render(glm::mat4 _pv, float rotationSpeed)
 {
 	glUseProgram(m_shader->GetProgramID()); // Use our shader
-	m_rotation.x += 0.06f;
+	m_rotation.x += rotationSpeed;
 
 	CalculateTransform();
 	SetShaderVariables(_pv);

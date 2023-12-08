@@ -40,6 +40,7 @@ namespace OpenGL {
 	private: System::Windows::Forms::Label^ specularValueLabel;
 	private: System::Windows::Forms::Label^ rValueLabel;
 	private: System::Windows::Forms::Label^ gValueLabel;
+	private: System::Windows::Forms::RadioButton^ transformRadioButton;
 	private: System::Windows::Forms::Label^ bValueLabel;
 
 
@@ -57,7 +58,7 @@ namespace OpenGL {
 			   trackbarB = 100.0f;
 			   trackbarSpecStrength = 4.0f;
 			   resetLightChannel = false;
-			   moveLightChannel = false;
+			   moveLightChannel = moveLightButton->Checked;
 		   }
 
 	protected:
@@ -114,6 +115,7 @@ namespace OpenGL {
 			this->rValueLabel = (gcnew System::Windows::Forms::Label());
 			this->gValueLabel = (gcnew System::Windows::Forms::Label());
 			this->bValueLabel = (gcnew System::Windows::Forms::Label());
+			this->transformRadioButton = (gcnew System::Windows::Forms::RadioButton());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBarSpecular))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->rComponent))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gComponent))->BeginInit();
@@ -123,6 +125,7 @@ namespace OpenGL {
 			// moveLightButton
 			// 
 			this->moveLightButton->AutoSize = true;
+			this->moveLightButton->Checked = true;
 			this->moveLightButton->Location = System::Drawing::Point(22, 23);
 			this->moveLightButton->Name = L"moveLightButton";
 			this->moveLightButton->Size = System::Drawing::Size(78, 17);
@@ -130,6 +133,7 @@ namespace OpenGL {
 			this->moveLightButton->TabStop = true;
 			this->moveLightButton->Text = L"Move Light";
 			this->moveLightButton->UseVisualStyleBackColor = true;
+			this->moveLightButton->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::moveLightButton_CheckedChanged);
 			// 
 			// resetLightButton
 			// 
@@ -139,6 +143,7 @@ namespace OpenGL {
 			this->resetLightButton->TabIndex = 1;
 			this->resetLightButton->Text = L"Reset Light Position";
 			this->resetLightButton->UseVisualStyleBackColor = true;
+			this->resetLightButton->Click += gcnew System::EventHandler(this, &ToolWindow::resetLightButton_Click);
 			// 
 			// trackBarSpecular
 			// 
@@ -253,11 +258,23 @@ namespace OpenGL {
 			this->bValueLabel->TabIndex = 14;
 			this->bValueLabel->Text = L"1.00";
 			// 
+			// transformRadioButton
+			// 
+			this->transformRadioButton->AutoSize = true;
+			this->transformRadioButton->Location = System::Drawing::Point(22, 371);
+			this->transformRadioButton->Name = L"transformRadioButton";
+			this->transformRadioButton->Size = System::Drawing::Size(72, 17);
+			this->transformRadioButton->TabIndex = 15;
+			this->transformRadioButton->TabStop = true;
+			this->transformRadioButton->Text = L"Transform";
+			this->transformRadioButton->UseVisualStyleBackColor = true;
+			// 
 			// ToolWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(488, 377);
+			this->ClientSize = System::Drawing::Size(586, 558);
+			this->Controls->Add(this->transformRadioButton);
 			this->Controls->Add(this->bValueLabel);
 			this->Controls->Add(this->gValueLabel);
 			this->Controls->Add(this->rValueLabel);
@@ -314,5 +331,13 @@ namespace OpenGL {
 		trackbarB = bComponent->Value / 100.0f;
 		bValueLabel->Text = (trackbarB).ToString();
 	}
+    private: System::Void resetLightButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		resetLightChannel = true;
+    }
+    private: System::Void moveLightButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+    {
+		moveLightChannel = moveLightButton->Checked;
+    }
 };
 }

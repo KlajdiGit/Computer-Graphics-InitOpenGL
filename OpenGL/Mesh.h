@@ -22,7 +22,10 @@ public:
 	void SetColor(glm::vec3 _color) { m_color = _color; }
 	glm::vec3 GetColor() { return m_color; }
 	void SetCameraPosition(glm::vec3 _cameraPosition) { m_cameraPosition = _cameraPosition; }
+	
 
+	glm::vec3 GetRotation() { return m_rotation; }
+	glm::vec3 GetScale() { return m_scale; }
 	//void SetLightPosition(glm::vec3 _lightPosition) { m_lightPosition = _lightPosition; }
 	//void SetLightColor(glm::vec3 _lightColor) { m_lightColor = _lightColor; }
 
@@ -30,7 +33,7 @@ public:
 	void Create(Shader* _shader, string _file, int _instanceCount = 1);
 	void Cleanup();
 	void CalculateTransform();
-	void Render(glm::mat4 _pv);
+	void Render(glm::mat4 _pv, float rotationSpeed = 0.0f);
 
 	//Members
 	static vector<Mesh> Lights;
