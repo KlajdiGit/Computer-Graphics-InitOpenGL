@@ -11,7 +11,29 @@ GameController::GameController()
 	m_camera = { };
 	m_skyBox = { };
 	m_meshes.clear();
+	m_spherePos = { 0.0f, 0.0f, 0.1f };
 }
+
+double xpos = 0.0f;
+double ypos = 0.0f;
+glm::vec3 targetPos;
+float speedFactor;
+static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	int width, height;
+
+	glfwGetWindowSize(window, &width, &height);
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	{
+		glfwGetCursorPos(window, &xpos, &ypos);
+
+		float x = (xpos / width) * 2.0f - 1.0f;
+		float y = 1.0 - (ypos / height) * 2.0f;
+		targetPos = glm::vec3(x, y, 0.0f);
+	}
+}
+
+
 
 void GameController::Initialize()
 {
@@ -31,10 +53,15 @@ void GameController::Initialize()
 	Resolution r = WindowController::GetInstance().GetResolution();
 	glViewport(0, 0, r.m_width, r.m_height);
 	m_camera = Camera(r);
+	glfwSetMouseButtonCallback(WindowController::GetInstance().GetWindow(), mouse_callback);
+
 }
 
 void GameController::RunGame()
 {
+	OpenGL::ToolWindow^ window = gcnew OpenGL::ToolWindow();
+	window->Show();
+
 #pragma region SetupShaders
 	// Create and compile our GLSL program from the shaders
 	m_shaderColor = Shader(); // value object. It's cretaed on stack. No need for 'new'
@@ -50,8 +77,8 @@ void GameController::RunGame()
 #pragma region CreateMeshes
     //Create meshes
 	Mesh m = Mesh();
-	m.Create(&m_shaderColor, "../Assets/Models/teapot.obj");
-	m.SetPosition({ 0.0f, 0.0f, 0.0f });
+	m.Create(&m_shaderColor, "../Assets/Models/MoveSphere.obj");
+	m.SetPosition(m_spherePos);
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
 	m.SetScale({ 0.005f, 0.005f, 0.005f });
 	Mesh::Lights.push_back(m);
@@ -70,11 +97,16 @@ void GameController::RunGame()
 	m_postProcessor = PostProcessor();
 	m_postProcessor.Create(&m_shaderPost);
 
+	glm::vec3 spherePos = GetSpherePos();
+
 	double lastTime = glfwGetTime();
 	int fps = 0;
 	string fpsS = "0";
+	string mousePosition;
 	do
 	{
+		System::Windows::Forms::Application::DoEvents();
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		
 		//m_postProcessor.Start();
@@ -84,6 +116,25 @@ void GameController::RunGame()
 		}
 		for (int count = 0; count < Mesh::Lights.size(); count++)
 		{
+			if (!OpenGL::ToolWindow::resetLightChannel)
+			{
+				if (glm::length(targetPos - spherePos) > 0.1)
+				{
+					glm::vec3 direction = glm::normalize(targetPos - spherePos);
+					speedFactor = glm::length(targetPos) / glm::length(glm::vec3(100.0f, 100.0f, 100.0f));
+
+					spherePos += direction * speedFactor;
+					Mesh::Lights[count].SetPosition(spherePos);
+				}
+			}
+			else
+			{
+				Mesh::Lights[count].SetPosition({ 0.0f, 0.0f, 0.1f });
+				targetPos = { 0.0f, 0.0f, 0.1f };
+				spherePos = { 0.0f, 0.0f, 0.1f };
+				OpenGL::ToolWindow::resetLightChannel = false;
+			}
+
 			Mesh::Lights[count].Render(m_camera.GetProjection() * m_camera.GetView());
 		}
 
@@ -97,6 +148,9 @@ void GameController::RunGame()
 		}
 		//m_postProcessor.End();
 		f.RenderText(fpsS, 100, 100, 0.5, { 1.0, 1.0, 0.0 });
+
+		mousePosition = "Mouse Pos: " + to_string((int)xpos) + "   " + to_string((int)ypos);
+		f.RenderText(mousePosition, 100, 150, 0.5, { 1.0, 1.0, 0.0 });
 
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
 		glfwPollEvents();
