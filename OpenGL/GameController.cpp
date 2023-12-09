@@ -146,6 +146,11 @@ void GameController::RunGame()
 	fish.SetScale({ 0.05f, 0.05f, 0.05f });
 	fish.SetPosition(m_fighterPos);
 
+	Mesh asteroid = Mesh();
+	asteroid.Create(&m_shaderDiffuse, "../Assets/Models/Asteroid.ase");
+	asteroid.SetPosition({0.0f, 0.0f, 0.0f});
+	asteroid.SetScale({ 0.005f, 0.005f, 0.005f });
+
 #pragma endregion CreateMeshes
 
 	Fonts f = Fonts();
@@ -305,6 +310,10 @@ void GameController::RunGame()
 
 			fighter.Render(m_camera.GetProjection() * m_camera.GetView());
 			//fish.Render(m_camera.GetProjection()* m_camera.GetView());
+		}
+		else if (OpenGL::ToolWindow::spaceSceneChannel)
+		{
+			asteroid.Render(m_camera.GetProjection()* m_camera.GetView(), 0.04f);
 
 		}
 

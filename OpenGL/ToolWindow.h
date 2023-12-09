@@ -28,6 +28,8 @@ namespace OpenGL {
 		static bool rotateChannel;
 		static bool scaleChannel;
 
+		static bool spaceSceneChannel;
+
 
 	private: System::Windows::Forms::RadioButton^ moveLightButton;
 	public:
@@ -52,6 +54,7 @@ namespace OpenGL {
 	private: System::Windows::Forms::CheckBox^ translateCheckBox;
 	private: System::Windows::Forms::CheckBox^ rotateCheckBox;
 	private: System::Windows::Forms::CheckBox^ scaleCheckBox;
+	private: System::Windows::Forms::RadioButton^ spaceSceneButton;
 
 	private: System::Windows::Forms::Label^ bValueLabel;
 
@@ -77,6 +80,7 @@ namespace OpenGL {
 			   translateChannel = translateCheckBox->Checked;
 			   rotateChannel = rotateCheckBox->Checked;
 			   scaleChannel = scaleCheckBox->Checked;
+			   spaceSceneChannel = spaceSceneButton->Checked;
 		   }
 
 	protected:
@@ -138,6 +142,7 @@ namespace OpenGL {
 			this->translateCheckBox = (gcnew System::Windows::Forms::CheckBox());
 			this->rotateCheckBox = (gcnew System::Windows::Forms::CheckBox());
 			this->scaleCheckBox = (gcnew System::Windows::Forms::CheckBox());
+			this->spaceSceneButton = (gcnew System::Windows::Forms::RadioButton());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBarSpecular))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->rComponent))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gComponent))->BeginInit();
@@ -335,11 +340,24 @@ namespace OpenGL {
 			this->scaleCheckBox->UseVisualStyleBackColor = true;
 			this->scaleCheckBox->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::scaleCheckBox_CheckedChanged);
 			// 
+			// spaceSceneButton
+			// 
+			this->spaceSceneButton->AutoSize = true;
+			this->spaceSceneButton->Location = System::Drawing::Point(14, 529);
+			this->spaceSceneButton->Name = L"spaceSceneButton";
+			this->spaceSceneButton->Size = System::Drawing::Size(90, 17);
+			this->spaceSceneButton->TabIndex = 20;
+			this->spaceSceneButton->TabStop = true;
+			this->spaceSceneButton->Text = L"Space Scene";
+			this->spaceSceneButton->UseVisualStyleBackColor = true;
+			this->spaceSceneButton->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::spaceSceneButton_CheckedChanged);
+			// 
 			// ToolWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(586, 558);
+			this->Controls->Add(this->spaceSceneButton);
 			this->Controls->Add(this->scaleCheckBox);
 			this->Controls->Add(this->rotateCheckBox);
 			this->Controls->Add(this->translateCheckBox);
@@ -428,6 +446,10 @@ namespace OpenGL {
     private: System::Void scaleCheckBox_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
 	{
 		scaleChannel = scaleCheckBox->Checked;
+    }
+    private: System::Void spaceSceneButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		spaceSceneChannel = spaceSceneButton->Checked;
     }
 };
 }
