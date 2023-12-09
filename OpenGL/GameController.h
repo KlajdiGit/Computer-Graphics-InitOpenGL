@@ -20,6 +20,7 @@ public:
 	void Initialize();
 	void RunGame();
 	glm::vec3 GetSpherePos() { return m_spherePos; }
+	glm::vec3 GetFighterPos() { return m_fighterPos; }
 
 private:
 	Shader m_shaderColor;
@@ -33,6 +34,8 @@ private:
 	GLuint vao;
 
 	glm::vec3 m_spherePos;
+	glm::vec3 m_fighterPos;
+	Shader m_simpleShader;
 };
 
 #endif // GAME_CONTROLLER_H

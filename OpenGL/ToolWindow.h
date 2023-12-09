@@ -21,6 +21,13 @@ namespace OpenGL {
 		static float trackbarSpecStrength;
 		static bool resetLightChannel;
 		static bool moveLightChannel;
+		static bool transformChannel;
+
+		static bool resetTansformChannel;
+		static bool translateChannel;
+		static bool rotateChannel;
+		static bool scaleChannel;
+
 
 	private: System::Windows::Forms::RadioButton^ moveLightButton;
 	public:
@@ -41,6 +48,11 @@ namespace OpenGL {
 	private: System::Windows::Forms::Label^ rValueLabel;
 	private: System::Windows::Forms::Label^ gValueLabel;
 	private: System::Windows::Forms::RadioButton^ transformRadioButton;
+	private: System::Windows::Forms::Button^ resetTransformButton;
+	private: System::Windows::Forms::CheckBox^ translateCheckBox;
+	private: System::Windows::Forms::CheckBox^ rotateCheckBox;
+	private: System::Windows::Forms::CheckBox^ scaleCheckBox;
+
 	private: System::Windows::Forms::Label^ bValueLabel;
 
 
@@ -59,6 +71,12 @@ namespace OpenGL {
 			   trackbarSpecStrength = 4.0f;
 			   resetLightChannel = false;
 			   moveLightChannel = moveLightButton->Checked;
+			   transformChannel = transformRadioButton->Checked;
+
+			   resetTansformChannel = false;
+			   translateChannel = translateCheckBox->Checked;
+			   rotateChannel = rotateCheckBox->Checked;
+			   scaleChannel = scaleCheckBox->Checked;
 		   }
 
 	protected:
@@ -116,6 +134,10 @@ namespace OpenGL {
 			this->gValueLabel = (gcnew System::Windows::Forms::Label());
 			this->bValueLabel = (gcnew System::Windows::Forms::Label());
 			this->transformRadioButton = (gcnew System::Windows::Forms::RadioButton());
+			this->resetTransformButton = (gcnew System::Windows::Forms::Button());
+			this->translateCheckBox = (gcnew System::Windows::Forms::CheckBox());
+			this->rotateCheckBox = (gcnew System::Windows::Forms::CheckBox());
+			this->scaleCheckBox = (gcnew System::Windows::Forms::CheckBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBarSpecular))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->rComponent))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gComponent))->BeginInit();
@@ -268,12 +290,60 @@ namespace OpenGL {
 			this->transformRadioButton->TabStop = true;
 			this->transformRadioButton->Text = L"Transform";
 			this->transformRadioButton->UseVisualStyleBackColor = true;
+			this->transformRadioButton->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::transformRadioButton_CheckedChanged);
+			// 
+			// resetTransformButton
+			// 
+			this->resetTransformButton->Location = System::Drawing::Point(22, 411);
+			this->resetTransformButton->Name = L"resetTransformButton";
+			this->resetTransformButton->Size = System::Drawing::Size(102, 23);
+			this->resetTransformButton->TabIndex = 16;
+			this->resetTransformButton->Text = L"Reset Transform";
+			this->resetTransformButton->UseVisualStyleBackColor = true;
+			this->resetTransformButton->Click += gcnew System::EventHandler(this, &ToolWindow::resetTransformButton_Click);
+			// 
+			// translateCheckBox
+			// 
+			this->translateCheckBox->AutoSize = true;
+			this->translateCheckBox->Location = System::Drawing::Point(22, 452);
+			this->translateCheckBox->Name = L"translateCheckBox";
+			this->translateCheckBox->Size = System::Drawing::Size(70, 17);
+			this->translateCheckBox->TabIndex = 17;
+			this->translateCheckBox->Text = L"Translate";
+			this->translateCheckBox->UseVisualStyleBackColor = true;
+			this->translateCheckBox->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::translateCheckBox_CheckedChanged);
+			// 
+			// rotateCheckBox
+			// 
+			this->rotateCheckBox->AutoSize = true;
+			this->rotateCheckBox->Location = System::Drawing::Point(22, 475);
+			this->rotateCheckBox->Name = L"rotateCheckBox";
+			this->rotateCheckBox->Size = System::Drawing::Size(58, 17);
+			this->rotateCheckBox->TabIndex = 18;
+			this->rotateCheckBox->Text = L"Rotate";
+			this->rotateCheckBox->UseVisualStyleBackColor = true;
+			this->rotateCheckBox->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::rotateCheckBox_CheckedChanged);
+			// 
+			// scaleCheckBox
+			// 
+			this->scaleCheckBox->AutoSize = true;
+			this->scaleCheckBox->Location = System::Drawing::Point(22, 498);
+			this->scaleCheckBox->Name = L"scaleCheckBox";
+			this->scaleCheckBox->Size = System::Drawing::Size(53, 17);
+			this->scaleCheckBox->TabIndex = 19;
+			this->scaleCheckBox->Text = L"Scale";
+			this->scaleCheckBox->UseVisualStyleBackColor = true;
+			this->scaleCheckBox->CheckedChanged += gcnew System::EventHandler(this, &ToolWindow::scaleCheckBox_CheckedChanged);
 			// 
 			// ToolWindow
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(586, 558);
+			this->Controls->Add(this->scaleCheckBox);
+			this->Controls->Add(this->rotateCheckBox);
+			this->Controls->Add(this->translateCheckBox);
+			this->Controls->Add(this->resetTransformButton);
 			this->Controls->Add(this->transformRadioButton);
 			this->Controls->Add(this->bValueLabel);
 			this->Controls->Add(this->gValueLabel);
@@ -338,6 +408,26 @@ namespace OpenGL {
     private: System::Void moveLightButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
     {
 		moveLightChannel = moveLightButton->Checked;
+    }
+    private: System::Void transformRadioButton_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		transformChannel = transformRadioButton->Checked;
+    }
+    private: System::Void resetTransformButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		resetTansformChannel = true;
+    }
+    private: System::Void translateCheckBox_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+	{
+		translateChannel = translateCheckBox->Checked;
+    }
+    private: System::Void rotateCheckBox_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+	{
+		rotateChannel = rotateCheckBox->Checked;
+    }
+    private: System::Void scaleCheckBox_CheckedChanged(System::Object^ sender, System::EventArgs^ e) 
+	{
+		scaleChannel = scaleCheckBox->Checked;
     }
 };
 }

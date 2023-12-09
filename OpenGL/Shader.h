@@ -24,7 +24,6 @@ public:
 	GLuint GetAttrTangents() { return m_attrTangents; }
 	GLuint GetAttrBitangents() { return m_attrBitangents; }
 
-
 	//Methods
 	void LoadShaders(const char* _vertexFilePath, const char* _fragmentFilePath);
 	void Cleanup();

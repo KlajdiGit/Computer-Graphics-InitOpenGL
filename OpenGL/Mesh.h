@@ -22,10 +22,12 @@ public:
 	void SetColor(glm::vec3 _color) { m_color = _color; }
 	glm::vec3 GetColor() { return m_color; }
 	void SetCameraPosition(glm::vec3 _cameraPosition) { m_cameraPosition = _cameraPosition; }
-	
+    
+	void SetShader(Shader* _shader) { m_shader = _shader; }
 
 	glm::vec3 GetRotation() { return m_rotation; }
 	glm::vec3 GetScale() { return m_scale; }
+	void SetRotation(glm::vec3 rotation) { m_rotation = rotation; }
 	//void SetLightPosition(glm::vec3 _lightPosition) { m_lightPosition = _lightPosition; }
 	//void SetLightColor(glm::vec3 _lightColor) { m_lightColor = _lightColor; }
 
@@ -71,7 +73,7 @@ private:
 	glm::mat4 m_world;
 	glm::vec3 m_cameraPosition;
 	glm::vec3 m_color;
-
+	
 	//Lights
 	//glm::vec3 m_lightPosition;
 	//glm::vec3 m_lightColor;

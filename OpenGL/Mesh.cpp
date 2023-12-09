@@ -426,6 +426,7 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 	m_shader->SetVec3("CameraPosition", m_cameraPosition);
 	m_shader->SetInt("EnableNormalMap", m_enableNormalMap);
 	m_shader->SetInt("EnableInstancing", m_enableInstancing);
+	
 
 	//Configure light
 	for (unsigned int i = 0; i < Lights.size(); i++)
@@ -452,6 +453,7 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 	m_shader->SetTextureSampler("material.diffuseTexture", GL_TEXTURE0, 0, m_textureDiffuse.GetTexture());
 	m_shader->SetTextureSampler("material.specularTexture", GL_TEXTURE1, 1, m_textureSpecular.GetTexture());
 	m_shader->SetTextureSampler("material.normalTexture", GL_TEXTURE2, 2, m_textureNormal.GetTexture());
+
 }
 
 void Mesh::Render(glm::mat4 _pv, float rotationSpeed)
