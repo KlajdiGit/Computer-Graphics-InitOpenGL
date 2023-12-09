@@ -140,7 +140,6 @@ void GameController::RunGame()
 	fighter.SetScale({ 0.0008f, 0.0008f, 0.0008f });
 	//fighter.SetScale({ 0.008f, 0.008f, 0.008f });
 	fighter.SetPosition(m_fighterPos);
-	//m_meshes.push_back(fighter);
 
 	Mesh fish = Mesh();
 	fish.Create(&m_shaderDiffuse, "../Assets/Models/Fish.ase");
@@ -149,9 +148,10 @@ void GameController::RunGame()
 	fish.SetPosition(m_fighterPos);
 
 	Mesh asteroid = Mesh();
-	asteroid.Create(&m_shaderDiffuse, "../Assets/Models/Asteroid.ase");
+	asteroid.Create(&m_shaderDiffuse, "../Assets/Models/Asteroid.ase", 100);
 	asteroid.SetPosition({0.0f, 0.0f, 0.6f});
 	asteroid.SetScale({ 0.005f, 0.005f, 0.005f });
+	m_meshes.push_back(asteroid);
 
 	SkyBox skyBox = SkyBox();
 	skyBox.Create(&m_shaderSkyBox, "../Assets/Models/SkyBox.obj",
@@ -201,6 +201,7 @@ void GameController::RunGame()
 
 		if (OpenGL::ToolWindow::moveLightChannel)
 		{
+			m_camera.SetCameraPosition({ 0, 0, 2.0f });
 			fighter.SetShader(&m_shaderDiffuse);
 			fighter.Render(m_camera.GetProjection() * m_camera.GetView(), 0.04f);
 
@@ -230,6 +231,8 @@ void GameController::RunGame()
 		}
 		else if (OpenGL::ToolWindow::transformChannel)
 		{
+			m_camera.SetCameraPosition({ 0, 0, 2.0f });
+
 			fighter.SetRotation(fighterRotate);
 
 			if (OpenGL::ToolWindow::resetTansformChannel)
@@ -277,8 +280,8 @@ void GameController::RunGame()
 				int leftState = glfwGetMouseButton(WindowController::GetInstance().GetWindow(), GLFW_MOUSE_BUTTON_LEFT);
 				if (leftState == GLFW_PRESS)
 				{
-					fighterRotate.y += deltaX * 0.1f; 
-					fighterRotate.x -= deltaY * 0.1f; 
+					fighterRotate.x += deltaX * 0.1f; 
+					fighterRotate.y -= deltaY * 0.1f; 
 				}
 
 				int middleState = glfwGetMouseButton(WindowController::GetInstance().GetWindow(), GLFW_MOUSE_BUTTON_MIDDLE);
@@ -339,10 +342,14 @@ void GameController::RunGame()
 
 			}
 
-			asteroid.Render(m_camera.GetProjection()* m_camera.GetView(), 0.04f);
-			fighter.SetPosition({ 0.4f, 0.0f, -0.7f });
+			for (unsigned int count = 0; count < m_meshes.size(); count++)
+			{
+				m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
+			}
+			//asteroid.Render(m_camera.GetProjection()* m_camera.GetView(), 0.04f);
+			fighter.SetPosition({ 0.0f, 0.0f, 0.7f });
 			fighter.SetScale({ 0.0002f, 0.0002f, 0.0002f });
-			fighter.SetRotation({ -45.0f, 0.0f, 0.0f });
+			fighter.SetRotation({ 90.0f, 0.0f, 0.0f });
 			fighter.Render(m_camera.GetProjection()* m_camera.GetView());
 
 		}
@@ -380,8 +387,6 @@ void GameController::RunGame()
 		f.RenderText(fighterRotation, 100, 350, 0.3, { 1.0, 1.0, 0.0 });
 		fighterScale = "Fighter Scale: {" + glm::to_string(fighter.GetScale()) + "}";
 		f.RenderText(fighterScale, 100, 400, 0.3, { 1.0, 1.0, 0.0 });
-		f.RenderText("Asteroid:" + glm::to_string(asteroid.GetPosition()), 100, 450, 0.3, {1.0, 1.0, 0.0});
-		f.RenderText("Asteroid:" + glm::to_string(asteroid.GetRotation()), 100, 500, 0.3, { 1.0, 1.0, 0.0 });
 
 #pragma endregion fontRendering 
 

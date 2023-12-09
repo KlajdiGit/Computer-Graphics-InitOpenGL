@@ -244,7 +244,16 @@ void Mesh::Create(Shader* _shader, string _file, int _instanceCount)
 		for (unsigned int i = 0; i < m_instanceCount; i++)
 		{
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, glm::vec3(-20 + rand() % 40, -10 + rand() % 20, -10 + rand() % 20));
+			model = glm::translate(model, glm::vec3(-200 + rand() % 400, -200 + rand() % 400, -200 + rand() % 400));
+
+
+
+			float rotAngle = static_cast<float>(rand() % 360);
+			glm::vec3 rotAxis = glm::normalize(glm::vec3(rand(), rand(), rand()));
+			model = glm::rotate(model, glm::radians(rotAngle), rotAxis);
+
+			float scale = 0.01f + (rand() % 5) * 0.01f;
+			model = glm::scale(model, glm::vec3(scale, scale, scale));
 
 			for (int x = 0; x < 4; x++)
 			{
