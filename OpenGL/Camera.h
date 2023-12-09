@@ -15,6 +15,8 @@ public:
 	glm::mat4 GetProjection() { return m_projection; }
 	glm::mat4 GetView() { return m_view; }
 	glm::vec3 GetPosition() { return m_position; }
+	
+	void SetCameraPosition(glm::vec3 _pos) { m_position = _pos; }
 
 	//Methods
 	void Rotate();

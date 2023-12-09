@@ -15,6 +15,7 @@ GameController::GameController()
 	m_spherePos = { 0.0f, 0.0f, 0.1f };
 	m_fighterPos = { 0.0f, 0.0f, 0.0f };
 	m_simpleShader = { };
+	m_shaderSkyBox = { };
 }
 
 double xpos = 0.0f;
@@ -118,7 +119,8 @@ void GameController::RunGame()
 	m_shaderPost.LoadShaders("PostProcessor.vertexshader", "PostProcessor.fragmentshader");
 	m_simpleShader = Shader();
 	m_simpleShader.LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
-
+	m_shaderSkyBox = Shader();
+	m_shaderSkyBox.LoadShaders("SkyBox.vertexshader", "SkyBox.fragmentshader");
 	
 #pragma endregion SetupShaders
 
@@ -148,8 +150,19 @@ void GameController::RunGame()
 
 	Mesh asteroid = Mesh();
 	asteroid.Create(&m_shaderDiffuse, "../Assets/Models/Asteroid.ase");
-	asteroid.SetPosition({0.0f, 0.0f, 0.0f});
+	asteroid.SetPosition({0.0f, 0.0f, 0.6f});
 	asteroid.SetScale({ 0.005f, 0.005f, 0.005f });
+
+	SkyBox skyBox = SkyBox();
+	skyBox.Create(&m_shaderSkyBox, "../Assets/Models/SkyBox.obj",
+		{
+			"../Assets/Textures/Skybox/right.jpg",
+			"../Assets/Textures/Skybox/left.jpg",
+			"../Assets/Textures/Skybox/top.jpg",
+			"../Assets/Textures/Skybox/bottom.jpg",
+			"../Assets/Textures/Skybox/front.jpg",
+			"../Assets/Textures/Skybox/back.jpg"
+		});
 
 #pragma endregion CreateMeshes
 
@@ -313,7 +326,24 @@ void GameController::RunGame()
 		}
 		else if (OpenGL::ToolWindow::spaceSceneChannel)
 		{
+			m_camera.SetCameraPosition({ 0, 0, 0 });
+			m_camera.Rotate();
+			glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView()));
+			skyBox.Render(m_camera.GetProjection() * view);
+			
+
+			for (int count = 0; count < Mesh::Lights.size(); count++)
+			{
+				Mesh::Lights[count].SetPosition({ 0.0f, 2.0f, 0.0f });
+				Mesh::Lights[count].Render(m_camera.GetProjection()* m_camera.GetView());
+
+			}
+
 			asteroid.Render(m_camera.GetProjection()* m_camera.GetView(), 0.04f);
+			fighter.SetPosition({ 0.4f, 0.0f, -0.7f });
+			fighter.SetScale({ 0.0002f, 0.0002f, 0.0002f });
+			fighter.SetRotation({ -45.0f, 0.0f, 0.0f });
+			fighter.Render(m_camera.GetProjection()* m_camera.GetView());
 
 		}
 
@@ -350,6 +380,9 @@ void GameController::RunGame()
 		f.RenderText(fighterRotation, 100, 350, 0.3, { 1.0, 1.0, 0.0 });
 		fighterScale = "Fighter Scale: {" + glm::to_string(fighter.GetScale()) + "}";
 		f.RenderText(fighterScale, 100, 400, 0.3, { 1.0, 1.0, 0.0 });
+		f.RenderText("Asteroid:" + glm::to_string(asteroid.GetPosition()), 100, 450, 0.3, {1.0, 1.0, 0.0});
+		f.RenderText("Asteroid:" + glm::to_string(asteroid.GetRotation()), 100, 500, 0.3, { 1.0, 1.0, 0.0 });
+
 #pragma endregion fontRendering 
 
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
@@ -362,16 +395,20 @@ void GameController::RunGame()
 
 	for (int count = 0; count < Mesh::Lights.size(); count++)
 	{
-		Mesh::Lights[count].Cleanup();
+		Mesh::Lights[count].Render(m_camera.GetProjection()* m_camera.GetView());
+
 	}
 
 	for (unsigned int count = 0; count < m_meshes.size(); count++)
 	{
 		m_meshes[count].Cleanup();
 	}
+	skyBox.Cleanup();
+	fighter.Cleanup();
 	f.Cleanup();
 	m_postProcessor.Cleanup();
 	m_shaderDiffuse.Cleanup();
 	m_shaderColor.Cleanup();
 	m_shaderPost.Cleanup();
+	m_shaderSkyBox.Cleanup();
 }

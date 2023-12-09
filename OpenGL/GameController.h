@@ -8,6 +8,7 @@
 #include "WindowController.h"
 #include "Camera.h"
 #include "PostProcessor.h"
+#include "SkyBox.h"
 
 class GameController: public Singleton<GameController>
 {
@@ -36,6 +37,7 @@ private:
 	glm::vec3 m_spherePos;
 	glm::vec3 m_fighterPos;
 	Shader m_simpleShader;
+	Shader m_shaderSkyBox;
 };
 
 #endif // GAME_CONTROLLER_H
