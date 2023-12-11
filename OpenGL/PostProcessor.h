@@ -17,7 +17,7 @@ public:
 	void Create(Shader* _postShader);
 	void Cleanup();
 	void Start();
-	void End();
+	void End(float deltaTime);
 
 private:
 	//Members

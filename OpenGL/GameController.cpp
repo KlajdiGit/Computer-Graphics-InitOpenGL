@@ -54,26 +54,11 @@ static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 		if(action == GLFW_PRESS)
 		{
 			middleButtonPressed = true;
-			glfwGetCursorPos(window, nullptr, &lastY);
 		}
 		else
 		{
 			middleButtonPressed = false;
-			lastY = 0.0f;
 		}
-
-		if (middleButtonPressed)
-		{
-			double y;
-			glfwGetCursorPos(window, nullptr, &y);
-
-			if (lastY != 0.0f)
-			{
-				double yOffset = lastY - y;
-				targetPos.z += yOffset * 0.1f;
-			}
-			lastY = y;
-		}	
 	}
 } 
 
@@ -133,10 +118,8 @@ void GameController::RunGame()
 
 	Mesh fighter = Mesh();
 	fighter.Create(&m_shaderDiffuse, "../Assets/Models/Fighter3.ase");
-    //fighter.Create(&m_shaderDiffuse, "../Assets/Models/Fish.ase");
 	fighter.SetCameraPosition(m_camera.GetPosition());
 	fighter.SetScale({ 0.0008f, 0.0008f, 0.0008f });
-	//fighter.SetScale({ 0.008f, 0.008f, 0.008f });
 	fighter.SetPosition(m_fighterPos);
 
 	Mesh fish = Mesh();
@@ -144,7 +127,7 @@ void GameController::RunGame()
 	fish.SetCameraPosition(m_camera.GetPosition());
 	fish.SetScale({ 0.02f, 0.02f, 0.02f });
 	fish.SetPosition(m_fighterPos);
-	fish.SetRotation({ -90.0f, -180.0f, 0.0f });
+	fish.SetRotation({ -90.0f, 0.0f, -180.0f });
 
 
 	Mesh asteroid = Mesh();
@@ -242,15 +225,6 @@ void GameController::RunGame()
 
 			fighter.SetRotation(fighterRotate);
 
-			if (OpenGL::ToolWindow::resetTansformChannel)
-			{
-				fighter.SetPosition({ 0.0f, 0.0f, 0.0f });
-				fighter.SetRotation({ -45.0f, 0.0f, 0.0f });
-				fighter.SetScale({ 0.0008f, 0.0008f, 0.0008f });
-				OpenGL::ToolWindow::resetTansformChannel = false;
-			}
-
-
 			for (int count = 0; count < Mesh::Lights.size(); count++)
 			{
 				Mesh::Lights[count].SetPosition({ 0.0f, 0.0f, 2.0f });
@@ -271,34 +245,33 @@ void GameController::RunGame()
 					}
 				}
 			}
-			if (OpenGL::ToolWindow::rotateChannel)
+		 	if (OpenGL::ToolWindow::rotateChannel)
 			{
-				
 				double mouseX, mouseY;
 				glfwGetCursorPos(WindowController::GetInstance().GetWindow(), &mouseX, &mouseY);
 
 				double deltaX = mouseX - lastX;
 				double deltaY = mouseY - lastY;
 
-				lastX = mouseX;
-				lastY = mouseY;
-
-
 				int leftState = glfwGetMouseButton(WindowController::GetInstance().GetWindow(), GLFW_MOUSE_BUTTON_LEFT);
 				if (leftState == GLFW_PRESS)
 				{
-					fighterRotate.x += deltaX * 0.1f; 
-					fighterRotate.y -= deltaY * 0.1f; 
+					fighterRotate.x += static_cast<float>(deltaY) * 0.1f; 
+					fighterRotate.y += static_cast<float>(deltaX) * 0.1f;
 				}
 
 				int middleState = glfwGetMouseButton(WindowController::GetInstance().GetWindow(), GLFW_MOUSE_BUTTON_MIDDLE);
 				if (middleState == GLFW_PRESS)
 				{
-					fighterRotate.z += deltaY * 0.1f; 
+					fighterRotate.z += static_cast<float>(deltaY) * 0.1f;
 				}
 
-				fighter.SetRotation(fighterRotate);
+				lastX = mouseX;
+				lastY = mouseY;
+
+			    fighter.SetRotation(fighterRotate);
 			}
+
 			if (OpenGL::ToolWindow::scaleChannel)
 			{
 				fighterScaleVec = fighter.GetScale();
@@ -328,11 +301,16 @@ void GameController::RunGame()
 				lastY = mouseY;
 				fighter.SetScale(fighterScaleVec);
 			}
-
-
+			if (OpenGL::ToolWindow::resetTansformChannel)
+			{
+				fighterRotate = { -45.0f, 0.0f, 0.0f };
+				fighter.SetPosition({ 0.0f, 0.0f, 0.0f });
+				fighter.SetRotation(fighterRotate);
+				fighter.SetScale({ 0.0008f, 0.0008f, 0.0008f });
+				OpenGL::ToolWindow::resetTansformChannel = false;
+			}
 
 			fighter.Render(m_camera.GetProjection() * m_camera.GetView());
-			//fish.Render(m_camera.GetProjection()* m_camera.GetView());
 		}
 		else if (OpenGL::ToolWindow::spaceSceneChannel)
 		{
@@ -353,7 +331,6 @@ void GameController::RunGame()
 			{
 				m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
 			}
-			//asteroid.Render(m_camera.GetProjection()* m_camera.GetView(), 0.04f);
 			fighter.SetPosition({ 0.0f, 0.0f, 0.0f });
 			fighter.SetScale({ 0.0002f, 0.0002f, 0.0002f });
 			fighter.SetRotation({ 90.0f, 0.0f, 0.0f });
@@ -363,10 +340,6 @@ void GameController::RunGame()
 		
 		else if(OpenGL::ToolWindow::waterSceneChannel)
 		{
-			/*m_shaderPost.SetFloat("Time", time);
-			m_shaderPost.SetFloat("Frequency", (float)OpenGL::ToolWindow::frequencyVal);
-			m_shaderPost.SetFloat("Amplitude", (float)OpenGL::ToolWindow::amplitudeVal);
-			m_shaderPost.SetInt("TintBlue", (int)OpenGL::ToolWindow::tintChannel);*/
 			if (OpenGL::ToolWindow::wireframeChannel)
 			{
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -405,10 +378,9 @@ void GameController::RunGame()
 			f.RenderText(fighterPosition, 100, 300, 0.3, { 1.0, 1.0, 0.0 });
 			f.RenderText(fighterRotation, 100, 350, 0.3, { 1.0, 1.0, 0.0 });
 			f.RenderText(fighterScale, 100, 400, 0.3, { 1.0, 1.0, 0.0 });
-			m_postProcessor.End();
+			m_postProcessor.End(time);
 		}
-
-		
+	
 		
 #pragma region fontRendering
 	
