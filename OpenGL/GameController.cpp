@@ -192,6 +192,8 @@ void GameController::RunGame()
 		if (OpenGL::ToolWindow::moveLightChannel)
 		{
 			m_camera.SetCameraPosition({ 0, 0, 2.0f });
+			std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
+
 			fighter.SetShader(&m_shaderDiffuse);
 			fighter.Render(m_camera.GetProjection() * m_camera.GetView(), 0.04f);
 
@@ -222,6 +224,7 @@ void GameController::RunGame()
 		else if (OpenGL::ToolWindow::transformChannel)
 		{
 			m_camera.SetCameraPosition({ 0, 0, 2.0f });
+			std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
 
 			fighter.SetRotation(fighterRotate);
 
@@ -314,6 +317,8 @@ void GameController::RunGame()
 		}
 		else if (OpenGL::ToolWindow::spaceSceneChannel)
 		{
+			std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
+
 			m_camera.SetCameraPosition({ 0, 0, -0.7 });
 			m_camera.Rotate();
 			glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView()));
@@ -340,7 +345,10 @@ void GameController::RunGame()
 		
 		else if(OpenGL::ToolWindow::waterSceneChannel)
 		{
-			if (OpenGL::ToolWindow::wireframeChannel)
+			m_camera.SetCameraPosition({ 0, 0, 2.0f });
+			std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
+
+			if (OpenGL::ToolWindow::wireframeChannel == true)
 			{
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			}
@@ -380,7 +388,10 @@ void GameController::RunGame()
 			f.RenderText(fighterScale, 100, 400, 0.3, { 1.0, 1.0, 0.0 });
 			m_postProcessor.End(time);
 		}
-	
+		if (OpenGL::ToolWindow::waterSceneChannel)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
 		
 #pragma region fontRendering
 	
