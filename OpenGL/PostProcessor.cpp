@@ -1,6 +1,7 @@
 #include "PostProcessor.h"
 #include "WindowController.h"
 #include "Shader.h"
+#include "ToolWindow.h"
 
 PostProcessor::PostProcessor()
 {
@@ -112,6 +113,10 @@ void PostProcessor::End()
 
 	glUseProgram(m_postShader->GetProgramID()); // Use our shader
 	m_postShader->SetTextureSampler("ScreenTexture", GL_TEXTURE0, 0, m_textureColorbuffer);
+	m_postShader->SetFloat("Time", 5.0);
+	m_postShader->SetFloat("Frequency", (float)OpenGL::ToolWindow::frequencyVal);
+	m_postShader->SetFloat("Amplitude", (float)OpenGL::ToolWindow::amplitudeVal);
+	m_postShader->SetInt("TintBlue", (int)OpenGL::ToolWindow::tintChannel);
 	BindVertices();
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);

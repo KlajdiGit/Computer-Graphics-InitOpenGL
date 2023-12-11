@@ -244,7 +244,7 @@ void Mesh::Create(Shader* _shader, string _file, int _instanceCount)
 		for (unsigned int i = 0; i < m_instanceCount; i++)
 		{
 			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, glm::vec3(-200 + rand() % 400, -200 + rand() % 400, -200 + rand() % 400));
+			model = glm::translate(model, glm::vec3(-1000 + rand() % 2000, -1000 + rand() % 2000, -1000 + rand() % 2000));
 
 
 
@@ -252,7 +252,7 @@ void Mesh::Create(Shader* _shader, string _file, int _instanceCount)
 			glm::vec3 rotAxis = glm::normalize(glm::vec3(rand(), rand(), rand()));
 			model = glm::rotate(model, glm::radians(rotAngle), rotAxis);
 
-			float scale = 0.01f + (rand() % 5) * 0.01f;
+			float scale = 0.5f + (rand() % 5) * 0.1f;
 			model = glm::scale(model, glm::vec3(scale, scale, scale));
 
 			for (int x = 0; x < 4; x++)
@@ -435,7 +435,6 @@ void Mesh::SetShaderVariables(glm::mat4 _pv)
 	m_shader->SetVec3("CameraPosition", m_cameraPosition);
 	m_shader->SetInt("EnableNormalMap", m_enableNormalMap);
 	m_shader->SetInt("EnableInstancing", m_enableInstancing);
-	
 
 	//Configure light
 	for (unsigned int i = 0; i < Lights.size(); i++)

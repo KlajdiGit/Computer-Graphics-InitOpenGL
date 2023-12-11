@@ -16,6 +16,7 @@ GameController::GameController()
 	m_fighterPos = { 0.0f, 0.0f, 0.0f };
 	m_simpleShader = { };
 	m_shaderSkyBox = { };
+	m_shaderPost = { };
 }
 
 double xpos = 0.0f;
@@ -76,11 +77,6 @@ static void mouse_callback(GLFWwindow* window, int button, int action, int mods)
 	}
 } 
 
-
-
-
-
-
 void GameController::Initialize()
 {
 	GLFWwindow* window = WindowController::GetInstance().GetWindow(); // Call this first, as it creates a window required by GLEW
@@ -121,13 +117,15 @@ void GameController::RunGame()
 	m_simpleShader.LoadShaders("SimpleVertexShader.vertexshader", "SimpleFragmentShader.fragmentshader");
 	m_shaderSkyBox = Shader();
 	m_shaderSkyBox.LoadShaders("SkyBox.vertexshader", "SkyBox.fragmentshader");
+	m_shaderPost = Shader();
+	m_shaderPost.LoadShaders("PostProcessor.vertexshader", "PostProcessor.fragmentshader");
 	
 #pragma endregion SetupShaders
 
 #pragma region CreateMeshes
     //Create meshes
 	Mesh m = Mesh();
-	m.Create(&m_shaderColor, "../Assets/Models/MoveSphere.obj");
+	m.Create(&m_shaderColor, "../Assets/Models/MoveSphere.ase");
 	m.SetPosition(m_spherePos);
 	m.SetColor({ 1.0f, 1.0f, 1.0f });
 	m.SetScale({ 0.005f, 0.005f, 0.005f });
@@ -144,8 +142,10 @@ void GameController::RunGame()
 	Mesh fish = Mesh();
 	fish.Create(&m_shaderDiffuse, "../Assets/Models/Fish.ase");
 	fish.SetCameraPosition(m_camera.GetPosition());
-	fish.SetScale({ 0.05f, 0.05f, 0.05f });
+	fish.SetScale({ 0.02f, 0.02f, 0.02f });
 	fish.SetPosition(m_fighterPos);
+	fish.SetRotation({ -90.0f, -180.0f, 0.0f });
+
 
 	Mesh asteroid = Mesh();
 	asteroid.Create(&m_shaderDiffuse, "../Assets/Models/Asteroid.ase", 100);
@@ -180,6 +180,7 @@ void GameController::RunGame()
 
 	double lastTime = glfwGetTime();
 	int fps = 0;
+	float time = 0.0f;
 	string fpsS = "0";
 	string mousePosition  ="";
 	string leftButton = "";
@@ -189,15 +190,21 @@ void GameController::RunGame()
 	string fighterScale = "";
 	do
 	{
+	
 		System::Windows::Forms::Application::DoEvents();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear the screen
 		
-		//m_postProcessor.Start();
-		/*for (unsigned int count = 0; count < m_meshes.size(); count++)
+		double currentTime = glfwGetTime();
+		fps++;
+		if (currentTime - lastTime >= 1.0)
 		{
-			m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
-		}*/
+			fpsS = "FPS: " + to_string(fps);
+			fps = 0;
+			float deltaTime = static_cast<float>(currentTime - lastTime);
+			lastTime = currentTime;
+			time += deltaTime;
+		}
 
 		if (OpenGL::ToolWindow::moveLightChannel)
 		{
@@ -329,7 +336,7 @@ void GameController::RunGame()
 		}
 		else if (OpenGL::ToolWindow::spaceSceneChannel)
 		{
-			m_camera.SetCameraPosition({ 0, 0, 0 });
+			m_camera.SetCameraPosition({ 0, 0, -0.7 });
 			m_camera.Rotate();
 			glm::mat4 view = glm::mat4(glm::mat3(m_camera.GetView()));
 			skyBox.Render(m_camera.GetProjection() * view);
@@ -347,47 +354,95 @@ void GameController::RunGame()
 				m_meshes[count].Render(m_camera.GetProjection() * m_camera.GetView());
 			}
 			//asteroid.Render(m_camera.GetProjection()* m_camera.GetView(), 0.04f);
-			fighter.SetPosition({ 0.0f, 0.0f, 0.7f });
+			fighter.SetPosition({ 0.0f, 0.0f, 0.0f });
 			fighter.SetScale({ 0.0002f, 0.0002f, 0.0002f });
 			fighter.SetRotation({ 90.0f, 0.0f, 0.0f });
 			fighter.Render(m_camera.GetProjection()* m_camera.GetView());
 
 		}
-
-		double currentTime = glfwGetTime();
-		fps++;
-		if (currentTime - lastTime >= 1.0)
-		{
-			fpsS = "FPS: " + to_string(fps);
-			fps = 0;
-			lastTime = currentTime;
-		}
-		//m_postProcessor.End();
-#pragma region fontRendering
-		f.RenderText(fpsS, 100, 100, 0.3, { 1.0, 1.0, 0.0 });
-
-		mousePosition = "Mouse Pos: " + to_string((int)xpos) + "   " + to_string((int)ypos);
-		f.RenderText(mousePosition, 100, 150, 0.3, { 1.0, 1.0, 0.0 });
 		
-		if(leftButtonPressed)
-			 leftButton = "Left Button: Down";
-		else
-			leftButton = "Left Button: UP";
-		f.RenderText(leftButton, 100, 200, 0.3, { 1.0, 1.0, 0.0 });
+		else if(OpenGL::ToolWindow::waterSceneChannel)
+		{
+			/*m_shaderPost.SetFloat("Time", time);
+			m_shaderPost.SetFloat("Frequency", (float)OpenGL::ToolWindow::frequencyVal);
+			m_shaderPost.SetFloat("Amplitude", (float)OpenGL::ToolWindow::amplitudeVal);
+			m_shaderPost.SetInt("TintBlue", (int)OpenGL::ToolWindow::tintChannel);*/
+			if (OpenGL::ToolWindow::wireframeChannel)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			else
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			m_postProcessor.Start();
+			for (int count = 0; count < Mesh::Lights.size(); count++)
+			{
+				Mesh::Lights[count].SetPosition({ 0.0f, 0.0f, 2.0f });
+			}
+			fish.Render(m_camera.GetProjection()* m_camera.GetView());
 
-		if (middleButtonPressed)
-			middleButton = "Middle Button: Down";
-		else
-			middleButton = "Middle Button: UP";	
-		f.RenderText(middleButton, 100, 250, 0.3, { 1.0, 1.0, 0.0 });
 
-		fighterPosition = "Fighter Position: {" + glm::to_string(fighter.GetPosition()) + "}";
-		f.RenderText(fighterPosition, 100, 300, 0.3, { 1.0, 1.0, 0.0 });
-		fighterRotation = "Fighter Rotation: {" + glm::to_string(fighter.GetRotation()) + "}";
-		f.RenderText(fighterRotation, 100, 350, 0.3, { 1.0, 1.0, 0.0 });
-		fighterScale = "Fighter Scale: {" + glm::to_string(fighter.GetScale()) + "}";
-		f.RenderText(fighterScale, 100, 400, 0.3, { 1.0, 1.0, 0.0 });
+			f.RenderText(fpsS, 100, 100, 0.3, { 1.0, 1.0, 0.0 });
+			mousePosition = "Mouse Pos: " + to_string((int)xpos) + "   " + to_string((int)ypos);
+			f.RenderText(mousePosition, 100, 150, 0.3, { 1.0, 1.0, 0.0 });
 
+			if (leftButtonPressed)
+				leftButton = "Left Button: Down";
+			else
+				leftButton = "Left Button: UP";
+			f.RenderText(leftButton, 100, 200, 0.3, { 1.0, 1.0, 0.0 });
+
+			if (middleButtonPressed)
+				middleButton = "Middle Button: Down";
+			else
+				middleButton = "Middle Button: UP";
+			f.RenderText(middleButton, 100, 250, 0.3, { 1.0, 1.0, 0.0 });
+
+			fighterPosition = "Fish Position: {" + glm::to_string(fish.GetPosition()) + "}";
+			fighterRotation = "Fisg Rotation: {" + glm::to_string(fish.GetRotation()) + "}";
+			fighterScale = "Fish Scale: {" + glm::to_string(fish.GetScale()) + "}";
+			f.RenderText(fighterPosition, 100, 300, 0.3, { 1.0, 1.0, 0.0 });
+			f.RenderText(fighterRotation, 100, 350, 0.3, { 1.0, 1.0, 0.0 });
+			f.RenderText(fighterScale, 100, 400, 0.3, { 1.0, 1.0, 0.0 });
+			m_postProcessor.End();
+		}
+
+		
+		
+#pragma region fontRendering
+	
+		if (!OpenGL::ToolWindow::waterSceneChannel)
+		{
+
+			f.RenderText(fpsS, 100, 100, 0.3, { 1.0, 1.0, 0.0 });
+
+			mousePosition = "Mouse Pos: " + to_string((int)xpos) + "   " + to_string((int)ypos);
+			f.RenderText(mousePosition, 100, 150, 0.3, { 1.0, 1.0, 0.0 });
+
+			if (leftButtonPressed)
+				leftButton = "Left Button: Down";
+			else
+				leftButton = "Left Button: UP";
+			f.RenderText(leftButton, 100, 200, 0.3, { 1.0, 1.0, 0.0 });
+
+			if (middleButtonPressed)
+				middleButton = "Middle Button: Down";
+			else
+				middleButton = "Middle Button: UP";
+			f.RenderText(middleButton, 100, 250, 0.3, { 1.0, 1.0, 0.0 });
+
+
+			fighterPosition = "Fighter Position: {" + glm::to_string(fighter.GetPosition()) + "}";
+			fighterRotation = "Fighter Rotation: {" + glm::to_string(fighter.GetRotation()) + "}";
+			fighterScale = "Fighter Scale: {" + glm::to_string(fighter.GetScale()) + "}";
+
+
+			f.RenderText(fighterPosition, 100, 300, 0.3, { 1.0, 1.0, 0.0 });
+			f.RenderText(fighterRotation, 100, 350, 0.3, { 1.0, 1.0, 0.0 });
+			f.RenderText(fighterScale, 100, 400, 0.3, { 1.0, 1.0, 0.0 });
+
+		}
 #pragma endregion fontRendering 
 
 		glfwSwapBuffers(WindowController::GetInstance().GetWindow()); // Swap the front and back buffers
