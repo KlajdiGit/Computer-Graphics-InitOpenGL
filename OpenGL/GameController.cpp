@@ -26,7 +26,6 @@ glm::vec3 targetPos;
 float speedFactor;
 bool leftButtonPressed = false;
 bool middleButtonPressed = false;
-
 double lastX = 0.0, lastY = 0.0;
 
 
@@ -193,8 +192,6 @@ void GameController::RunGame()
 		{
 			m_camera.SetCameraPosition({ 0, 0, 2.0f });
 			std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
-
-			fighter.SetShader(&m_shaderDiffuse);
 			fighter.Render(m_camera.GetProjection() * m_camera.GetView(), 0.04f);
 
 			for (int count = 0; count < Mesh::Lights.size(); count++)
@@ -224,6 +221,7 @@ void GameController::RunGame()
 		else if (OpenGL::ToolWindow::transformChannel)
 		{
 			m_camera.SetCameraPosition({ 0, 0, 2.0f });
+			//m_camera.SetRotation({ 0.0f, 0.0f, 0.0f });
 			std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
 
 			fighter.SetRotation(fighterRotate);
@@ -317,7 +315,7 @@ void GameController::RunGame()
 		}
 		else if (OpenGL::ToolWindow::spaceSceneChannel)
 		{
-			std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
+			//std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
 
 			m_camera.SetCameraPosition({ 0, 0, -0.7 });
 			m_camera.Rotate();
@@ -346,7 +344,7 @@ void GameController::RunGame()
 		else if(OpenGL::ToolWindow::waterSceneChannel)
 		{
 			m_camera.SetCameraPosition({ 0, 0, 2.0f });
-			std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
+			//std::cout << "Camera: " << glm::to_string(m_camera.GetPosition()) << std::endl;
 
 			if (OpenGL::ToolWindow::wireframeChannel == true)
 			{

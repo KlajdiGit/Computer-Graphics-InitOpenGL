@@ -16,6 +16,7 @@ public:
 	glm::mat4 GetView() { return m_view; }
 	glm::vec3 GetPosition() { return m_position; }
 	
+	void SetRotation(glm::vec3 v) { m_rotation = v; }
 	void SetCameraPosition(glm::vec3 _pos) { m_position = _pos; }
 
 	//Methods
