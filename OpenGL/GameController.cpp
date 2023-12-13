@@ -245,6 +245,12 @@ void GameController::RunGame()
 						fighter.SetPosition(fighterPos);
 					}
 				}
+				else if (middleButtonPressed)
+				{
+
+					fighterPos.z += targetPos.z * 0.0001f;
+					fighter.SetPosition(fighterPos);
+				}
 			}
 		 	if (OpenGL::ToolWindow::rotateChannel)
 			{
