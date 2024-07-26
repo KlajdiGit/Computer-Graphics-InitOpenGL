@@ -3,6 +3,10 @@
 
 // Includes standard headers
 #include <vector>
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <map> //enable to use dictionaries
 
 // Windows specific includes and defines
 #ifdef WIN32
@@ -15,8 +19,15 @@
 #include <GL/glew.h>     // Include GLEW
 #include <GLFW/glfw3.h>  // Include GLFW
 #include <glm/glm.hpp>   // Include GLM
+#include <glm/ext.hpp>   // Open Experimental to_string
+#include <glm/gtc/matrix_transform.hpp> //View / Projection
 
-#include "SIngleton.h"
+//Font includes
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
+#include "Resolution.h"
+#include "Singleton.h" 
 
 using namespace std;
 
